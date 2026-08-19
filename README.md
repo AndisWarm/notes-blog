@@ -9,7 +9,10 @@
 pip install deepmerge click jinja2 markdown pygments pymdown-extensions pyyaml tomli
 
 # 2. 同步文档：把学习笔记复制到 docs/
+# 方式 1：手动同步一次（推荐先用这个）
 powershell -ExecutionPolicy Bypass -File sync.ps1
+# 方式 2：后台持续监听，改动自动同步（Ctrl+C 退出）
+powershell -ExecutionPolicy Bypass -File watch.ps1
 
 # 3. 本地预览（http://localhost:8000）
 $env:PYTHONPATH = "F:\知识库\博客网站集合\zensical-0.0.56-cp310-abi3-win_amd64"
