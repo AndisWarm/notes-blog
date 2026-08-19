@@ -1,0 +1,6393 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="面向编程小白的后端面试八股文详解">
+      
+      
+        <meta name="author" content="AndisWarm">
+      
+      
+        <link rel="canonical" href="http://localhost:8000/MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_SQL%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../02_SQL%E5%AE%9E%E6%88%98%E9%A2%98/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.0.56">
+    
+    
+      
+        <title>01 SQL 基础与数据类型 - AndisWarm的知识库</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../assets/stylesheets/classic/main.39e53929.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/classic/palette.7dc9a0ad.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-label="导航栏"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#01-sql-基础与数据类型" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="AndisWarm的知识库" class="md-header__button md-logo" aria-label="AndisWarm的知识库" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="导航栏">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AndisWarm的知识库
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              01 SQL 基础与数据类型
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun-moon" viewBox="0 0 24 24"><path d="M12 2v2M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715M16 12a4 4 0 0 0-4-4M19 5l-1.256 1.256M20 12h2"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="查找">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="查找">
+  <button type="button" class="md-search__button">
+    查找
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  主页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  面试知识库
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="AndisWarm的知识库" class="md-nav__button md-logo" aria-label="AndisWarm的知识库" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AndisWarm的知识库
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  主页
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  面试知识库
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  面试知识库
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  MySQL 面试
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  MySQL 面试
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+        <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 SQL 基础与数据类型
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 SQL 基础与数据类型
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-nosql-和-sql-的区别" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. NoSQL 和 SQL 的区别？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. NoSQL 和 SQL 的区别？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#怎么选" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        怎么选
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-数据库三大范式是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. 数据库三大范式是什么？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 数据库三大范式是什么？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第一范式1nf列不可再分" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第一范式（1NF）：列不可再分
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第二范式2nf在-1nf-基础上非主键列必须完全依赖主键" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第二范式（2NF）：在 1NF 基础上，非主键列必须完全依赖主键
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第三范式3nf在-2nf-基础上非主键列不能依赖其他非主键列" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第三范式（3NF）：在 2NF 基础上，非主键列不能依赖其他非主键列
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试常问范式是不是越高越好" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试常问：范式是不是越高越好？
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-mysql-怎么连表查询" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. MySQL 怎么连表查询？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. MySQL 怎么连表查询？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#核心概念" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        核心概念
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#内连接-inner-join只返回两表都匹配上的行" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        内连接 INNER JOIN：只返回两表都匹配上的行
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#左连接-left-join以左表为主右表没匹配就补-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        左连接 LEFT JOIN：以左表为主，右表没匹配就补 NULL
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#右连接-right-join以右表为主和-left-join-对称实际用得少" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        右连接 RIGHT JOIN：以右表为主（和 LEFT JOIN 对称，实际用得少）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#交叉连接-cross-join笛卡尔积所有行两两组合" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        交叉连接 CROSS JOIN：笛卡尔积，所有行两两组合
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#三张表以上连表" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        三张表以上连表
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试注意" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试注意
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-mysql-如何避免重复插入数据" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. MySQL 如何避免重复插入数据？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. MySQL 如何避免重复插入数据？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#背景" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        背景
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#方案一唯一索引--唯一约束最推荐数据库兜底" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        方案一：唯一索引 / 唯一约束（最推荐，数据库兜底）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#方案二insert-ignore重复则静默忽略不报错" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        方案二：INSERT IGNORE（重复则静默忽略，不报错）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#方案三on-duplicate-key-update重复则更新" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        方案三：ON DUPLICATE KEY UPDATE（重复则更新）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#方案四replace-into重复则先删后插" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        方案四：REPLACE INTO（重复则先删后插）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#方案五应用层逻辑判断最弱只能作为辅助" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        方案五：应用层逻辑判断（最弱，只能作为辅助）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试回答套路" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试回答套路
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-char-和-varchar-有什么区别" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. CHAR 和 VARCHAR 有什么区别？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. CHAR 和 VARCHAR 有什么区别？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#对比表" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        对比表
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#重要细节" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        重要细节
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#怎么选_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        怎么选
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-varchar-后面代表字节还是字符" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. VARCHAR 后面代表字节还是字符？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. VARCHAR 后面代表字节还是字符？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#答案" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        答案
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试延伸varchar-的最大长度是多少" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试延伸：VARCHAR 的最大长度是多少？
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#对比记忆" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        对比记忆
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-int1-和-int10-在-mysql-有什么不同" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7. int(1) 和 int(10) 在 MySQL 有什么不同？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. int(1) 和 int(10) 在 MySQL 有什么不同？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#答案_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        答案
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试延伸" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试延伸
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-text-数据类型可以无限大吗" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        8. Text 数据类型可以无限大吗？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Text 数据类型可以无限大吗？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#答案_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        答案
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-家族" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        TEXT 家族
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#实际使用注意" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        实际使用注意
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#对比blob" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        对比：BLOB
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-ip-地址如何在数据库里存储" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        9. IP 地址如何在数据库里存储？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. IP 地址如何在数据库里存储？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#答案_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        答案
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#为什么推荐-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        为什么推荐 INT？
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#用法" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        用法
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ipv6" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        IPv6
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试答法" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试答法
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-说一下外键约束" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        10. 说一下外键约束
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. 说一下外键约束">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#基本用法" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        基本用法
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#on-delete--on-update-行为级联规则" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        ON DELETE / ON UPDATE 行为（级联规则）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试重点生产环境为什么不推荐外键" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试重点：生产环境为什么不推荐外键？
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-mysql-的关键字-in-和-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        11. MySQL 的关键字 IN 和 EXISTS
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. MySQL 的关键字 IN 和 EXISTS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#基本用法_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        基本用法
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#区别对比" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        区别对比
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#经典误区" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        经典误区
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试答法_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试答法
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-mysql-中的一些基本函数你知道哪些" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        12. MySQL 中的一些基本函数，你知道哪些？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. MySQL 中的一些基本函数，你知道哪些？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#分类记忆字符串数值日期聚合条件加密" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        分类记忆：字符串、数值、日期、聚合、条件、加密
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-字符串函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. 字符串函数
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-数值函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. 数值函数
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-日期函数面试高频" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. 日期函数（面试高频）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-聚合函数配合-group-by-用" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. 聚合函数（配合 GROUP BY 用）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-条件函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. 条件函数
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-加密函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. 加密函数
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试小心机" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试小心机
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-sql-查询语句的执行顺序是怎么样的" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        13. SQL 查询语句的执行顺序是怎么样的？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. SQL 查询语句的执行顺序是怎么样的？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#完整顺序表面试必背" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        完整顺序表（面试必背）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#执行顺序背后的逻辑" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        执行顺序背后的逻辑
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#为什么-where-不能用聚合函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        为什么 WHERE 不能用聚合函数？
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#为什么-where-不能使用-select-里的别名" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        为什么 WHERE 不能使用 SELECT 里的别名？
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#一个综合例子" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一个综合例子
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_SQL%E5%AE%9E%E6%88%98%E9%A2%98/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 SQL 实战题
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 存储引擎
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_%E7%B4%A2%E5%BC%95%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 索引基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_%E4%BA%8B%E5%8A%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 事务
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_%E9%94%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 锁
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_%E6%97%A5%E5%BF%97/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 日志
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 性能调优
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09_%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Redis 面试
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Redis 面试
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 数据类型与使用场景
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 底层数据结构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 线程模型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E4%BA%8B%E5%8A%A1%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 事务与持久化
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E8%BF%87%E6%9C%9F%E5%88%A0%E9%99%A4%E4%B8%8E%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 过期删除与内存淘汰
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 集群架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_%E7%BC%93%E5%AD%98%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 缓存应用场景
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E4%B8%8E%E5%A4%A7Key%E7%83%ADKey/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 分布式锁与大Key热Key
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E4%B8%89%E5%A4%A7%E9%97%AE%E9%A2%98%E4%B8%8E%E7%A7%92%E6%9D%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 缓存一致性、三大问题与秒杀
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  分布式
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  分布式
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 分布式理论
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 分布式锁
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E5%88%86%E5%B8%83%E5%BC%8FID/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 分布式 ID
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 分布式事务
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  操作系统
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  操作系统
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E7%94%A8%E6%88%B7%E6%80%81%E4%B8%8E%E5%86%85%E6%A0%B8%E6%80%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 用户态与内核态
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 进程与线程
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 进程间通信（IPC）
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 进程调度算法
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E9%94%81%E4%B8%8E%E6%AD%BB%E9%94%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 锁与死锁
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 内存管理基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E8%BF%9B%E9%98%B6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 内存管理进阶：fork、malloc 与内存回收
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_%E4%B8%AD%E6%96%AD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 中断
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_%E7%BD%91%E7%BB%9CIO%E6%A8%A1%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 网络 I/O 模型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  计算机网络
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_5" id="__nav_2_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  计算机网络
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 网络模型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_HTTP%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 HTTP 基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_HTTPS%E4%B8%8E%E5%8A%A0%E5%AF%86/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 HTTPS 与加密
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_DNS%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 DNS 域名解析
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_Cookie_Session%E4%B8%8EJWT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 Cookie、Session 与 JWT
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_RPC_WebSocket%E4%B8%8ENginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 RPC、WebSocket 与 Nginx
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 TCP 三次握手
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_TCP%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 TCP 四次挥手
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_TCP%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E4%B8%8EUDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 TCP 可靠传输与 UDP
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/10_%E7%BD%91%E7%BB%9C%E6%8E%92%E6%9F%A5%E5%9C%BA%E6%99%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  10 网络排查场景
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/11_%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  11 网络攻击
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/12_%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86%E7%82%B9%E6%89%A9%E5%B1%95/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  12 进阶知识点扩展（编程小白补课篇）
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  消息队列
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6" id="__nav_2_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  消息队列
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%98%AF%E4%BB%80%E4%B9%88%E4%B8%8E%E4%B8%BA%E4%BB%80%E4%B9%88/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 消息队列是什么与为什么
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%80%89%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 消息队列选型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%E6%80%A7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 消息可靠性
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E5%B9%82%E7%AD%89%E4%B8%8E%E6%B6%88%E6%81%AF%E7%A7%AF%E5%8E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 幂等与消息积压
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF%E4%B8%8E%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 事务消息与数据一致性
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 设计模式与消息队列架构设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_RocketMQ%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 RocketMQ 详解
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_Kafka%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 Kafka 详解
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_RabbitMQ%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 RabbitMQ 详解
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%BB%E9%A2%98%E6%98%AF%E4%BB%80%E4%B9%88/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  消息队列主题
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  消息队列主题
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  系统设计
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_8" id="__nav_2_8_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  系统设计
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 秒杀系统设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_RPC%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 RPC 框架设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E7%9F%AD%E9%93%BE%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 短链系统设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E7%82%B9%E8%B5%9E%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 点赞系统设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E5%88%86%E5%B8%83%E5%BC%8FID%E5%8F%91%E5%8F%B7%E5%99%A8%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 分布式 ID 发号器设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E8%AE%A2%E5%8D%95%E8%B6%85%E6%97%B6%E5%8F%96%E6%B6%88%E6%96%B9%E6%A1%88/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 订单超时取消方案
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_QPS%E6%9A%B4%E6%B6%A810%E5%80%8D%E5%BA%94%E5%AF%B9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 如果你的系统 QPS 突然提升 10 倍，你会怎么设计？
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  后端进阶
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_9" id="__nav_2_9_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  后端进阶
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/01_%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 计算机基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/02_%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E5%AD%98%E5%82%A8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 数据库与存储
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/03_%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 设计模式与代码优化
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/04_%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 消息队列
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/05_%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 系统设计与架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/06_%E9%AB%98%E5%B9%B6%E5%8F%91%E4%B8%8E%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 高并发与性能优化
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/07_%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 分布式系统
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/08_%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 微服务架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/09_%E4%BA%91%E5%8E%9F%E7%94%9F%E6%8A%80%E6%9C%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 云原生技术
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_10" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  TLS 握手
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_10" id="__nav_2_10_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  TLS 握手
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/01_%E4%BB%80%E4%B9%88%E6%98%AFTLS_%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%AE%83/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 什么是 TLS，为什么需要它
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/02_TLS%E6%8F%A1%E6%89%8B%E5%85%A8%E6%B5%81%E7%A8%8B%E6%80%BB%E8%A7%88/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 TLS 握手全流程总览
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/03_%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%A1%E6%89%8B_ClientHello/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 第一次握手：ClientHello
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/04_%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8F%A1%E6%89%8B_ServerHello%E4%B8%8E%E5%AF%86%E7%A0%81%E5%A5%97%E4%BB%B6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 第二次握手：ServerHello 与密码套件
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/05_%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6%E4%B8%8ECA%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 数字证书与 CA：如何证明"我是我"
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/06_%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B_%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2%E4%B8%8E%E5%8A%A0%E5%AF%86%E5%88%87%E6%8D%A2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 第三次握手：密钥交换与加密切换
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/07_%E7%AC%AC%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B_%E6%8F%A1%E6%89%8B%E5%AE%8C%E6%88%90%E4%B8%8E%E5%8A%A0%E5%AF%86%E9%80%9A%E4%BF%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 第四次握手：握手完成与加密通信
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/08_%E6%89%A9%E5%B1%95%E7%9F%A5%E8%AF%86_%E5%B8%B8%E8%A7%81%E7%96%91%E9%97%AE%E4%B8%8ETLS1.3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 扩展知识：常见疑问与 TLS 1.3
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-nosql-和-sql-的区别" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. NoSQL 和 SQL 的区别？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. NoSQL 和 SQL 的区别？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#怎么选" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        怎么选
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-数据库三大范式是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. 数据库三大范式是什么？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 数据库三大范式是什么？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第一范式1nf列不可再分" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第一范式（1NF）：列不可再分
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第二范式2nf在-1nf-基础上非主键列必须完全依赖主键" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第二范式（2NF）：在 1NF 基础上，非主键列必须完全依赖主键
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第三范式3nf在-2nf-基础上非主键列不能依赖其他非主键列" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第三范式（3NF）：在 2NF 基础上，非主键列不能依赖其他非主键列
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试常问范式是不是越高越好" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试常问：范式是不是越高越好？
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-mysql-怎么连表查询" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. MySQL 怎么连表查询？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. MySQL 怎么连表查询？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#核心概念" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        核心概念
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#内连接-inner-join只返回两表都匹配上的行" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        内连接 INNER JOIN：只返回两表都匹配上的行
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#左连接-left-join以左表为主右表没匹配就补-null" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        左连接 LEFT JOIN：以左表为主，右表没匹配就补 NULL
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#右连接-right-join以右表为主和-left-join-对称实际用得少" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        右连接 RIGHT JOIN：以右表为主（和 LEFT JOIN 对称，实际用得少）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#交叉连接-cross-join笛卡尔积所有行两两组合" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        交叉连接 CROSS JOIN：笛卡尔积，所有行两两组合
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#三张表以上连表" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        三张表以上连表
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试注意" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试注意
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-mysql-如何避免重复插入数据" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. MySQL 如何避免重复插入数据？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. MySQL 如何避免重复插入数据？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#背景" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        背景
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#方案一唯一索引--唯一约束最推荐数据库兜底" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        方案一：唯一索引 / 唯一约束（最推荐，数据库兜底）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#方案二insert-ignore重复则静默忽略不报错" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        方案二：INSERT IGNORE（重复则静默忽略，不报错）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#方案三on-duplicate-key-update重复则更新" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        方案三：ON DUPLICATE KEY UPDATE（重复则更新）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#方案四replace-into重复则先删后插" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        方案四：REPLACE INTO（重复则先删后插）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#方案五应用层逻辑判断最弱只能作为辅助" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        方案五：应用层逻辑判断（最弱，只能作为辅助）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试回答套路" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试回答套路
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-char-和-varchar-有什么区别" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. CHAR 和 VARCHAR 有什么区别？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. CHAR 和 VARCHAR 有什么区别？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#对比表" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        对比表
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#重要细节" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        重要细节
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#怎么选_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        怎么选
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-varchar-后面代表字节还是字符" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. VARCHAR 后面代表字节还是字符？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. VARCHAR 后面代表字节还是字符？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#答案" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        答案
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试延伸varchar-的最大长度是多少" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试延伸：VARCHAR 的最大长度是多少？
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#对比记忆" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        对比记忆
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-int1-和-int10-在-mysql-有什么不同" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7. int(1) 和 int(10) 在 MySQL 有什么不同？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. int(1) 和 int(10) 在 MySQL 有什么不同？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#答案_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        答案
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试延伸" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试延伸
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-text-数据类型可以无限大吗" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        8. Text 数据类型可以无限大吗？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Text 数据类型可以无限大吗？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#答案_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        答案
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-家族" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        TEXT 家族
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#实际使用注意" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        实际使用注意
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#对比blob" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        对比：BLOB
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-ip-地址如何在数据库里存储" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        9. IP 地址如何在数据库里存储？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. IP 地址如何在数据库里存储？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#答案_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        答案
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#为什么推荐-int" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        为什么推荐 INT？
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#用法" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        用法
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ipv6" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        IPv6
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试答法" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试答法
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-说一下外键约束" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        10. 说一下外键约束
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. 说一下外键约束">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#基本用法" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        基本用法
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#on-delete--on-update-行为级联规则" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        ON DELETE / ON UPDATE 行为（级联规则）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试重点生产环境为什么不推荐外键" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试重点：生产环境为什么不推荐外键？
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-mysql-的关键字-in-和-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        11. MySQL 的关键字 IN 和 EXISTS
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. MySQL 的关键字 IN 和 EXISTS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#基本用法_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        基本用法
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#区别对比" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        区别对比
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#经典误区" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        经典误区
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试答法_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试答法
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-mysql-中的一些基本函数你知道哪些" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        12. MySQL 中的一些基本函数，你知道哪些？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. MySQL 中的一些基本函数，你知道哪些？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#分类记忆字符串数值日期聚合条件加密" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        分类记忆：字符串、数值、日期、聚合、条件、加密
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-字符串函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. 字符串函数
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-数值函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. 数值函数
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-日期函数面试高频" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. 日期函数（面试高频）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-聚合函数配合-group-by-用" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. 聚合函数（配合 GROUP BY 用）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-条件函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. 条件函数
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-加密函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. 加密函数
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试小心机" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试小心机
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-sql-查询语句的执行顺序是怎么样的" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        13. SQL 查询语句的执行顺序是怎么样的？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. SQL 查询语句的执行顺序是怎么样的？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#完整顺序表面试必背" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        完整顺序表（面试必背）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#执行顺序背后的逻辑" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        执行顺序背后的逻辑
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#为什么-where-不能用聚合函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        为什么 WHERE 不能用聚合函数？
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#为什么-where-不能使用-select-里的别名" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        为什么 WHERE 不能使用 SELECT 里的别名？
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#一个综合例子" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一个综合例子
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  
+  <span class="md-ellipsis">
+    主页
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  
+  <span class="md-ellipsis">
+    面试知识库
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  
+  <span class="md-ellipsis">
+    MySQL 面试
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+<h1 id="01-sql-基础与数据类型">01 SQL 基础与数据类型<a class="headerlink" href="#01-sql-基础与数据类型" title="Permanent link">&para;</a></h1>
+<p>本章覆盖：NoSQL vs SQL、三大范式、连表查询、避免重复插入、CHAR/VARCHAR、int(1)/int(10)、Text、IP 存储、外键、IN/EXISTS、常用函数、SQL 执行顺序。</p>
+<hr />
+<h2 id="1-nosql-和-sql-的区别">1. NoSQL 和 SQL 的区别？<a class="headerlink" href="#1-nosql-和-sql-的区别" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答">一句话回答<a class="headerlink" href="#一句话回答" title="Permanent link">&para;</a></h3>
+<p>SQL（关系型数据库）用<strong>表</strong>存数据、强调<strong>关系</strong>和<strong>一致性</strong>；NoSQL（非关系型数据库）用键值/文档/列/图存数据，强调<strong>灵活</strong>和<strong>扩展性</strong>。</p>
+<h3 id="展开讲">展开讲<a class="headerlink" href="#展开讲" title="Permanent link">&para;</a></h3>
+<p><strong>SQL 数据库</strong>（MySQL、PostgreSQL、Oracle）：
+- 数据存在一张张<strong>表</strong>里，表之间有<strong>关系</strong>（比如"订单表"通过 user_id 关联"用户表"）
+- 必须先设计好表结构（列的类型、约束），再往里存数据
+- 用 <strong>SQL 语言</strong>查询，支持多表联查、事务（ACID）
+- 好处：数据规范、不会乱、支持复杂查询
+- 代价：表结构改起来麻烦，水平扩展（加机器）难</p>
+<p><strong>NoSQL 数据库</strong>（Redis、MongoDB、Elasticsearch、HBase）：
+- 数据存在<strong>键值对</strong>、<strong>文档</strong>（类似 JSON）、<strong>列族</strong>、<strong>图</strong>里
+- 不需要预先定义结构，想存啥存啥（比如 MongoDB 里两条文档字段可以不一样）
+- 好处：写入快、灵活、天然适合分布式扩展
+- 代价：一般不支持事务（或支持得很弱）、复杂关联查询能力差</p>
+<h3 id="比喻">比喻<a class="headerlink" href="#比喻" title="Permanent link">&para;</a></h3>
+<ul>
+<li>SQL 像<strong>Excel 表格</strong>：行列整齐、有公式校验，但要合并多个表很费劲</li>
+<li>NoSQL 像<strong>抽屉里的一堆便签</strong>：想写什么写什么、找起来快，但便签之间没有关联</li>
+</ul>
+<h3 id="怎么选">怎么选<a class="headerlink" href="#怎么选" title="Permanent link">&para;</a></h3>
+<ul>
+<li>需要事务（钱、订单）、复杂查询（报表）→ SQL</li>
+<li>高并发读写、数据结构不固定（日志、缓存、评论）→ NoSQL</li>
+<li>实际项目常常<strong>混用</strong>：MySQL 存核心数据，Redis 做缓存</li>
+</ul>
+<hr />
+<h2 id="2-数据库三大范式是什么">2. 数据库三大范式是什么？<a class="headerlink" href="#2-数据库三大范式是什么" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答_1">一句话回答<a class="headerlink" href="#一句话回答_1" title="Permanent link">&para;</a></h3>
+<p>三大范式是<strong>设计表结构的规范</strong>，目的是减少数据冗余（重复存储），核心是"每张表只做一件事，每个字段只存一个值"。</p>
+<h3 id="第一范式1nf列不可再分">第一范式（1NF）：列不可再分<a class="headerlink" href="#第一范式1nf列不可再分" title="Permanent link">&para;</a></h3>
+<p>每一列都必须是<strong>原子值</strong>，不能再拆。</p>
+<p>❌ 违反（一列存了多个信息）：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>姓名</th>
+<th>联系方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>张三</td>
+<td>13800000000, 北京</td>
+</tr>
+</tbody>
+</table>
+<p>✅ 符合（拆成多列）：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>姓名</th>
+<th>电话</th>
+<th>地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>张三</td>
+<td>13800000000</td>
+<td>北京</td>
+</tr>
+</tbody>
+</table>
+<h3 id="第二范式2nf在-1nf-基础上非主键列必须完全依赖主键">第二范式（2NF）：在 1NF 基础上，非主键列必须完全依赖主键<a class="headerlink" href="#第二范式2nf在-1nf-基础上非主键列必须完全依赖主键" title="Permanent link">&para;</a></h3>
+<p>适用于<strong>联合主键</strong>：如果一个表的主键是 (A, B)，那么其他列不能只依赖 A 或只依赖 B，必须依赖 A+B 整体。</p>
+<p>举例，订单明细表主键是 (订单号, 商品号)：</p>
+<p>❌ 违反：把"商品名称"放进来——商品名称只依赖"商品号"，和"订单号"没关系，会导致同一商品存了多份名称（冗余）。</p>
+<p>✅ 正确做法：拆成"订单明细表（订单号+商品号+数量）"和"商品表（商品号+商品名称）"两张表。</p>
+<h3 id="第三范式3nf在-2nf-基础上非主键列不能依赖其他非主键列">第三范式（3NF）：在 2NF 基础上，非主键列不能依赖其他非主键列<a class="headerlink" href="#第三范式3nf在-2nf-基础上非主键列不能依赖其他非主键列" title="Permanent link">&para;</a></h3>
+<p>也就是：<strong>非主键列之间不能有传递依赖</strong>。</p>
+<p>❌ 违反：</p>
+<table>
+<thead>
+<tr>
+<th>学生id</th>
+<th>学生姓名</th>
+<th>班级id</th>
+<th>班主任</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>张三</td>
+<td>3班</td>
+<td>王老师</td>
+</tr>
+</tbody>
+</table>
+<p>"班主任"依赖"班级id"，而"班级id"不是主键 → 一个班有 50 个学生就存了 50 遍王老师。</p>
+<p>✅ 正确做法：学生表只留"班级id"，班主任放到班级表里。</p>
+<h3 id="面试常问范式是不是越高越好">面试常问：范式是不是越高越好？<a class="headerlink" href="#面试常问范式是不是越高越好" title="Permanent link">&para;</a></h3>
+<p>不是。范式越高，表拆得越细，查询时要<strong>多表 JOIN</strong>，反而变慢。实际开发经常"<strong>反范式</strong>"：在查询频繁的场景故意存冗余字段（比如订单表直接存商品名称快照），用空间换速度。三大范式是理论基准，实际以"查得快 + 改得动"为准。</p>
+<hr />
+<h2 id="3-mysql-怎么连表查询">3. MySQL 怎么连表查询？<a class="headerlink" href="#3-mysql-怎么连表查询" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答_2">一句话回答<a class="headerlink" href="#一句话回答_2" title="Permanent link">&para;</a></h3>
+<p>用 JOIN 关键字把多张表按关联条件拼成一张大表来查，有 INNER JOIN（内连接）、LEFT/RIGHT JOIN（外连接）、CROSS JOIN（交叉连接）。</p>
+<h3 id="核心概念">核心概念<a class="headerlink" href="#核心概念" title="Permanent link">&para;</a></h3>
+<p>连表本质：<strong>把两行的字段按条件拼成一行</strong>。假设有两张表：</p>
+<p>学生表 student：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>张三</td>
+</tr>
+<tr>
+<td>2</td>
+<td>李四</td>
+</tr>
+</tbody>
+</table>
+<p>选课表 course：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>stu_id</th>
+<th>course_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>数学</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>语文</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>数学</td>
+</tr>
+</tbody>
+</table>
+<h3 id="内连接-inner-join只返回两表都匹配上的行">内连接 INNER JOIN：只返回两表都匹配上的行<a class="headerlink" href="#内连接-inner-join只返回两表都匹配上的行" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">course_name</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="n">s</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">course</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">stu_id</span><span class="p">;</span>
+</span></code></pre></div>
+<p>结果（张三有2门课，李四有1门课）：</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>course_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>张三</td>
+<td>数学</td>
+</tr>
+<tr>
+<td>张三</td>
+<td>语文</td>
+</tr>
+<tr>
+<td>李四</td>
+<td>数学</td>
+</tr>
+</tbody>
+</table>
+<h3 id="左连接-left-join以左表为主右表没匹配就补-null">左连接 LEFT JOIN：以左表为主，右表没匹配就补 NULL<a class="headerlink" href="#左连接-left-join以左表为主右表没匹配就补-null" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">course_name</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="n">s</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">course</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">stu_id</span><span class="p">;</span>
+</span></code></pre></div>
+<p>结果（张三、李四都在，没选课的会显示 NULL）：</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>course_name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>张三</td>
+<td>数学</td>
+</tr>
+<tr>
+<td>张三</td>
+<td>语文</td>
+</tr>
+<tr>
+<td>李四</td>
+<td>数学</td>
+</tr>
+</tbody>
+</table>
+<h3 id="右连接-right-join以右表为主和-left-join-对称实际用得少">右连接 RIGHT JOIN：以右表为主（和 LEFT JOIN 对称，实际用得少）<a class="headerlink" href="#右连接-right-join以右表为主和-left-join-对称实际用得少" title="Permanent link">&para;</a></h3>
+<h3 id="交叉连接-cross-join笛卡尔积所有行两两组合">交叉连接 CROSS JOIN：笛卡尔积，所有行两两组合<a class="headerlink" href="#交叉连接-cross-join笛卡尔积所有行两两组合" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="k">CROSS</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">course</span><span class="p">;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">-- 2 行 × 3 行 = 6 行结果</span>
+</span></code></pre></div>
+<h3 id="三张表以上连表">三张表以上连表<a class="headerlink" href="#三张表以上连表" title="Permanent link">&para;</a></h3>
+<p>依次 JOIN 就行，每次连接得到的结果继续参与下一次连接：</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">course_name</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">teacher_name</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="n">s</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">course</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">stu_id</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">teacher</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">teacher_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">id</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="面试注意">面试注意<a class="headerlink" href="#面试注意" title="Permanent link">&para;</a></h3>
+<ul>
+<li>JOIN 时一定要带 <strong>ON 条件</strong>，否则变成笛卡尔积，数据量爆炸</li>
+<li>连表查慢的常见原因：ON 的字段没建索引</li>
+<li><code>USING(col)</code> 可以简写 <code>ON 两表.列名相同</code> 的情况，但用得少</li>
+</ul>
+<hr />
+<h2 id="4-mysql-如何避免重复插入数据">4. MySQL 如何避免重复插入数据？<a class="headerlink" href="#4-mysql-如何避免重复插入数据" title="Permanent link">&para;</a></h2>
+<h3 id="背景">背景<a class="headerlink" href="#背景" title="Permanent link">&para;</a></h3>
+<p>用户点了两次提交、接口被重试，就会插入两条一模一样的记录。解决思路分三层：<strong>约束防</strong>、<strong>语法防</strong>、<strong>逻辑防</strong>。</p>
+<h3 id="方案一唯一索引--唯一约束最推荐数据库兜底">方案一：唯一索引 / 唯一约束（最推荐，数据库兜底）<a class="headerlink" href="#方案一唯一索引--唯一约束最推荐数据库兜底" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">-- 建表时给"业务上不允许重复"的字段加 UNIQUE</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="n">phone</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="k">UNIQUE</span><span class="p">,</span><span class="w">   </span><span class="c1">-- 手机号不能重复</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="n">name</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="p">);</span>
+</span></code></pre></div>
+<p>插入重复手机号时，MySQL 直接报错拒绝。<strong>唯一索引是防止重复的终极保险</strong>，无论应用层怎么出 bug 都挡得住。</p>
+<h3 id="方案二insert-ignore重复则静默忽略不报错">方案二：INSERT IGNORE（重复则静默忽略，不报错）<a class="headerlink" href="#方案二insert-ignore重复则静默忽略不报错" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">IGNORE</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="p">(</span><span class="n">phone</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">'13800000000'</span><span class="p">,</span><span class="w"> </span><span class="s1">'张三'</span><span class="p">);</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1">-- 若 phone 已存在：不插入也不报错，影响行数为 0</span>
+</span></code></pre></div>
+<h3 id="方案三on-duplicate-key-update重复则更新">方案三：ON DUPLICATE KEY UPDATE（重复则更新）<a class="headerlink" href="#方案三on-duplicate-key-update重复则更新" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="p">(</span><span class="n">phone</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">'13800000000'</span><span class="p">,</span><span class="w"> </span><span class="s1">'张三'</span><span class="p">)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">ON</span><span class="w"> </span><span class="n">DUPLICATE</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">VALUES</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1">-- 不存在就插入，存在就把 name 更新掉（常用于"计数器+1"场景）</span>
+</span></code></pre></div>
+<h3 id="方案四replace-into重复则先删后插">方案四：REPLACE INTO（重复则先删后插）<a class="headerlink" href="#方案四replace-into重复则先删后插" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">REPLACE</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="p">(</span><span class="n">phone</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">'13800000000'</span><span class="p">,</span><span class="w"> </span><span class="s1">'张三'</span><span class="p">);</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1">-- 存在则先 DELETE 再 INSERT（注意：id 会变，要慎用）</span>
+</span></code></pre></div>
+<h3 id="方案五应用层逻辑判断最弱只能作为辅助">方案五：应用层逻辑判断（最弱，只能作为辅助）<a class="headerlink" href="#方案五应用层逻辑判断最弱只能作为辅助" title="Permanent link">&para;</a></h3>
+<p>先 <code>SELECT</code> 查一遍再插入。有并发问题：两个请求同时查都不存在，然后同时插入，还是重复了。所以<strong>不能只靠它</strong>。</p>
+<h3 id="面试回答套路">面试回答套路<a class="headerlink" href="#面试回答套路" title="Permanent link">&para;</a></h3>
+<p>"我会在业务字段上建<strong>唯一索引</strong>做兜底，插入时根据需求选择 <code>INSERT IGNORE</code> 或 <code>ON DUPLICATE KEY UPDATE</code>，应用层再配合幂等校验（比如用订单号去重）"</p>
+<hr />
+<h2 id="5-char-和-varchar-有什么区别">5. CHAR 和 VARCHAR 有什么区别？<a class="headerlink" href="#5-char-和-varchar-有什么区别" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答_3">一句话回答<a class="headerlink" href="#一句话回答_3" title="Permanent link">&para;</a></h3>
+<p>CHAR 是<strong>定长</strong>字符串，存多少就固定占多少空间（不足补空格）；VARCHAR 是<strong>变长</strong>字符串，实际多长占多长，另外加 1~2 字节记录长度。</p>
+<h3 id="对比表">对比表<a class="headerlink" href="#对比表" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>CHAR</th>
+<th>VARCHAR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>长度定义</td>
+<td>CHAR(10) = 固定 10 字符</td>
+<td>VARCHAR(10) = 最多 10 字符</td>
+</tr>
+<tr>
+<td>存储</td>
+<td>不足长度用空格补齐</td>
+<td>存实际内容 + 长度前缀</td>
+</tr>
+<tr>
+<td>存储空间</td>
+<td>固定（一般不用额外字节）</td>
+<td>按内容长度 + 1~2 字节长度前缀</td>
+</tr>
+<tr>
+<td>读取</td>
+<td>需要去掉末尾空格</td>
+<td>直接读</td>
+</tr>
+<tr>
+<td>速度</td>
+<td>略快（长度固定，定位容易）</td>
+<td>略慢</td>
+</tr>
+<tr>
+<td>适用</td>
+<td>长度基本固定的：手机号、身份证、md5</td>
+<td>长度不固定的：姓名、地址、评论</td>
+</tr>
+</tbody>
+</table>
+<h3 id="重要细节">重要细节<a class="headerlink" href="#重要细节" title="Permanent link">&para;</a></h3>
+<ul>
+<li>定义时的数字 <code>CHAR(10)</code> / <code>VARCHAR(10)</code> 都表示<strong>字符数</strong>，不是字节数</li>
+<li>CHAR 超过定义长度会报错或截断（取决于 SQL 模式）</li>
+<li>查询 CHAR 时 MySQL 会自动去掉尾部空格：<code>WHERE name = 'abc'</code> 能匹配到存储为 <code>'abc   '</code> 的记录</li>
+<li>VARCHAR 存储时<strong>不会</strong>去掉尾部空格（会原样保留）</li>
+</ul>
+<h3 id="怎么选_1">怎么选<a class="headerlink" href="#怎么选_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>手机号、身份证号、MD5、UUID 这种长度固定的 → CHAR</li>
+<li>用户名、地址、内容这种长短不一的 → VARCHAR</li>
+<li>8.0 之前 VARCHAR 最大 255 字节需要 1 字节长度前缀，超过要 2 字节；8.0 后统一按内容长度计算</li>
+</ul>
+<hr />
+<h2 id="6-varchar-后面代表字节还是字符">6. VARCHAR 后面代表字节还是字符？<a class="headerlink" href="#6-varchar-后面代表字节还是字符" title="Permanent link">&para;</a></h2>
+<h3 id="答案">答案<a class="headerlink" href="#答案" title="Permanent link">&para;</a></h3>
+<p><strong>字符</strong>（character），不是字节。</p>
+<p><code>VARCHAR(10)</code> 表示最多存 <strong>10 个字符</strong>。</p>
+<p>具体占多少字节取决于字符集：
+- 纯英文（ASCII 字符集）：1 字符 = 1 字节
+- UTF-8：英文字母 1 字符 = 1 字节，中文 1 字符 = <strong>3 字节</strong>（emoji 是 4 字节）</p>
+<p>所以 <code>VARCHAR(10)</code> 在 UTF-8 下最多能存 10 个汉字 = 30 字节。</p>
+<h3 id="面试延伸varchar-的最大长度是多少">面试延伸：VARCHAR 的最大长度是多少？<a class="headerlink" href="#面试延伸varchar-的最大长度是多少" title="Permanent link">&para;</a></h3>
+<ul>
+<li>VARCHAR 本身最大 <strong>65535 字节</strong>（这是行内所有 VARCHAR 列的总限制）</li>
+<li>实际能写多少字符，要看字符集和整行其他列占的字节</li>
+<li>一个纯 VARCHAR(65535) 的 UTF-8 表实际只能定义到 VARCHAR(21844) 左右（65535 / 3 向下取整，还要留长度前缀字节）</li>
+</ul>
+<h3 id="对比记忆">对比记忆<a class="headerlink" href="#对比记忆" title="Permanent link">&para;</a></h3>
+<ul>
+<li>CHAR(10)：10 字符，不足补空格</li>
+<li>VARCHAR(10)：最多 10 字符</li>
+<li>两者括号里都是<strong>字符数</strong></li>
+</ul>
+<hr />
+<h2 id="7-int1-和-int10-在-mysql-有什么不同">7. int(1) 和 int(10) 在 MySQL 有什么不同？<a class="headerlink" href="#7-int1-和-int10-在-mysql-有什么不同" title="Permanent link">&para;</a></h2>
+<h3 id="答案_1">答案<a class="headerlink" href="#答案_1" title="Permanent link">&para;</a></h3>
+<p><strong>没有任何区别</strong>（除了展示宽度，而且展示宽度在 8.0 已废弃）。</p>
+<p>INT 在 MySQL 里固定占 <strong>4 字节</strong>，取值范围固定：
+- 有符号：-2147483648 ~ 2147483647（约 -21亿 ~ 21亿）
+- 无符号：0 ~ 4294967295</p>
+<p>括号里的数字（显示宽度）<strong>不影响存储空间，也不影响取值范围</strong>，只影响"如果配合 ZEROFILL 属性，前面补多少个 0"：</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="nb">INT</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="n">ZEROFILL</span><span class="p">);</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">12</span><span class="p">);</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">t</span><span class="p">;</span><span class="w">  </span><span class="c1">-- 输出 0012（补到4位）</span>
+</span></code></pre></div>
+<p><code>INT(4)</code> 存 123456 照样存得下。<strong>MySQL 8.0 已经移除了显示宽度特性</strong>，int(1) 和 int(10) 完全等价。</p>
+<h3 id="面试延伸">面试延伸<a class="headerlink" href="#面试延伸" title="Permanent link">&para;</a></h3>
+<ul>
+<li>真正区分整数大小的是类型本身：TINYINT(1字节)、SMALLINT(2)、MEDIUMINT(3)、INT(4)、BIGINT(8)</li>
+<li>面试问"int(1) 是不是只能存一位数"→ 不是，这是最常见的误区</li>
+</ul>
+<hr />
+<h2 id="8-text-数据类型可以无限大吗">8. Text 数据类型可以无限大吗？<a class="headerlink" href="#8-text-数据类型可以无限大吗" title="Permanent link">&para;</a></h2>
+<h3 id="答案_2">答案<a class="headerlink" href="#答案_2" title="Permanent link">&para;</a></h3>
+<p>不能。TEXT 有固定上限（64KB 起步），且<strong>在磁盘上按内容长度存储</strong>，不是无限大。</p>
+<h3 id="text-家族">TEXT 家族<a class="headerlink" href="#text-家族" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>最大长度</th>
+<th>字节数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TINYTEXT</td>
+<td>255 字节</td>
+<td>1</td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td>65535 字节（64KB）</td>
+<td>2</td>
+</tr>
+<tr>
+<td>MEDIUMTEXT</td>
+<td>约 16MB</td>
+<td>3</td>
+</tr>
+<tr>
+<td>LONGTEXT</td>
+<td>约 4GB</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<p>（前面数字表示记录长度所需的字节数）</p>
+<h3 id="实际使用注意">实际使用注意<a class="headerlink" href="#实际使用注意" title="Permanent link">&para;</a></h3>
+<ul>
+<li>TEXT 不能有默认值（8.0 之前），不能直接建普通索引（要建前缀索引）</li>
+<li>数据超过 64KB 存不进 TEXT，要用 MEDIUMTEXT/LONGTEXT</li>
+<li>大文本一般不会全量查出来（避免 <code>SELECT *</code>），而是分页截取</li>
+<li>超大内容（几 MB 以上）通常建议存<strong>文件系统/对象存储</strong>（OSS），数据库只存文件路径——因为 MySQL 一行数据过大时，行会溢出到额外页，IO 变慢</li>
+</ul>
+<h3 id="对比blob">对比：BLOB<a class="headerlink" href="#对比blob" title="Permanent link">&para;</a></h3>
+<p>BLOB 和 TEXT 差不多，区别是 BLOB 存<strong>二进制</strong>（图片、文件），TEXT 存<strong>字符</strong>。实际项目很少用 BLOB 存文件，都是存路径。</p>
+<hr />
+<h2 id="9-ip-地址如何在数据库里存储">9. IP 地址如何在数据库里存储？<a class="headerlink" href="#9-ip-地址如何在数据库里存储" title="Permanent link">&para;</a></h2>
+<h3 id="答案_3">答案<a class="headerlink" href="#答案_3" title="Permanent link">&para;</a></h3>
+<p>正规做法：用<strong>整数（INT UNSIGNED）</strong>存储，用 <code>INET_ATON()</code> / <code>INET_NTOA()</code> 两个函数互相转换；图省事也可以存 VARCHAR(15)，但要接受"查得慢、占空间"的代价。</p>
+<h3 id="为什么推荐-int">为什么推荐 INT？<a class="headerlink" href="#为什么推荐-int" title="Permanent link">&para;</a></h3>
+<p>IP 本质是 4 个 0~255 的数字，如 <code>192.168.1.1</code>。</p>
+<ul>
+<li>VARCHAR(15) 存：需要 15 字节（实际 ~7-15），且比较大小是字符串比较（<code>192.168.1.10</code> 和 <code>192.168.1.9</code> 的字符串排序会乱：'10' &lt; '9'）</li>
+<li>INT UNSIGNED 存：固定 4 字节，<strong>数值比较天然就是正确的 IP 顺序</strong>，还能直接做范围查询（<code>WHERE ip BETWEEN ... AND ...</code>）</li>
+</ul>
+<h3 id="用法">用法<a class="headerlink" href="#用法" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1">-- 写入：IP 转整数</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">log</span><span class="w"> </span><span class="p">(</span><span class="n">ip</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="n">INET_ATON</span><span class="p">(</span><span class="s1">'192.168.1.1'</span><span class="p">));</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1">-- 查询：整数转回 IP</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">INET_NTOA</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">log</span><span class="p">;</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1">-- 范围查询（查找某网段的所有记录）</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">INET_NTOA</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">log</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">ip</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="n">INET_ATON</span><span class="p">(</span><span class="s1">'192.168.1.0'</span><span class="p">)</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">INET_ATON</span><span class="p">(</span><span class="s1">'192.168.1.255'</span><span class="p">);</span>
+</span></code></pre></div>
+<h3 id="ipv6">IPv6<a class="headerlink" href="#ipv6" title="Permanent link">&para;</a></h3>
+<p><code>INET6_ATON()</code> / <code>INET6_NTOA()</code> 支持 IPv6，返回二进制（16 字节），存 <code>BINARY(16)</code>。</p>
+<h3 id="面试答法">面试答法<a class="headerlink" href="#面试答法" title="Permanent link">&para;</a></h3>
+<p>"IP 用 INT UNSIGNED 存，通过 INET_ATON/INET_NTOA 转换，省空间（4字节 vs 15字节）且数值比较符合 IP 大小顺序，方便做网段范围查询。注意要加 UNSIGNED，否则超过 21亿 的 IP 存不下。"</p>
+<hr />
+<h2 id="10-说一下外键约束">10. 说一下外键约束<a class="headerlink" href="#10-说一下外键约束" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答_4">一句话回答<a class="headerlink" href="#一句话回答_4" title="Permanent link">&para;</a></h3>
+<p>外键（FOREIGN KEY）是表与表之间的<strong>关系约束</strong>：子表的某列必须引用父表的主键，保证"引用的东西必须真实存在"，MySQL 里只有 InnoDB 引擎支持。</p>
+<h3 id="基本用法">基本用法<a class="headerlink" href="#基本用法" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="n">id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="n">user_id</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="n">amount</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">users</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w">   </span><span class="c1">-- 外键：必须存在于 users.id</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="p">);</span>
+</span></code></pre></div>
+<p>效果：
+- 往 orders 插 user_id=999，但 users 表没有 999 → <strong>插入失败</strong>
+- 删除 users 里有订单的用户 → 默认<strong>拒绝删除</strong>（防止删了父表数据，子表变孤儿）</p>
+<h3 id="on-delete--on-update-行为级联规则">ON DELETE / ON UPDATE 行为（级联规则）<a class="headerlink" href="#on-delete--on-update-行为级联规则" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">FOREIGN</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">users</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">ON</span><span class="w"> </span><span class="k">DELETE</span><span class="w"> </span><span class="k">CASCADE</span><span class="w">   </span><span class="c1">-- 父记录删除时，子记录跟着删</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="k">ON</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="k">CASCADE</span><span class="w">   </span><span class="c1">-- 父主键更新时，子记录跟着更新</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RESTRICT（默认）</td>
+<td>有子记录引用时，禁止删除/更新父记录</td>
+</tr>
+<tr>
+<td>CASCADE</td>
+<td>父记录删/改，子记录同步删/改</td>
+</tr>
+<tr>
+<td>SET NULL</td>
+<td>父记录删/改，子记录外键列置 NULL</td>
+</tr>
+<tr>
+<td>NO ACTION</td>
+<td>同 RESTRICT</td>
+</tr>
+</tbody>
+</table>
+<h3 id="面试重点生产环境为什么不推荐外键">面试重点：生产环境为什么不推荐外键？<a class="headerlink" href="#面试重点生产环境为什么不推荐外键" title="Permanent link">&para;</a></h3>
+<p>大厂面试几乎必问，标准回答：
+1. <strong>性能</strong>：每次插入/更新子表都要去查父表做校验，多一次 IO；高并发下是热点竞争
+2. <strong>分布式/分库分表</strong>：数据分散在多台机器，外键校验跨库做不了
+3. <strong>写入变慢</strong>：删除父表时要检查子表，锁的范围可能扩大
+4. <strong>线上修改困难</strong>：加外键会锁表，大表上改结构是灾难</p>
+<p>所以实际开发中常见做法：<strong>逻辑外键</strong>——表结构不建 FOREIGN KEY，但在应用层代码里保证数据一致性，索引照建。面试时能说清"约束靠应用层+唯一索引兜底"就是加分项。</p>
+<hr />
+<h2 id="11-mysql-的关键字-in-和-exists">11. MySQL 的关键字 IN 和 EXISTS<a class="headerlink" href="#11-mysql-的关键字-in-和-exists" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答_5">一句话回答<a class="headerlink" href="#一句话回答_5" title="Permanent link">&para;</a></h3>
+<p>IN 是"<strong>值在集合里</strong>"，EXISTS 是"<strong>子查询有没有结果</strong>"。小表 IN 快，大表 EXISTS 更稳，但 MySQL 优化器经常自动转换，实际差距没那么大。</p>
+<h3 id="基本用法_1">基本用法<a class="headerlink" href="#基本用法_1" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">-- IN：c.id 出现在子查询结果集合中</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">course</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">course_id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">score</span><span class="p">);</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1">-- EXISTS：子查询能查出至少一行就返回该主表记录</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">course</span><span class="w"> </span><span class="k">c</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="k">WHERE</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">course_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">id</span><span class="p">);</span>
+</span></code></pre></div>
+<h3 id="区别对比">区别对比<a class="headerlink" href="#区别对比" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>IN</th>
+<th>EXISTS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>语义</td>
+<td>值 ∈ 集合</td>
+<td>是否存在满足条件的行</td>
+</tr>
+<tr>
+<td>子查询内容</td>
+<td>返回一列值</td>
+<td>只看有没有行（SELECT 1 即可）</td>
+</tr>
+<tr>
+<td>子查询含 NULL 时的坑</td>
+<td>结果含 NULL 时 IN 判断可能"静默不匹配"</td>
+<td>不受 NULL 影响</td>
+</tr>
+<tr>
+<td>大数据量</td>
+<td>子查询结果集过大时可能撑爆内存</td>
+<td>逐行驱动，内存友好</td>
+</tr>
+</tbody>
+</table>
+<h3 id="经典误区">经典误区<a class="headerlink" href="#经典误区" title="Permanent link">&para;</a></h3>
+<p><code>IN</code> 和 <code>NOT IN</code> 当子查询结果含 <strong>NULL</strong> 时，<code>NOT IN</code> 会<strong>永远返回空</strong>（因为 <code>x NOT IN (1, NULL)</code> 的语义是 <code>x != 1 AND x != NULL</code>，而 <code>x != NULL</code> 结果是 UNKNOWN，不是 TRUE）。</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">-- 如果子查询里有 NULL，这条会查不出任何数据！</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">course</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">course_id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">course_id</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">);</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="c1">-- 解决：子查询加 IS NOT NULL，或用 NOT EXISTS</span>
+</span></code></pre></div>
+<h3 id="面试答法_1">面试答法<a class="headerlink" href="#面试答法_1" title="Permanent link">&para;</a></h3>
+<p>"两者都能做子查询关联，IN 适合子查询结果集小的情况，EXISTS 适合主表小、子查询大的情况；NOT IN 有 NULL 陷阱，推荐用 NOT EXISTS 替代。MySQL 8.0 的优化器越来越智能，很多场景会自动改写，所以别死记'谁一定快'，关键看执行计划。"</p>
+<hr />
+<h2 id="12-mysql-中的一些基本函数你知道哪些">12. MySQL 中的一些基本函数，你知道哪些？<a class="headerlink" href="#12-mysql-中的一些基本函数你知道哪些" title="Permanent link">&para;</a></h2>
+<h3 id="分类记忆字符串数值日期聚合条件加密">分类记忆：字符串、数值、日期、聚合、条件、加密<a class="headerlink" href="#分类记忆字符串数值日期聚合条件加密" title="Permanent link">&para;</a></h3>
+<h3 id="1-字符串函数">1. 字符串函数<a class="headerlink" href="#1-字符串函数" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CONCAT(a, b)</td>
+<td>拼接</td>
+<td>CONCAT('a','b') → 'ab'</td>
+</tr>
+<tr>
+<td>LENGTH(str)</td>
+<td>字节数</td>
+<td>LENGTH('你好') → 6（UTF-8）</td>
+</tr>
+<tr>
+<td>CHAR_LENGTH(str)</td>
+<td>字符数</td>
+<td>CHAR_LENGTH('你好') → 2</td>
+</tr>
+<tr>
+<td>SUBSTRING(str, pos, len)</td>
+<td>截取</td>
+<td>SUBSTRING('hello',2,3) → 'ell'</td>
+</tr>
+<tr>
+<td>REPLACE(str, a, b)</td>
+<td>替换</td>
+<td>REPLACE('abc','b','X') → 'aXc'</td>
+</tr>
+<tr>
+<td>UPPER / LOWER</td>
+<td>转大写/小写</td>
+<td>UPPER('abc') → 'ABC'</td>
+</tr>
+<tr>
+<td>TRIM / LTRIM / RTRIM</td>
+<td>去空格</td>
+<td>TRIM('  a  ') → 'a'</td>
+</tr>
+<tr>
+<td>LEFT / RIGHT</td>
+<td>取左/右侧字符</td>
+<td>LEFT('abc',2) → 'ab'</td>
+</tr>
+<tr>
+<td>LPAD / RPAD</td>
+<td>补位</td>
+<td>LPAD('5',3,'0') → '005'</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-数值函数">2. 数值函数<a class="headerlink" href="#2-数值函数" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ROUND(x, n)</td>
+<td>四舍五入</td>
+<td>ROUND(3.14159, 2) → 3.14</td>
+</tr>
+<tr>
+<td>CEIL / FLOOR</td>
+<td>向上/向下取整</td>
+<td>CEIL(3.1)→4, FLOOR(3.9)→3</td>
+</tr>
+<tr>
+<td>ABS</td>
+<td>绝对值</td>
+<td>ABS(-5) → 5</td>
+</tr>
+<tr>
+<td>MOD(a, b)</td>
+<td>取余</td>
+<td>MOD(10, 3) → 1</td>
+</tr>
+<tr>
+<td>POW(x, y)</td>
+<td>幂</td>
+<td>POW(2, 10) → 1024</td>
+</tr>
+<tr>
+<td>RAND()</td>
+<td>随机数 0~1</td>
+<td>RAND()</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-日期函数面试高频">3. 日期函数（面试高频）<a class="headerlink" href="#3-日期函数面试高频" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">NOW</span><span class="p">()</span><span class="w">          </span><span class="c1">-- 当前时间 2026-08-15 10:30:00</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">CURDATE</span><span class="p">()</span><span class="w">      </span><span class="c1">-- 当前日期 2026-08-15</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">CURTIME</span><span class="p">()</span><span class="w">      </span><span class="c1">-- 当前时间 10:30:00</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="nb">DATE</span><span class="p">(</span><span class="n">now</span><span class="p">)</span><span class="w">      </span><span class="c1">-- 取日期部分</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="k">YEAR</span><span class="p">(</span><span class="n">now</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">MONTH</span><span class="p">(</span><span class="n">now</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">DAY</span><span class="p">(</span><span class="n">now</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">HOUR</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="n">DATEDIFF</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span><span class="w"> </span><span class="n">d2</span><span class="p">)</span><span class="w">        </span><span class="c1">-- 相差天数</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="n">DATE_ADD</span><span class="p">(</span><span class="n">now</span><span class="p">,</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">DAY</span><span class="p">)</span><span class="w">  </span><span class="c1">-- 日期+1天</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="n">DATE_SUB</span><span class="p">(</span><span class="n">now</span><span class="p">,</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">MONTH</span><span class="p">)</span><span class="w"> </span><span class="c1">-- 日期减1月</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">now</span><span class="p">,</span><span class="w"> </span><span class="s1">'%Y-%m-%d %H:%i:%s'</span><span class="p">)</span><span class="w">  </span><span class="c1">-- 格式化输出</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="n">UNIX_TIMESTAMP</span><span class="p">(</span><span class="n">now</span><span class="p">)</span><span class="w">     </span><span class="c1">-- 转时间戳</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="n">FROM_UNIXTIME</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span><span class="w">       </span><span class="c1">-- 时间戳转日期</span>
+</span></code></pre></div>
+<h3 id="4-聚合函数配合-group-by-用">4. 聚合函数（配合 GROUP BY 用）<a class="headerlink" href="#4-聚合函数配合-group-by-用" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w">      </span><span class="c1">-- 行数</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="k">COUNT</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="w">    </span><span class="c1">-- 该列非 NULL 的行数（注意区别！）</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="k">SUM</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="w">      </span><span class="c1">-- 求和</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="k">AVG</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="w">      </span><span class="c1">-- 平均值（自动忽略 NULL）</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="k">MAX</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">MIN</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="n">GROUP_CONCAT</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="w">  </span><span class="c1">-- 分组内拼接，如 '数学,语文,英语'</span>
+</span></code></pre></div>
+<h3 id="5-条件函数">5. 条件函数<a class="headerlink" href="#5-条件函数" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">IF</span><span class="p">(</span><span class="err">条件</span><span class="p">,</span><span class="w"> </span><span class="err">值</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="err">值</span><span class="mi">2</span><span class="p">)</span><span class="w">              </span><span class="c1">-- IF(score &gt;= 60, '及格', '不及格')</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">IFNULL</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w">                    </span><span class="c1">-- a 为 NULL 则返回 b</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="k">END</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1">-- 例子：CASE WHEN score &gt;= 90 THEN 'A' WHEN score &gt;= 60 THEN 'B' ELSE 'C' END</span>
+</span></code></pre></div>
+<h3 id="6-加密函数">6. 加密函数<a class="headerlink" href="#6-加密函数" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">MD5</span><span class="p">(</span><span class="s1">'abc'</span><span class="p">)</span><span class="w">      </span><span class="c1">-- 32位哈希（已不推荐存密码）</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">SHA2</span><span class="p">(</span><span class="s1">'abc'</span><span class="p">,</span><span class="w"> </span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="c1">-- SHA-256 哈希</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="n">PASSWORD</span><span class="p">()</span><span class="w">      </span><span class="c1">-- 已废弃，别用</span>
+</span></code></pre></div>
+<h3 id="面试小心机">面试小心机<a class="headerlink" href="#面试小心机" title="Permanent link">&para;</a></h3>
+<p>问函数时顺手说出几个"坑"是加分项：
+- <code>COUNT(*)</code> 和 <code>COUNT(1)</code> 在现代 MySQL 性能没区别（都是数行数），<code>COUNT(col)</code> 才是数非 NULL
+- <code>LENGTH</code> 是字节、<code>CHAR_LENGTH</code> 是字符
+- 对索引列用函数（如 <code>WHERE YEAR(create_time) = 2026</code>）会让索引<strong>失效</strong>，应写成 <code>WHERE create_time &gt;= '2026-01-01' AND create_time &lt; '2027-01-01'</code></p>
+<hr />
+<h2 id="13-sql-查询语句的执行顺序是怎么样的">13. SQL 查询语句的执行顺序是怎么样的？<a class="headerlink" href="#13-sql-查询语句的执行顺序是怎么样的" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答_6">一句话回答<a class="headerlink" href="#一句话回答_6" title="Permanent link">&para;</a></h3>
+<p><strong>FROM → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT</strong>，书写顺序和逻辑执行顺序不一致。</p>
+<h3 id="完整顺序表面试必背">完整顺序表（面试必背）<a class="headerlink" href="#完整顺序表面试必背" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="err">列</span><span class="w">          </span><span class="c1">-- 6. 投影列</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="k">FROM</span><span class="w"> </span><span class="err">表</span><span class="w">                     </span><span class="c1">-- 1. 确定数据来源</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="k">JOIN</span><span class="w"> </span><span class="err">表</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="err">条件</span><span class="w">             </span><span class="c1">-- 2. 连表（JOIN 先于 ON 之前的 WHERE）</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="k">WHERE</span><span class="w"> </span><span class="err">过滤条件</span><span class="w">              </span><span class="c1">-- 3. 行级过滤</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="err">分组列</span><span class="w">             </span><span class="c1">-- 4. 分组</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="k">HAVING</span><span class="w"> </span><span class="err">分组后过滤</span><span class="w">            </span><span class="c1">-- 5. 对分组结果过滤</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="err">排序列</span><span class="w">             </span><span class="c1">-- 7. 排序</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="k">LIMIT</span><span class="w"> </span><span class="err">数量</span><span class="w">                  </span><span class="c1">-- 8. 截取</span>
+</span></code></pre></div>
+<h3 id="执行顺序背后的逻辑">执行顺序背后的逻辑<a class="headerlink" href="#执行顺序背后的逻辑" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>FROM/JOIN</strong>：先决定"从哪些表拿数据"，JOIN 生成中间大表</li>
+<li><strong>WHERE</strong>：在中间结果上<strong>逐行</strong>过滤，<strong>此时还不能用聚合函数和别名</strong></li>
+<li><strong>GROUP BY</strong>：按列分组，每组一行</li>
+<li><strong>HAVING</strong>：对<strong>分组后</strong>的结果过滤（可以用聚合函数，如 <code>HAVING COUNT(*) &gt; 2</code>）</li>
+<li><strong>SELECT</strong>：计算并投影要返回的列（别名在这一步才生成）</li>
+<li><strong>DISTINCT</strong>：去重</li>
+<li><strong>ORDER BY</strong>：排序（所以 ORDER BY 可以用别名）</li>
+<li><strong>LIMIT</strong>：最后截取行数</li>
+</ol>
+<h3 id="为什么-where-不能用聚合函数">为什么 WHERE 不能用聚合函数？<a class="headerlink" href="#为什么-where-不能用聚合函数" title="Permanent link">&para;</a></h3>
+<p>因为执行顺序里 WHERE 在 GROUP BY <strong>之前</strong>，此时还没有分组，无法计算 SUM/COUNT 等。所以"筛选分组"必须用 HAVING：</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1">-- 错误：WHERE 里用聚合</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">class_id</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">class_id</span><span class="p">;</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1">-- 正确：HAVING 过滤分组</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">class_id</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">class_id</span><span class="w"> </span><span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="为什么-where-不能使用-select-里的别名">为什么 WHERE 不能使用 SELECT 里的别名？<a class="headerlink" href="#为什么-where-不能使用-select-里的别名" title="Permanent link">&para;</a></h3>
+<p>因为 SELECT 在 WHERE <strong>之后</strong>才执行，别名还没生成：</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1">-- 错误</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'张三'</span><span class="p">;</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="c1">-- 正确</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'张三'</span><span class="p">;</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="c1">-- ORDER BY 可以用别名（执行顺序靠后）</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="一个综合例子">一个综合例子<a class="headerlink" href="#一个综合例子" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">class_id</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cnt</span><span class="p">,</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">score</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_score</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">student_score</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w">          </span><span class="c1">-- 先过滤行</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">class_id</span><span class="w">                </span><span class="c1">-- 再分组</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">10</span><span class="w">            </span><span class="c1">-- 过滤"人数&gt;=10"的班级</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">avg_score</span><span class="w"> </span><span class="k">DESC</span><span class="w">          </span><span class="c1">-- 按平均分排序</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="k">LIMIT</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">                         </span><span class="c1">-- 取前5</span>
+</span></code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../.." class="md-footer__link md-footer__link--prev" aria-label="上一页: 主页">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                主页
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../02_SQL%E5%AE%9E%E6%88%98%E9%A2%98/" class="md-footer__link md-footer__link--next" aria-label="下一页: 02 SQL 实战题">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                02 SQL 实战题
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 AndisWarm的知识库
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/AndisWarm" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":["announce.dismiss","content.code.annotate","content.code.copy","content.code.select","content.tabs.link","content.tooltips","navigation.expand","navigation.footer","navigation.indexes","navigation.instant","navigation.instant.prefetch","navigation.instant.progress","navigation.path","navigation.sections","navigation.tabs","navigation.top","navigation.tracking","search.highlight","search.share","search.suggest","toc.follow"],"search":"../../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"已复制","clipboard.copy":"复制","search.result.more.one":"在该页上还有 1 个符合条件的结果","search.result.more.other":"在该页上还有 # 个符合条件的结果","search.result.none":"没有找到符合条件的结果","search.result.one":"找到 1 个符合条件的结果","search.result.other":"# 个符合条件的结果","search.result.placeholder":"键入以开始搜索","search.result.term.missing":"缺少","select.version":"选择当前版本"},"version":null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e886cdf1.min.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>

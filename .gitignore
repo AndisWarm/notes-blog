@@ -1,0 +1,30 @@
+# ===== 操作系统 =====
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+ehthumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ===== 编辑器 / IDE =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+.project
+.classpath
+.settings/
+
+# ===== 临时与日志文件 =====
+*.tmp
+*.temp
+*.log
+*.bak
+~$*.docx
+~$*.xlsx
+
+# ===== 站点构建依赖（指向博客网站集合项目的目录联接） =====
+node_modules/

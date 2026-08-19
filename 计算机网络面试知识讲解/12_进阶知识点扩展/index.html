@@ -1,0 +1,5186 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="面向编程小白的后端面试八股文详解">
+      
+      
+        <meta name="author" content="AndisWarm">
+      
+      
+        <link rel="canonical" href="http://localhost:8000/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/12_%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86%E7%82%B9%E6%89%A9%E5%B1%95/">
+      
+      
+        <link rel="prev" href="../11_%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB/">
+      
+      
+        <link rel="next" href="../">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.0.56">
+    
+    
+      
+        <title>12 进阶知识点扩展（编程小白补课篇） - AndisWarm的知识库</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../assets/stylesheets/classic/main.39e53929.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/classic/palette.7dc9a0ad.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-label="导航栏"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#12-进阶知识点扩展编程小白补课篇" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="AndisWarm的知识库" class="md-header__button md-logo" aria-label="AndisWarm的知识库" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="导航栏">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AndisWarm的知识库
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              12 进阶知识点扩展（编程小白补课篇）
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun-moon" viewBox="0 0 24 24"><path d="M12 2v2M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715M16 12a4 4 0 0 0-4-4M19 5l-1.256 1.256M20 12h2"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="查找">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="查找">
+  <button type="button" class="md-search__button">
+    查找
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  主页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-tabs__link">
+          
+  
+  面试知识库
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="AndisWarm的知识库" class="md-nav__button md-logo" aria-label="AndisWarm的知识库" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AndisWarm的知识库
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  主页
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  面试知识库
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  面试知识库
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  MySQL 面试
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  MySQL 面试
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_SQL%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 SQL 基础与数据类型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_SQL%E5%AE%9E%E6%88%98%E9%A2%98/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 SQL 实战题
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 存储引擎
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E7%B4%A2%E5%BC%95%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 索引基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E4%BA%8B%E5%8A%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 事务
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E9%94%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 锁
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_%E6%97%A5%E5%BF%97/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 日志
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 性能调优
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Redis 面试
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Redis 面试
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 数据类型与使用场景
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 底层数据结构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 线程模型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E4%BA%8B%E5%8A%A1%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 事务与持久化
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E8%BF%87%E6%9C%9F%E5%88%A0%E9%99%A4%E4%B8%8E%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 过期删除与内存淘汰
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 集群架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_%E7%BC%93%E5%AD%98%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 缓存应用场景
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E4%B8%8E%E5%A4%A7Key%E7%83%ADKey/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 分布式锁与大Key热Key
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E4%B8%89%E5%A4%A7%E9%97%AE%E9%A2%98%E4%B8%8E%E7%A7%92%E6%9D%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 缓存一致性、三大问题与秒杀
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  分布式
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  分布式
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 分布式理论
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 分布式锁
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E5%88%86%E5%B8%83%E5%BC%8FID/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 分布式 ID
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 分布式事务
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  操作系统
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  操作系统
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E7%94%A8%E6%88%B7%E6%80%81%E4%B8%8E%E5%86%85%E6%A0%B8%E6%80%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 用户态与内核态
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 进程与线程
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 进程间通信（IPC）
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 进程调度算法
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E9%94%81%E4%B8%8E%E6%AD%BB%E9%94%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 锁与死锁
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 内存管理基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E8%BF%9B%E9%98%B6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 内存管理进阶：fork、malloc 与内存回收
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_%E4%B8%AD%E6%96%AD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 中断
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_%E7%BD%91%E7%BB%9CIO%E6%A8%A1%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 网络 I/O 模型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  计算机网络
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_5" id="__nav_2_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  计算机网络
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 网络模型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_HTTP%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 HTTP 基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_HTTPS%E4%B8%8E%E5%8A%A0%E5%AF%86/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 HTTPS 与加密
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_DNS%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 DNS 域名解析
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_Cookie_Session%E4%B8%8EJWT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 Cookie、Session 与 JWT
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_RPC_WebSocket%E4%B8%8ENginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 RPC、WebSocket 与 Nginx
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 TCP 三次握手
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_TCP%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 TCP 四次挥手
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09_TCP%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E4%B8%8EUDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 TCP 可靠传输与 UDP
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_%E7%BD%91%E7%BB%9C%E6%8E%92%E6%9F%A5%E5%9C%BA%E6%99%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  10 网络排查场景
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  11 网络攻击
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+        <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  12 进阶知识点扩展（编程小白补课篇）
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  12 进阶知识点扩展（编程小白补课篇）
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#一网络基础补课" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一、网络基础补课
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、网络基础补课">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-子网子网掩码网段-同子网跨子网到底是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. 子网、子网掩码、网段 ——「同子网/跨子网」到底是什么
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-网关是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. 网关是什么
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-icmp-协议--ping-到底在干什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. ICMP 协议 —— ping 到底在干什么
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#二http-周边" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        二、HTTP 周边
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、HTTP 周边">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-cdn-是什么怎么加速" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. CDN 是什么，怎么加速
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-正向代理-vs-反向代理" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. 正向代理 vs 反向代理
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-rfc-是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. RFC 是什么
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#三https-与加密进阶" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        三、HTTPS 与加密进阶
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、HTTPS 与加密进阶">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-前向安全与-ecdhe--为什么-tls-13-弃用-rsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7. 前向安全与 (EC)DHE —— 为什么 TLS 1.3 弃用 RSA
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-数字签名与证书链" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        8. 数字签名与证书链
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#四dns-进阶" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        四、DNS 进阶
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、DNS 进阶">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9-dns-记录类型a--aaaa--cname--mx--ns" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        9. DNS 记录类型：A / AAAA / CNAME / MX / NS
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-递归查询-vs-迭代查询" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        10. 递归查询 vs 迭代查询
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-dnssec--doh--dot--安全-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        11. DNSSEC / DoH / DoT —— 安全 DNS
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#五cookie-与-token-周边" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        五、Cookie 与 Token 周边
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、Cookie 与 Token 周边">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12-cookie-三个安全属性httponly--secure--samesite" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        12. Cookie 三个安全属性：HttpOnly / Secure / SameSite
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-base64-是什么--jwt-为什么是明文" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        13. Base64 是什么 —— JWT 为什么是「明文」
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-cookie-的-domain--path-作用域" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        14. Cookie 的 Domain / Path 作用域
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#六rpc-周边" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        六、RPC 周边
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、RPC 周边">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#15-序列化与反序列化" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        15. 序列化与反序列化
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#16-grpc-为什么高效" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        16. gRPC 为什么高效
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#七tcp-内核机制" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        七、TCP 内核机制
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="七、TCP 内核机制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#17-滑动窗口--流量控制的核心" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        17. 滑动窗口 —— 流量控制的核心
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#18-mss-与-mtu--为什么要分片" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        18. MSS 与 MTU —— 为什么要分片
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#19-累计确认" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        19. 累计确认
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#八安全防御进阶" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        八、安全防御进阶
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="八、安全防御进阶">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#20-csp-内容安全策略" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        20. CSP 内容安全策略
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#21-hsts-强制-https" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        21. HSTS 强制 HTTPS
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-udp-反射放大攻击--ddos-的借刀杀人" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        22. UDP 反射放大攻击 —— DDoS 的「借刀杀人」
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#本单元小结" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        本单元小结
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  消息队列
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6" id="__nav_2_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  消息队列
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%98%AF%E4%BB%80%E4%B9%88%E4%B8%8E%E4%B8%BA%E4%BB%80%E4%B9%88/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 消息队列是什么与为什么
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%80%89%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 消息队列选型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%E6%80%A7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 消息可靠性
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E5%B9%82%E7%AD%89%E4%B8%8E%E6%B6%88%E6%81%AF%E7%A7%AF%E5%8E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 幂等与消息积压
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF%E4%B8%8E%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 事务消息与数据一致性
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 设计模式与消息队列架构设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_RocketMQ%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 RocketMQ 详解
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_Kafka%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 Kafka 详解
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_RabbitMQ%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 RabbitMQ 详解
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%BB%E9%A2%98%E6%98%AF%E4%BB%80%E4%B9%88/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  消息队列主题
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  消息队列主题
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  系统设计
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_8" id="__nav_2_8_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  系统设计
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 秒杀系统设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_RPC%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 RPC 框架设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E7%9F%AD%E9%93%BE%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 短链系统设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E7%82%B9%E8%B5%9E%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 点赞系统设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E5%88%86%E5%B8%83%E5%BC%8FID%E5%8F%91%E5%8F%B7%E5%99%A8%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 分布式 ID 发号器设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E8%AE%A2%E5%8D%95%E8%B6%85%E6%97%B6%E5%8F%96%E6%B6%88%E6%96%B9%E6%A1%88/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 订单超时取消方案
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_QPS%E6%9A%B4%E6%B6%A810%E5%80%8D%E5%BA%94%E5%AF%B9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 如果你的系统 QPS 突然提升 10 倍，你会怎么设计？
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  后端进阶
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_9" id="__nav_2_9_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  后端进阶
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/01_%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 计算机基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/02_%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E5%AD%98%E5%82%A8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 数据库与存储
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/03_%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 设计模式与代码优化
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/04_%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 消息队列
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/05_%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 系统设计与架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/06_%E9%AB%98%E5%B9%B6%E5%8F%91%E4%B8%8E%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 高并发与性能优化
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/07_%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 分布式系统
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/08_%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 微服务架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/09_%E4%BA%91%E5%8E%9F%E7%94%9F%E6%8A%80%E6%9C%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 云原生技术
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_10" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  TLS 握手
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_10" id="__nav_2_10_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  TLS 握手
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/01_%E4%BB%80%E4%B9%88%E6%98%AFTLS_%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%AE%83/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 什么是 TLS，为什么需要它
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/02_TLS%E6%8F%A1%E6%89%8B%E5%85%A8%E6%B5%81%E7%A8%8B%E6%80%BB%E8%A7%88/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 TLS 握手全流程总览
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/03_%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%A1%E6%89%8B_ClientHello/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 第一次握手：ClientHello
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/04_%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8F%A1%E6%89%8B_ServerHello%E4%B8%8E%E5%AF%86%E7%A0%81%E5%A5%97%E4%BB%B6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 第二次握手：ServerHello 与密码套件
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/05_%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6%E4%B8%8ECA%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 数字证书与 CA：如何证明"我是我"
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/06_%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B_%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2%E4%B8%8E%E5%8A%A0%E5%AF%86%E5%88%87%E6%8D%A2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 第三次握手：密钥交换与加密切换
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/07_%E7%AC%AC%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B_%E6%8F%A1%E6%89%8B%E5%AE%8C%E6%88%90%E4%B8%8E%E5%8A%A0%E5%AF%86%E9%80%9A%E4%BF%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 第四次握手：握手完成与加密通信
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/08_%E6%89%A9%E5%B1%95%E7%9F%A5%E8%AF%86_%E5%B8%B8%E8%A7%81%E7%96%91%E9%97%AE%E4%B8%8ETLS1.3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 扩展知识：常见疑问与 TLS 1.3
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#一网络基础补课" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一、网络基础补课
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、网络基础补课">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-子网子网掩码网段-同子网跨子网到底是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. 子网、子网掩码、网段 ——「同子网/跨子网」到底是什么
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-网关是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. 网关是什么
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-icmp-协议--ping-到底在干什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. ICMP 协议 —— ping 到底在干什么
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#二http-周边" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        二、HTTP 周边
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、HTTP 周边">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-cdn-是什么怎么加速" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. CDN 是什么，怎么加速
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-正向代理-vs-反向代理" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. 正向代理 vs 反向代理
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-rfc-是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. RFC 是什么
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#三https-与加密进阶" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        三、HTTPS 与加密进阶
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、HTTPS 与加密进阶">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-前向安全与-ecdhe--为什么-tls-13-弃用-rsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7. 前向安全与 (EC)DHE —— 为什么 TLS 1.3 弃用 RSA
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-数字签名与证书链" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        8. 数字签名与证书链
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#四dns-进阶" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        四、DNS 进阶
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、DNS 进阶">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9-dns-记录类型a--aaaa--cname--mx--ns" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        9. DNS 记录类型：A / AAAA / CNAME / MX / NS
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-递归查询-vs-迭代查询" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        10. 递归查询 vs 迭代查询
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-dnssec--doh--dot--安全-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        11. DNSSEC / DoH / DoT —— 安全 DNS
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#五cookie-与-token-周边" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        五、Cookie 与 Token 周边
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、Cookie 与 Token 周边">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12-cookie-三个安全属性httponly--secure--samesite" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        12. Cookie 三个安全属性：HttpOnly / Secure / SameSite
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-base64-是什么--jwt-为什么是明文" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        13. Base64 是什么 —— JWT 为什么是「明文」
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-cookie-的-domain--path-作用域" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        14. Cookie 的 Domain / Path 作用域
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#六rpc-周边" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        六、RPC 周边
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、RPC 周边">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#15-序列化与反序列化" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        15. 序列化与反序列化
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#16-grpc-为什么高效" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        16. gRPC 为什么高效
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#七tcp-内核机制" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        七、TCP 内核机制
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="七、TCP 内核机制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#17-滑动窗口--流量控制的核心" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        17. 滑动窗口 —— 流量控制的核心
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#18-mss-与-mtu--为什么要分片" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        18. MSS 与 MTU —— 为什么要分片
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#19-累计确认" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        19. 累计确认
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#八安全防御进阶" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        八、安全防御进阶
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="八、安全防御进阶">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#20-csp-内容安全策略" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        20. CSP 内容安全策略
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#21-hsts-强制-https" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        21. HSTS 强制 HTTPS
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-udp-反射放大攻击--ddos-的借刀杀人" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        22. UDP 反射放大攻击 —— DDoS 的「借刀杀人」
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#本单元小结" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        本单元小结
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  
+  <span class="md-ellipsis">
+    主页
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      <li class="md-path__item">
+        <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-path__link">
+          
+  
+  <span class="md-ellipsis">
+    面试知识库
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  
+  <span class="md-ellipsis">
+    计算机网络
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+<h1 id="12-进阶知识点扩展编程小白补课篇">12 进阶知识点扩展（编程小白补课篇）<a class="headerlink" href="#12-进阶知识点扩展编程小白补课篇" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>前 11 章把 83 道高频题讲完了，但很多题里「一带而过」的术语，小白往往看不懂；还有些概念原题没直接问，但面试里经常被顺带追问。这一章把这些点单独拎出来，逐个讲透。
+每个知识点都标注了「关联章节」，方便回看它是在哪道题里冒出来的。</p>
+</blockquote>
+<hr />
+<h2 id="一网络基础补课">一、网络基础补课<a class="headerlink" href="#一网络基础补课" title="Permanent link">&para;</a></h2>
+<h3 id="1-子网子网掩码网段-同子网跨子网到底是什么">1. 子网、子网掩码、网段 ——「同子网/跨子网」到底是什么<a class="headerlink" href="#1-子网子网掩码网段-同子网跨子网到底是什么" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《01 网络模型》Q3、《10 网络排查》Q1 里反复出现「同子网」「跨子网」，但没解释子网是什么。</p>
+<p><strong>一句话答案</strong>：子网 = 用<strong>子网掩码</strong>把一段 IP 地址切成「网络号 + 主机号」两部分；<strong>网络号相同</strong>的机器算「同一个网段（同子网）」，可以直接通信；网络号不同就要<strong>交给网关转发</strong>（跨子网）。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p>IP 地址其实由两段拼成：前一段是「小区名（网络号）」，后一段是「门牌号（主机号）」。但光看 IP 你分不出哪几位是小区、哪几位是门牌——<strong>子网掩码就是那把切分的尺子</strong>。</p>
+<ul>
+<li>例：<code>192.168.1.10</code>，掩码 <code>255.255.255.0</code>（也写作 <code>/24</code>）。</li>
+<li>掩码里是 <code>255</code> 的位 = 网络号；是 <code>0</code> 的位 = 主机号。</li>
+<li>于是 <code>192.168.1</code> 是网络号，<code>.10</code> 是主机号。</li>
+</ul>
+<p><strong>怎么判断两台机器在不在同一子网？</strong> 把「源 IP」和「目的 IP」分别跟掩码做<strong>按位与</strong>，结果相同就同网段，不同就跨网段：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>本机：192.168.1.10  AND 255.255.255.0  = 192.168.1.0
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>对方：192.168.1.20  AND 255.255.255.0  = 192.168.1.0   ← 相同 → 同子网
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>对方：192.168.2.30  AND 255.255.255.0  = 192.168.2.0   ← 不同 → 跨子网
+</span></code></pre></div>
+<p><strong>为什么这很关键？</strong> 因为同子网内数据可以直接发（ARP 查对方 MAC 即可），而跨子网必须先把包交给<strong>网关</strong>转发（详见下一条）——这就是《01》里「同子网查目标 MAC、跨子网查网关 MAC」的底层原因。</p>
+<blockquote>
+<p>记忆：<strong>子网掩码 = 切蛋糕的刀</strong>，网络号是蛋糕的「大块」，主机号是「小块」。同一大块里的机器，一嗓子就能喊到；不同大块的，得先出门（找网关）。</p>
+</blockquote>
+<hr />
+<h3 id="2-网关是什么">2. 网关是什么<a class="headerlink" href="#2-网关是什么" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《01 网络模型》Q3、《10 网络排查》Q1。</p>
+<p><strong>一句话答案</strong>：网关（Gateway）= 一个网段通往「外面世界」的<strong>唯一出口</strong>，通常就是你家路由器。跨网段的数据都要先发给网关，再由网关转发出去。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p>把局域网想象成一栋楼，楼里的人互相喊话（同子网）没问题，但要寄东西去别的楼（跨子网），必须先送到<strong>传达室</strong>，传达室再帮你转出去。<strong>传达室就是网关</strong>。</p>
+<ul>
+<li>你电脑网络设置里的「默认网关」（default gateway，如 <code>192.168.1.1</code>），就是路由器的内网地址。</li>
+<li>数据帧的<strong>目的 MAC 填网关的 MAC</strong>（因为局域网里只能直接送到网关），但<strong>目的 IP 仍是最终目标</strong>（网关看 IP 帮你转发）。</li>
+<li>一句话：<strong>MAC 是「下一跳给谁」（网关），IP 是「最终到哪」（目标）</strong>。</li>
+</ul>
+<hr />
+<h3 id="3-icmp-协议--ping-到底在干什么">3. ICMP 协议 —— ping 到底在干什么<a class="headerlink" href="#3-icmp-协议--ping-到底在干什么" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《10 网络排查》Q5（「ping 走 ICMP 协议」）。</p>
+<p><strong>一句话答案</strong>：ICMP（互联网控制消息协议）= 网络里的「<strong>对讲机/报修单</strong>」，专门传<strong>诊断和控制信息</strong>（如「通不通」「超时了」「目标不可达」），不传业务数据。ping 就是发一个 ICMP「你在吗？」的探测包。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p>业务数据走 TCP/UDP，但「主机通不通」「路由对不对」这种<strong>管理信息</strong>得有个专门的协议，就是 ICMP。常见用途：</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>用 ICMP 的什么</th>
+<th>类比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ping</td>
+<td>Echo Request / Echo Reply（请求/应答）</td>
+<td>「喂，在吗？」「在呢」</td>
+</tr>
+<tr>
+<td>tracert/traceroute（查路径）</td>
+<td>每跳返回「超时」，逐步探测经过哪些路由器</td>
+<td>一路问「你经过谁」，逐站报站名</td>
+</tr>
+<tr>
+<td>报错</td>
+<td>目标不可达（Destination Unreachable）</td>
+<td>「这地址送不到」</td>
+</tr>
+</tbody>
+</table>
+<p><strong>为什么 ping 不通 ≠ 服务不通？</strong> 因为 ICMP 和 TCP 是两套东西。防火墙可以<strong>单独禁掉 ICMP</strong>（防探测扫描）但放行 80/443 的 TCP——于是「ping 不通、网页却打得开」，这就是《10》Q5 那道题的原理。</p>
+<hr />
+<h2 id="二http-周边">二、HTTP 周边<a class="headerlink" href="#二http-周边" title="Permanent link">&para;</a></h2>
+<h3 id="4-cdn-是什么怎么加速">4. CDN 是什么，怎么加速<a class="headerlink" href="#4-cdn-是什么怎么加速" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《02 HTTP 基础》Q1、《06 RPC·WebSocket·Nginx》Q3（「CDN 回源」）。</p>
+<p><strong>一句话答案</strong>：CDN（内容分发网络）= 把网站静态资源（图片、CSS、JS、视频）<strong>缓存到离用户近的节点服务器</strong>，用户访问时就近取，不用每次都跑回源站（原服务器），于是更快、源站压力更小。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p>想象全国只有一家总仓库（源站）在北京，广东的用户每次下单都要从北京发货，又慢又挤。CDN 就是在全国各地开<strong>分仓</strong>，把热门货提前铺到分仓，用户下单就近发货。</p>
+<ul>
+<li><strong>缓存内容</strong>：静态资源（图片、CSS、JS、视频、下载文件），动态接口一般不缓存。</li>
+<li><strong>怎么把用户引到最近的分仓？</strong> 靠<strong>智能 DNS</strong>：CDN 商在你访问 <code>www.xxx.com</code> 时，根据你的地理位置，把域名解析到离你最近的 CDN 节点 IP（而不是源站 IP）。</li>
+<li><strong>回源</strong>：分仓没货（缓存没命中）时，才回总仓库（源站）取一次，取完顺便在分仓留一份。</li>
+</ul>
+<blockquote>
+<p>一句话：<strong>CDN = 离你更近的仓库 + 智能指路（DNS）</strong>。这也是为什么它属于「应用层协议」——本质是 HTTP 内容的就近分发。</p>
+</blockquote>
+<hr />
+<h3 id="5-正向代理-vs-反向代理">5. 正向代理 vs 反向代理<a class="headerlink" href="#5-正向代理-vs-反向代理" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《06 RPC·WebSocket·Nginx》Q4（Nginx 是反向代理，但没解释这两个词）。</p>
+<p><strong>一句话答案</strong>：<strong>正向代理</strong>站在<strong>客户端</strong>这边，帮客户端访问服务器（服务器不知道真实客户端是谁）；<strong>反向代理</strong>站在<strong>服务器</strong>这边，帮服务器接收请求（客户端不知道后面是哪台真服务器）。</p>
+<p><strong>大白话讲解</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>对比</th>
+<th>正向代理</th>
+<th>反向代理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>站在谁这边</td>
+<td>客户端</td>
+<td>服务器</td>
+</tr>
+<tr>
+<td>谁被「藏起来」</td>
+<td>真实客户端（服务器看到的是代理）</td>
+<td>真实服务器（客户端看到的是代理）</td>
+</tr>
+<tr>
+<td>典型用途</td>
+<td>翻墙、公司统一出口、上网审计</td>
+<td>负载均衡、缓存、安全隔离、HTTPS 卸载</td>
+</tr>
+<tr>
+<td>代表</td>
+<td>公司代理、VPN、梯子</td>
+<td><strong>Nginx</strong>、F5、云厂商的负载均衡</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>正向代理</strong>：你上不了某网站，让「中间人」替你访问再转给你。服务器只认识这个中间人。</li>
+<li><strong>反向代理</strong>：你访问 <code>www.xxx.com</code>，其实打到了 Nginx，Nginx 再把请求分给后面多台 Tomcat。你从头到尾只看到 Nginx。</li>
+</ul>
+<blockquote>
+<p>一句话：<strong>正向代理替「客户」出头，反向代理替「老板」挡活</strong>。Nginx 是反向代理，所以它才能做负载均衡、按 URL 分流。</p>
+</blockquote>
+<hr />
+<h3 id="6-rfc-是什么">6. RFC 是什么<a class="headerlink" href="#6-rfc-是什么" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《02 HTTP 基础》Q7（「根据 RFC 规范」）。</p>
+<p><strong>一句话答案</strong>：RFC（Request for Comments）= 互联网标准的<strong>官方文档系列</strong>，所有协议（HTTP、TCP、IP、DNS……）的规则都写在编号 RFC 文档里，比如 HTTP/1.1 定义在 RFC 7230~7235。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p>协议不能靠大家「口头约定」，得有一份白纸黑字的规范。RFC 就是这份规范，编号唯一、永久可查。面试里说「RFC 规定 GET 是安全幂等的」，意思是「官方文档里白纸黑字这么写的」。记住「RFC = 协议说明书」即可，不需要背编号。</p>
+<hr />
+<h2 id="三https-与加密进阶">三、HTTPS 与加密进阶<a class="headerlink" href="#三https-与加密进阶" title="Permanent link">&para;</a></h2>
+<h3 id="7-前向安全与-ecdhe--为什么-tls-13-弃用-rsa">7. 前向安全与 (EC)DHE —— 为什么 TLS 1.3 弃用 RSA<a class="headerlink" href="#7-前向安全与-ecdhe--为什么-tls-13-弃用-rsa" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《02 HTTP 基础》Q14、《03 HTTPS 与加密》Q3（「TLS 1.3 移除 RSA（不支持前向安全），改用 (EC)DHE」）。</p>
+<p><strong>一句话答案</strong>：前向安全（Forward Secrecy）= <strong>即使服务器私钥将来泄露，过去的历史加密通信也解不开</strong>。RSA 密钥交换做不到这点（私钥泄露=历史全泄），所以 TLS 1.3 换成了临时密钥的 (EC)DHE。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p>先看 RSA 的致命弱点。TLS 1.2 的 RSA 握手是：客户端生成 pre-master key → 用<strong>服务器公钥</strong>加密发过去 → 服务器用<strong>私钥</strong>解开。问题来了：</p>
+<ul>
+<li>服务器私钥是<strong>长期固定的</strong>（一直用来解密钥交换）。</li>
+<li>攻击者如果哪天偷到/将来拿到私钥，就能<strong>回放</strong>之前录下的所有流量，解密出每个会话的 pre-master key → 历史通信全部裸奔。</li>
+</ul>
+<p><strong>前向安全</strong>要的就是「就算私钥泄露，历史也保得住」。怎么做到？用<strong>临时密钥（Ephemeral）</strong>：</p>
+<ul>
+<li>(EC)DHE = 每次握手都<strong>现场生成一对一次性密钥</strong>，用完即弃。</li>
+<li>服务器的长期私钥只用来<strong>签名</strong>（证明身份），不参与加密密钥交换。</li>
+<li>所以哪怕长期私钥泄露，攻击者也只能伪造身份，却<strong>解不开任何历史会话</strong>——因为每次会话的临时密钥早没了。</li>
+</ul>
+<blockquote>
+<p>一句话：<strong>RSA 用「长期锁」锁门，钥匙丢了历史全开；(EC)DHE 用「一次性锁」，开完就扔，历史永远安全。</strong> DHE = Diffie-Hellman 临时密钥交换，ECDHE 是它的椭圆曲线升级版（更快更省）。</p>
+</blockquote>
+<hr />
+<h3 id="8-数字签名与证书链">8. 数字签名与证书链<a class="headerlink" href="#8-数字签名与证书链" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《03 HTTPS 与加密》Q2（「验证服务器证书的签名」「根证书」）。</p>
+<p><strong>一句话答案</strong>：数字签名 = 用私钥对内容<strong>盖章</strong>，别人用公钥验章，能证明「内容没被改 + 确实是私钥主人发的」；证书链 = 从你信任的<strong>根证书</strong>逐级向下验证到服务器证书的信任链条。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p><strong>数字签名怎么工作？（先讲原理）</strong></p>
+<ol>
+<li>发送方对内容算出「摘要」（指纹）；2. 用<strong>私钥</strong>把摘要加密，得到「签名」；3. 接收方用<strong>公钥</strong>解开签名得到摘要，再自己算一遍内容摘要，两个对得上 = 内容没被改、且是私钥主人签的。</li>
+</ol>
+<p><strong>证书链是什么？（为什么会有「链」）</strong></p>
+<p>浏览器不能凭空信任每一张服务器证书，它只信任内置的<strong>根证书（root CA）</strong>。但根 CA 不会直接给千千万万网站发证书，而是：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>根 CA（浏览器内置信任，私钥离线保管）
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>   └─ 签名 → 中间 CA（intermediate，替根 CA 干活）
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>               └─ 签名 → 服务器证书（www.taobao.com）
+</span></code></pre></div>
+<p>验证时，浏览器拿着服务器证书，向上找「谁签了它」，再向上找「谁签了中间证书」，一直追到根——<strong>每一级都用上一级的公钥验签名</strong>，链条没断才算可信。</p>
+<blockquote>
+<p>一句话：<strong>签名 = 盖章，证书链 = 从根到叶的「担保人」链条</strong>。中间 CA 存在的意义：根私钥离线锁保险柜，泄露风险极低；中间 CA 出事可以只吊销它，不用动根。</p>
+</blockquote>
+<hr />
+<h2 id="四dns-进阶">四、DNS 进阶<a class="headerlink" href="#四dns-进阶" title="Permanent link">&para;</a></h2>
+<h3 id="9-dns-记录类型a--aaaa--cname--mx--ns">9. DNS 记录类型：A / AAAA / CNAME / MX / NS<a class="headerlink" href="#9-dns-记录类型a--aaaa--cname--mx--ns" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《04 DNS 域名解析》（原题没问，但理解 DNS 绕不开）。</p>
+<p><strong>一句话答案</strong>：DNS 不止存「域名→IP」一种映射，不同类型存不同信息：<strong>A 存 IPv4、AAAA 存 IPv6、CNAME 存别名、MX 存邮件服务器、NS 存权威服务器、TXT 存任意文本</strong>。</p>
+<p><strong>大白话讲解</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>存什么</th>
+<th>例子</th>
+<th>类比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>域名 → IPv4 地址</td>
+<td><code>www.a.com → 1.2.3.4</code></td>
+<td>名字 → 门牌号</td>
+</tr>
+<tr>
+<td>AAAA</td>
+<td>域名 → IPv6 地址</td>
+<td><code>www.a.com → 2400:...</code></td>
+<td>名字 → 新式门牌</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td>域名 → 另一个域名（别名）</td>
+<td><code>www.a.com → a.com</code></td>
+<td>「小名」→ 大名</td>
+</tr>
+<tr>
+<td>MX</td>
+<td>该域的邮件服务器</td>
+<td><code>a.com → mail.a.com</code></td>
+<td>收信地址 → 邮局</td>
+</tr>
+<tr>
+<td>NS</td>
+<td>该域由哪些 DNS 服务器负责</td>
+<td><code>a.com → ns1.a.com</code></td>
+<td>这块地归谁管</td>
+</tr>
+<tr>
+<td>TXT</td>
+<td>任意文本</td>
+<td>SPF 反垃圾、域名验证</td>
+<td>备注栏</td>
+</tr>
+</tbody>
+</table>
+<p><strong>为什么 CNAME 常见？</strong> 网站常把 <code>www</code> 指向主域名（<code>www.a.com → a.com</code>），主域名再用 A 记录指向 IP。好处：换服务器时只改主域名的 A 记录即可，所有别名自动跟随。</p>
+<blockquote>
+<p>记法：<strong>A/AAAA 是「地址」，CNAME 是「别名」，MX 是「邮件」，NS 是「管辖」</strong>。</p>
+</blockquote>
+<hr />
+<h3 id="10-递归查询-vs-迭代查询">10. 递归查询 vs 迭代查询<a class="headerlink" href="#10-递归查询-vs-迭代查询" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《04 DNS 域名解析》Q2（「本地 DNS 全程跑腿」，但没点出这两个词）。</p>
+<p><strong>一句话答案</strong>：<strong>递归查询</strong> = 你问本地 DNS，它<strong>替你跑完全程</strong>、直接把最终答案给你；<strong>迭代查询</strong> = DNS 服务器之间「<strong>只指路不代跑</strong>」，每次告诉你下一步找谁，你自己（其实是本地 DNS）接着问。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p>把解析 <code>www.server.com</code> 比作「找人办事」：</p>
+<ul>
+<li><strong>递归</strong>（客户端 → 本地 DNS）：你说「帮我查出来」，本地 DNS 说「包在我身上」，它去问完根、顶级、权威，最后直接把 IP 给你。<strong>一问一答，结果包办。</strong></li>
+<li><strong>迭代</strong>（本地 DNS → 根/顶级/权威）：本地 DNS 问根「IP 是啥？」，根说「我不知道，但 .com 归它管，你去问它」；本地 DNS 再问 .com，它说「去问权威」……<strong>每问一次只拿下一步的地址，不包办结果。</strong></li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>递归：客户端 ──一次性委托──&gt; 本地DNS（内部自己跑全程）──返回最终IP
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>迭代：本地DNS ──&gt; 根DNS（给.com地址）──&gt; 顶级DNS（给权威地址）──&gt; 权威DNS（给IP）
+</span></code></pre></div>
+<blockquote>
+<p>一句话：<strong>递归 = 外卖小哥送到门口；迭代 = 只给你下一个路口的指路牌</strong>。真实世界里：客户端对本地 DNS 用递归，本地 DNS 对外用迭代。</p>
+</blockquote>
+<hr />
+<h3 id="11-dnssec--doh--dot--安全-dns">11. DNSSEC / DoH / DoT —— 安全 DNS<a class="headerlink" href="#11-dnssec--doh--dot--安全-dns" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《04 DNS 域名解析》Q5（提到了但不展开）、《11 网络攻击》Q5（防御用 DoH/DoT）。</p>
+<p><strong>一句话答案</strong>：三者都是给 DNS「上锁」，但锁法不同：<strong>DNSSEC 防篡改（但不加密）</strong>，<strong>DoH/DoT 加密整个查询（防窃听也防篡改）</strong>。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p>普通 DNS 是<strong>明文</strong>的，两个问题：别人能<strong>偷看</strong>你在查什么（窃听），也能<strong>改掉</strong>返回结果（篡改 → DNS 劫持）。</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>防窃听</th>
+<th>防篡改</th>
+<th>原理</th>
+<th>端口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DNSSEC</td>
+<td>✗（内容仍明文）</td>
+<td>✓</td>
+<td>给 DNS 响应加<strong>数字签名</strong>，客户端验签</td>
+<td>53</td>
+</tr>
+<tr>
+<td>DoT（DNS over TLS）</td>
+<td>✓</td>
+<td>✓</td>
+<td>整个 DNS 查询走 TLS 加密通道</td>
+<td>853</td>
+</tr>
+<tr>
+<td>DoH（DNS over HTTPS）</td>
+<td>✓</td>
+<td>✓</td>
+<td>把 DNS 查询伪装成 HTTPS 请求</td>
+<td>443</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>DNSSEC</strong>：不加密，只加签名。像「明文信封 + 盖章」——信可以看，但改一个字章就验不过。</li>
+<li><strong>DoH/DoT</strong>：整个查询加密。像「密码保险柜」——连你在查什么别人都看不见。DoH 走 443，还能伪装成普通网页流量，更难被封锁。</li>
+</ul>
+<blockquote>
+<p>一句话：<strong>DNSSEC = 防改不防看；DoH/DoT = 又防看又防改</strong>。这也是《11》里说「用 DoH/DoT 防 DNS 劫持」的原因。</p>
+</blockquote>
+<hr />
+<h2 id="五cookie-与-token-周边">五、Cookie 与 Token 周边<a class="headerlink" href="#五cookie-与-token-周边" title="Permanent link">&para;</a></h2>
+<h3 id="12-cookie-三个安全属性httponly--secure--samesite">12. Cookie 三个安全属性：HttpOnly / Secure / SameSite<a class="headerlink" href="#12-cookie-三个安全属性httponly--secure--samesite" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《05 Cookie·Session·JWT》Q13/Q14、《11 网络攻击》Q3/Q4（反复出现，但没集中讲）。</p>
+<p><strong>一句话答案</strong>：<strong>HttpOnly = JS 读不到（防 XSS 偷 Cookie）</strong>；<strong>Secure = 只走 HTTPS（防明文泄露）</strong>；<strong>SameSite = 控制跨站请求是否带 Cookie（防 CSRF）</strong>。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p>Cookie 由服务器下发，可以带属性。三个安全属性各管一摊：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>作用</th>
+<th>防什么</th>
+<th>一句话</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HttpOnly</td>
+<td>禁止 JavaScript 读取该 Cookie</td>
+<td>XSS 偷 Cookie</td>
+<td>只许浏览器带，不许 JS 摸</td>
+</tr>
+<tr>
+<td>Secure</td>
+<td>只在 HTTPS 连接里发送</td>
+<td>明文被窃听</td>
+<td>明信片不发，只发挂号</td>
+</tr>
+<tr>
+<td>SameSite</td>
+<td>跨站请求时不自动携带</td>
+<td>CSRF 借你之手</td>
+<td>别人的网站带不动我的 Cookie</td>
+</tr>
+</tbody>
+</table>
+<p><strong>SameSite 三个值</strong>：</p>
+<ul>
+<li><code>Strict</code>：任何跨站请求都不带 Cookie（最严，体验也受影响）；</li>
+<li><code>Lax</code>：默认值（现代浏览器），只有「点击链接跳转」这类顶级导航的 GET 才带，跨站 POST/iframe 都不带；</li>
+<li><code>None</code>：跨站也带，但必须同时配 <code>Secure</code>（否则浏览器拒绝）。</li>
+</ul>
+<blockquote>
+<p>记忆：<strong>HttpOnly 挡「偷」，Secure 挡「听」，SameSite 挡「借」</strong>。三个一起上，XSS 和 CSRF 都被大幅削弱。</p>
+</blockquote>
+<hr />
+<h3 id="13-base64-是什么--jwt-为什么是明文">13. Base64 是什么 —— JWT 为什么是「明文」<a class="headerlink" href="#13-base64-是什么--jwt-为什么是明文" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《05 Cookie·Session·JWT》Q9（「前两部分是 Base64 编码」「载荷是明文，别放敏感信息」）。</p>
+<p><strong>一句话答案</strong>：Base64 是一种<strong>把二进制数据转成可打印字符的编码</strong>，<strong>不是加密</strong>，任何人都能轻松还原。所以 JWT 的 Header/Payload 只是「换了种写法」，内容本质是明文。</p>
+<p><strong>大白话讲解</strong>：</p>
+<ul>
+<li>计算机数据是二进制（0/1），有些场合只认「可打印的英文字符」（如 URL、JSON、HTTP 头），Base64 就把二进制转成 A-Z、a-z、0-9、<code>+</code>、<code>/</code> 这些字符，方便传输。</li>
+<li>规则简单：每 <strong>3 字节 → 4 个字符</strong>，末尾不够用 <code>=</code> 补位。<strong>全程可逆，没有密钥</strong>。</li>
+<li>所以 JWT 中间那段 <code>eyJ1c2VySWQiOiIxMjMifQ</code> 其实解码出来就是 <code>{"userId":"123"}</code>——<strong>任何人拿到都能解</strong>。</li>
+</ul>
+<blockquote>
+<p>结论：<strong>Base64 是「包装」不是「加密」</strong>。JWT 靠的是第三段<strong>签名</strong>来防篡改，而不是靠 Base64 保密。这也是为什么反复强调「别把密码放 JWT 载荷里」。</p>
+</blockquote>
+<hr />
+<h3 id="14-cookie-的-domain--path-作用域">14. Cookie 的 Domain / Path 作用域<a class="headerlink" href="#14-cookie-的-domain--path-作用域" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《05 Cookie·Session·JWT》Q6/Q7（讲 Cookie vs localStorage，但没讲 Cookie 的生效范围）。</p>
+<p><strong>一句话答案</strong>：Cookie 不是全站通吃，它的生效范围由 <strong>Domain（哪个域）+ Path（哪些路径）</strong> 共同决定；只有落在作用域内的请求，浏览器才会携带它。</p>
+<p><strong>大白话讲解</strong>：</p>
+<ul>
+<li><strong>Domain</strong>：默认是「设置该 Cookie 的那个域」。可以显式设成父域（如 <code>example.com</code>）让所有子域（<code>a.example.com</code>、<code>b.example.com</code>）共享；但<strong>不能</strong>设成别人的域（如 <code>taobao.com</code>）。</li>
+<li><strong>Path</strong>：默认是「设置时的路径」。设成 <code>/</code> 表示全站所有路径都带；设成 <code>/admin</code> 则只有访问 <code>/admin/...</code> 时才带。</li>
+</ul>
+<blockquote>
+<p>一句话：<strong>Domain 管「哪些域能用」，Path 管「哪些页面能用」</strong>。这也是为什么同一个浏览器里，不同站点、不同页面的 Cookie 互不干扰。</p>
+</blockquote>
+<hr />
+<h2 id="六rpc-周边">六、RPC 周边<a class="headerlink" href="#六rpc-周边" title="Permanent link">&para;</a></h2>
+<h3 id="15-序列化与反序列化">15. 序列化与反序列化<a class="headerlink" href="#15-序列化与反序列化" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《06 RPC·WebSocket·Nginx》Q1（RPC 要「像调本地方法一样调远程方法」，但没讲参数怎么传过去）。</p>
+<p><strong>一句话答案</strong>：序列化 = 把内存里的对象/结构<strong>转成可传输、可存储的字节流</strong>；反序列化 = 把字节流<strong>还原回对象</strong>。RPC 必须靠它把「参数打包发出去、结果打包发回来」。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p>调用远程方法 <code>getUser(123)</code>，参数 <code>123</code> 在内存里是一个「对象」，网络只能传字节流，怎么办？先<strong>序列化</strong>成字节（比如 <code>{"id":123}</code> 或一段二进制），发过去；对面<strong>反序列化</strong>还原成对象，执行完再把结果序列化发回来。</p>
+<table>
+<thead>
+<tr>
+<th>序列化格式</th>
+<th>特点</th>
+<th>类比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JSON</td>
+<td>文本，人可读，通用，体积大、慢</td>
+<td>手写信，看得懂但厚</td>
+</tr>
+<tr>
+<td>Protobuf</td>
+<td>二进制，紧凑、快，需要提前定义结构</td>
+<td>电报编码，看不懂但快</td>
+</tr>
+<tr>
+<td>Java 原生序列化</td>
+<td>只限 Java，兼容性差</td>
+<td>自己家的暗号</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>一句话：<strong>序列化 = 打包发货，反序列化 = 拆包还原</strong>。JSON 好读但慢，Protobuf 难读但快——所以性能敏感的内部 RPC 常用 Protobuf。</p>
+</blockquote>
+<hr />
+<h3 id="16-grpc-为什么高效">16. gRPC 为什么高效<a class="headerlink" href="#16-grpc-为什么高效" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《06 RPC·WebSocket·Nginx》Q1（「gRPC、Thrift 才是协议实现」）。</p>
+<p><strong>一句话答案</strong>：gRPC 高效的三板斧：<strong>① 基于 HTTP/2（多路复用 + 头部压缩 + 二进制帧）；② 默认 Protobuf 序列化（体积小、编解码快）；③ 强类型接口定义，自动生成客户端/服务端代码</strong>。</p>
+<p><strong>大白话讲解</strong>：</p>
+<ul>
+<li><strong>HTTP/2</strong>：一条连接能并发跑多个请求（Stream），省掉 HTTP/1.1 的建连和队头阻塞开销。</li>
+<li><strong>Protobuf</strong>：比 JSON 体积小得多（整数用变长编码），解析也快，适合高频内部调用。</li>
+<li><strong>IDL 自动生成代码</strong>：写好一份 <code>.proto</code> 接口定义，自动生成各语言的客户端/服务端代码，调用方像调本地函数一样调用。</li>
+</ul>
+<blockquote>
+<p>一句话：<strong>gRPC = HTTP/2 的高速公路 + Protobuf 的紧凑快递 + 自动生成的司机</strong>。这就是它比「HTTP/1.1 + JSON」适合内部微服务的原因。</p>
+</blockquote>
+<hr />
+<h2 id="七tcp-内核机制">七、TCP 内核机制<a class="headerlink" href="#七tcp-内核机制" title="Permanent link">&para;</a></h2>
+<h3 id="17-滑动窗口--流量控制的核心">17. 滑动窗口 —— 流量控制的核心<a class="headerlink" href="#17-滑动窗口--流量控制的核心" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《09 TCP 可靠传输与 UDP》Q2（「通过滑动窗口告诉发送方我还能收多少」，只有一句话，这里展开）。</p>
+<p><strong>一句话答案</strong>：滑动窗口 = 发送方<strong>允许连续发送、但还没收到确认的数据范围</strong>。窗口大小由接收方的接收窗口（rwnd）决定；每收到一个 ACK，窗口就「向右滑」，腾出空间继续发。它让发送方<strong>流水线式发送</strong>，又不把接收方淹没。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p><strong>没有滑动窗口时</strong>：发一个包 → 等 ACK → 再发下一个。一来一回，大部分时间在干等，带宽浪费。</p>
+<p><strong>有了滑动窗口</strong>：发送方可以一口气发多个包（比如连续发 1~5 号），不用每个都等。接收方只回「我已经收到 N 号之前的所有数据」，发送方据此把窗口往前滑。</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>窗口 = [1,2,3,4,5] 可发
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>发 1~5 号后，收到「ack=4」（前 3 个都收到）
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>窗口右滑 = [4,5,6,7,8]，又能继续发 6,7,8
+</span></code></pre></div>
+<p><strong>窗口大小谁说了算？</strong> 接收方。TCP 头里有个「窗口字段」，接收方每次 ACK 都带上「我的接收缓冲区还能装多少字节（rwnd）」，发送方<strong>绝不超过这个数</strong>发数据——这就是<strong>流量控制</strong>（防止慢的接收方被快的发送方冲垮）。</p>
+<blockquote>
+<p>关键：<strong>发送窗口 = min(拥塞窗口 cwnd, 接收窗口 rwnd)</strong>——拥塞窗口防「网络堵」，接收窗口防「对方撑」，取小的那个。这就是《09》Q2 那个公式的完整含义。</p>
+</blockquote>
+<hr />
+<h3 id="18-mss-与-mtu--为什么要分片">18. MSS 与 MTU —— 为什么要分片<a class="headerlink" href="#18-mss-与-mtu--为什么要分片" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《09 TCP 可靠传输与 UDP》Q5（「初始 cwnd = 1 个 MSS」，但没讲 MSS 是什么）。</p>
+<p><strong>一句话答案</strong>：MTU = 数据链路层一帧能装的最大字节数（以太网默认 <strong>1500</strong>）；MSS = TCP 一次能发的数据部分上限 = MTU − IP 头(20) − TCP 头(20) = <strong>1460</strong>。有了 MSS，TCP 就不用让 IP 层去分片。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p><strong>MTU（最大传输单元）</strong>：网络底层「一帧最多装多少」，以太网默认 1500 字节。装不下就得<strong>分片</strong>——把一个包切成几片发，到目的地再拼。</p>
+<p><strong>分片为什么不好？</strong> 效率低、开销大，而且<strong>丢一片就得重传整个包</strong>（IP 层没有重传，重传是 TCP 的事，TCP 又不知道分片细节）。</p>
+<p><strong>MSS（最大报文段大小）</strong>：TCP 很聪明，它问底层「你能装多少」，然后主动把自己的数据段控制在一个合适的大小（1500 − 20 − 20 = 1460），这样<strong>TCP 段 + IP 头 + TCP 头正好塞进一帧，不需要 IP 分片</strong>。</p>
+<blockquote>
+<p>一句话：<strong>MTU 是「马路限宽」，MSS 是「货车自觉不超宽」</strong>。TCP 用 MSS 主动规避 IP 分片，是可靠传输的效率优化。</p>
+</blockquote>
+<hr />
+<h3 id="19-累计确认">19. 累计确认<a class="headerlink" href="#19-累计确认" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《09 TCP 可靠传输与 UDP》Q3（QUIC 对比里提到「累计确认」，没展开）。</p>
+<p><strong>一句话答案</strong>：累计确认 = TCP 的 ACK 表示「<strong>这个序号之前的所有字节我都收到了</strong>」，一个 ACK 能一次性确认多个连续数据段，而不必每个包各回一个 ACK。</p>
+<p><strong>大白话讲解</strong>：</p>
+<ul>
+<li>发送方发了 1、2、3、4 号数据段，接收方收到后回一个「ack=5」（意思是 5 号之前全收到）。<strong>一个 ACK 顶四个用</strong>，省流量。</li>
+<li><strong>代价</strong>：如果中间丢了 2 号（收到 1、3、4），接收方只能回「ack=2」，表示「2 号之前的收到了、2 号还没到」——后面的 3、4 即使收到了，发送方也得<strong>从 2 号开始重传</strong>。</li>
+<li>进阶优化：<strong>SACK（选择性确认）</strong> 可以在 ACK 里额外说「3、4 号其实也收到了」，发送方就只需重传 2 号，不用把 3、4 也重发。</li>
+</ul>
+<blockquote>
+<p>一句话：<strong>累计确认 = 「这批货到几号了」的总进度条，省事但粗；SACK = 额外备注「哪些个别货也到了」，精准重传</strong>。这也是 QUIC 换用「独立包号确认」想改进的点（见《09》Q3）。</p>
+</blockquote>
+<hr />
+<h2 id="八安全防御进阶">八、安全防御进阶<a class="headerlink" href="#八安全防御进阶" title="Permanent link">&para;</a></h2>
+<h3 id="20-csp-内容安全策略">20. CSP 内容安全策略<a class="headerlink" href="#20-csp-内容安全策略" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《11 网络攻击》Q3/Q4（防御手段里都提到 CSP，没展开）。</p>
+<p><strong>一句话答案</strong>：CSP（Content Security Policy）= 服务器通过响应头告诉浏览器「<strong>只允许从这些来源加载脚本/资源</strong>」，即使恶意脚本被注入页面，浏览器也会拒绝执行——给 XSS 上一道兜底保险。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p>XSS 防不胜防，万一某个输入点没过滤好、恶意 <code>&lt;script&gt;</code> 混进了页面怎么办？CSP 就是最后一道闸门：</p>
+<div class="language-http highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="err">Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.trusted.com</span>
+</span></code></pre></div>
+<p>意思是：默认资源只允许来自本站（<code>'self'</code>），脚本只允许来自本站和 <code>cdn.trusted.com</code>。攻击者注入的 <code>&lt;script&gt;alert(1)&lt;/script&gt;</code> 属于「内联脚本」，不在白名单里 → <strong>浏览器直接拒绝执行</strong>。</p>
+<ul>
+<li>还能禁止内联脚本、禁止 <code>eval</code>、限制图片来源等。</li>
+<li>是「纵深防御」的一环：<strong>输入验证/输出编码是主动防，CSP 是被动兜底</strong>。</li>
+</ul>
+<blockquote>
+<p>一句话：<strong>CSP = 给浏览器一张「白名单」，不在名单上的脚本一律不执行</strong>。就算 XSS 混进来了，也执行不动。</p>
+</blockquote>
+<hr />
+<h3 id="21-hsts-强制-https">21. HSTS 强制 HTTPS<a class="headerlink" href="#21-hsts-强制-https" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《11 网络攻击》Q5（防御 DNS 劫持时提到「HTTPS + HSTS」）。</p>
+<p><strong>一句话答案</strong>：HSTS（HTTP 严格传输安全）= 服务器通过响应头告诉浏览器「<strong>以后访问本站，一律强制用 HTTPS</strong>」，即使你手输 <code>http://</code> 或点了 http 链接，浏览器也会自动升级成 <code>https://</code>。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p>攻击者搞「SSL 剥离」（把 <code>https://</code> 偷偷降级成 <code>http://</code> 再钓鱼），靠的是用户第一次访问走了明文 HTTP。HSTS 就是堵这个洞：</p>
+<div class="language-http highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="err">Strict-Transport-Security: max-age=31536000; includeSubDomains</span>
+</span></code></pre></div>
+<ul>
+<li>浏览器第一次用 HTTPS 访问后，记下这条规则，在 <code>max-age</code>（如一年）内，<strong>所有 <code>http://</code> 请求都自动改走 <code>https://</code></strong>，根本不发明文请求。</li>
+<li><strong>局限</strong>：第一次访问如果就走 HTTP，HSTS 还没生效，仍有被剥离的风险。解法：浏览器内置预加载列表（Preload List），把知名站点提前写死成强制 HTTPS。</li>
+</ul>
+<blockquote>
+<p>一句话：<strong>HSTS = 浏览器里的「永久转 HTTPS」红头文件</strong>，从源头掐断明文降级钓鱼。</p>
+</blockquote>
+<hr />
+<h3 id="22-udp-反射放大攻击--ddos-的借刀杀人">22. UDP 反射放大攻击 —— DDoS 的「借刀杀人」<a class="headerlink" href="#22-udp-反射放大攻击--ddos-的借刀杀人" title="Permanent link">&para;</a></h3>
+<p><strong>关联章节</strong>：《11 网络攻击》Q1（表格里「网络层 UDP 反射攻击（NTP Flood）」，没展开）。</p>
+<p><strong>一句话答案</strong>：攻击者伪造受害者的 IP，向有「放大效应」的服务器（如开放的 DNS/NTP 服务）发<strong>小请求</strong>，服务器把<strong>大响应</strong>打给受害者，达到「用小流量制造大流量」的放大效果。</p>
+<p><strong>大白话讲解</strong>：</p>
+<p>正常 UDP 服务有个特性：请求很小、响应可能很大（比如查 DNS 记录，问一句能回一大段）。攻击者利用这一点：</p>
+<ol>
+<li>伪造源 IP = 受害者 IP，向一堆开放的 DNS/NTP 服务器发小查询；</li>
+<li>这些服务器「傻乎乎」地把大响应发回「源地址」——也就是受害者；</li>
+<li>受害者被海量响应淹没，网络瘫痪。</li>
+</ol>
+<p><strong>为什么叫「反射 + 放大」？</strong></p>
+<ul>
+<li><strong>反射</strong>：攻击流量不是直接打受害者，而是「打到第三方、反弹到受害者」；</li>
+<li><strong>放大</strong>：响应比请求大很多倍（NTP 可达数百倍），攻击者花 1 份流量，受害者收到 100 份。</li>
+</ul>
+<p><strong>防御</strong>：关掉公网上不必要的 UDP 服务、限速、用带防反射的 DNS 配置（如限制递归查询来源）。</p>
+<blockquote>
+<p>一句话：<strong>反射放大 = 伪造你的地址去「撩」第三方，让第三方把「回礼」全砸给你</strong>。攻击者自己不扛流量，受害者却被打爆。</p>
+</blockquote>
+<hr />
+<h2 id="本单元小结">本单元小结<a class="headerlink" href="#本单元小结" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>知识点</th>
+<th>一句话记住</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>子网/掩码</td>
+<td>掩码切「网络号+主机号」，网络号相同=同网段</td>
+</tr>
+<tr>
+<td>网关</td>
+<td>局域网通往外界的唯一出口，跨网段先交给它</td>
+</tr>
+<tr>
+<td>ICMP</td>
+<td>网络「报修单」，ping/traceroute 都靠它</td>
+</tr>
+<tr>
+<td>CDN</td>
+<td>就近缓存静态资源的「分仓」网络</td>
+</tr>
+<tr>
+<td>正向/反向代理</td>
+<td>正向替客户、反向替老板</td>
+</tr>
+<tr>
+<td>RFC</td>
+<td>协议的官方说明书</td>
+</tr>
+<tr>
+<td>前向安全</td>
+<td>私钥将来泄露，历史也解不开</td>
+</tr>
+<tr>
+<td>签名/证书链</td>
+<td>盖章 + 根到叶的担保链</td>
+</tr>
+<tr>
+<td>DNS 记录</td>
+<td>A 地址 / CNAME 别名 / MX 邮件 / NS 管辖</td>
+</tr>
+<tr>
+<td>递归 vs 迭代</td>
+<td>递归包办结果，迭代只给指路牌</td>
+</tr>
+<tr>
+<td>DNSSEC/DoH/DoT</td>
+<td>DNSSEC 防改，DoH/DoT 防看又防改</td>
+</tr>
+<tr>
+<td>HttpOnly/Secure/SameSite</td>
+<td>挡偷 / 挡听 / 挡借</td>
+</tr>
+<tr>
+<td>Base64</td>
+<td>可逆编码不是加密，JWT 载荷是明文</td>
+</tr>
+<tr>
+<td>序列化</td>
+<td>打包发货，反序列化拆包还原</td>
+</tr>
+<tr>
+<td>gRPC 高效</td>
+<td>HTTP/2 + Protobuf + 自动生成代码</td>
+</tr>
+<tr>
+<td>滑动窗口</td>
+<td>连续发送不干等，窗口=min(cwnd,rwnd)</td>
+</tr>
+<tr>
+<td>MSS/MTU</td>
+<td>货车自觉不超限宽，避免 IP 分片</td>
+</tr>
+<tr>
+<td>累计确认</td>
+<td>「到几号了」的总进度条，SACK 更精准</td>
+</tr>
+<tr>
+<td>CSP</td>
+<td>脚本白名单，XSS 的最后兜底</td>
+</tr>
+<tr>
+<td>HSTS</td>
+<td>浏览器强制 HTTPS，防降级钓鱼</td>
+</tr>
+<tr>
+<td>UDP 反射放大</td>
+<td>伪造地址借刀，小流量换大流量</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../11_%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 11 网络攻击">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                11 网络攻击
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--next" aria-label="下一页: 总览">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                总览
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 AndisWarm的知识库
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/AndisWarm" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":["announce.dismiss","content.code.annotate","content.code.copy","content.code.select","content.tabs.link","content.tooltips","navigation.expand","navigation.footer","navigation.indexes","navigation.instant","navigation.instant.prefetch","navigation.instant.progress","navigation.path","navigation.sections","navigation.tabs","navigation.top","navigation.tracking","search.highlight","search.share","search.suggest","toc.follow"],"search":"../../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"已复制","clipboard.copy":"复制","search.result.more.one":"在该页上还有 1 个符合条件的结果","search.result.more.other":"在该页上还有 # 个符合条件的结果","search.result.none":"没有找到符合条件的结果","search.result.one":"找到 1 个符合条件的结果","search.result.other":"# 个符合条件的结果","search.result.placeholder":"键入以开始搜索","search.result.term.missing":"缺少","select.version":"选择当前版本"},"version":null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e886cdf1.min.js"></script>
+      
+        <script src="../../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>
