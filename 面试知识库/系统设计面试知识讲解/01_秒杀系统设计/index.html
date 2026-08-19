@@ -1,0 +1,4949 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="面向编程小白的后端面试八股文详解">
+      
+      
+        <meta name="author" content="AndisWarm">
+      
+      
+        <link rel="canonical" href="http://localhost:8000/%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E5%BA%93/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">
+      
+      
+        <link rel="prev" href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/">
+      
+      
+        <link rel="next" href="../02_RPC%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.0.56">
+    
+    
+      
+        <title>01 秒杀系统设计 - AndisWarm的知识库</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../../assets/stylesheets/classic/main.39e53929.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/classic/palette.7dc9a0ad.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-label="导航栏"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#01-秒杀系统设计" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="AndisWarm的知识库" class="md-header__button md-logo" aria-label="AndisWarm的知识库" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="导航栏">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AndisWarm的知识库
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              01 秒杀系统设计
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun-moon" viewBox="0 0 24 24"><path d="M12 2v2M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715M16 12a4 4 0 0 0-4-4M19 5l-1.256 1.256M20 12h2"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="查找">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="查找">
+  <button type="button" class="md-search__button">
+    查找
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  主页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-tabs__link">
+          
+  
+  面试知识库
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="AndisWarm的知识库" class="md-nav__button md-logo" aria-label="AndisWarm的知识库" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AndisWarm的知识库
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  主页
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  面试知识库
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  面试知识库
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  MySQL
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  MySQL
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_SQL%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 SQL 基础与数据类型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_SQL%E5%AE%9E%E6%88%98%E9%A2%98/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 SQL 实战题
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 存储引擎
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E7%B4%A2%E5%BC%95%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 索引基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E4%BA%8B%E5%8A%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 事务
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E9%94%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 锁
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_%E6%97%A5%E5%BF%97/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 日志
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 性能调优
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Redis
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Redis
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 数据类型与使用场景
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 底层数据结构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 线程模型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E4%BA%8B%E5%8A%A1%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 事务与持久化
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E8%BF%87%E6%9C%9F%E5%88%A0%E9%99%A4%E4%B8%8E%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 过期删除与内存淘汰
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 集群架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_%E7%BC%93%E5%AD%98%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 缓存应用场景
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E4%B8%8E%E5%A4%A7Key%E7%83%ADKey/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 分布式锁与大Key热Key
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E4%B8%89%E5%A4%A7%E9%97%AE%E9%A2%98%E4%B8%8E%E7%A7%92%E6%9D%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 缓存一致性、三大问题与秒杀
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  TLS握手协议详解
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  TLS握手协议详解
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/01_%E4%BB%80%E4%B9%88%E6%98%AFTLS_%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%AE%83/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 什么是 TLS，为什么需要它
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/02_TLS%E6%8F%A1%E6%89%8B%E5%85%A8%E6%B5%81%E7%A8%8B%E6%80%BB%E8%A7%88/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 TLS 握手全流程总览
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/03_%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%A1%E6%89%8B_ClientHello/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 第一次握手：ClientHello
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/04_%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8F%A1%E6%89%8B_ServerHello%E4%B8%8E%E5%AF%86%E7%A0%81%E5%A5%97%E4%BB%B6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 第二次握手：ServerHello 与密码套件
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/05_%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6%E4%B8%8ECA%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 数字证书与 CA：如何证明"我是我"
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/06_%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B_%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2%E4%B8%8E%E5%8A%A0%E5%AF%86%E5%88%87%E6%8D%A2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 第三次握手：密钥交换与加密切换
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/07_%E7%AC%AC%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B_%E6%8F%A1%E6%89%8B%E5%AE%8C%E6%88%90%E4%B8%8E%E5%8A%A0%E5%AF%86%E9%80%9A%E4%BF%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 第四次握手：握手完成与加密通信
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/08_%E6%89%A9%E5%B1%95%E7%9F%A5%E8%AF%86_%E5%B8%B8%E8%A7%81%E7%96%91%E9%97%AE%E4%B8%8ETLS1.3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 扩展知识：常见疑问与 TLS 1.3
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  分布式
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  分布式
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 分布式理论
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 分布式锁
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E5%88%86%E5%B8%83%E5%BC%8FID/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 分布式 ID
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 分布式事务
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  后端技术进阶之路
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_5" id="__nav_2_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  后端技术进阶之路
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/01_%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 计算机基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/02_%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E5%AD%98%E5%82%A8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 数据库与存储
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/03_%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 设计模式与代码优化
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/04_%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 消息队列
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/05_%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 系统设计与架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/06_%E9%AB%98%E5%B9%B6%E5%8F%91%E4%B8%8E%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 高并发与性能优化
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/07_%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 分布式系统
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/08_%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 微服务架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/09_%E4%BA%91%E5%8E%9F%E7%94%9F%E6%8A%80%E6%9C%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 云原生技术
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  操作系统
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6" id="__nav_2_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  操作系统
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E7%94%A8%E6%88%B7%E6%80%81%E4%B8%8E%E5%86%85%E6%A0%B8%E6%80%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 用户态与内核态
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 进程与线程
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 进程间通信（IPC）
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 进程调度算法
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E9%94%81%E4%B8%8E%E6%AD%BB%E9%94%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 锁与死锁
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 内存管理基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E8%BF%9B%E9%98%B6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 内存管理进阶：fork、malloc 与内存回收
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_%E4%B8%AD%E6%96%AD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 中断
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_%E7%BD%91%E7%BB%9CIO%E6%A8%A1%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 网络 I/O 模型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  消息队列
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7" id="__nav_2_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  消息队列
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%98%AF%E4%BB%80%E4%B9%88%E4%B8%8E%E4%B8%BA%E4%BB%80%E4%B9%88/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 消息队列是什么与为什么
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%80%89%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 消息队列选型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%E6%80%A7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 消息可靠性
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E5%B9%82%E7%AD%89%E4%B8%8E%E6%B6%88%E6%81%AF%E7%A7%AF%E5%8E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 幂等与消息积压
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF%E4%B8%8E%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 事务消息与数据一致性
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 设计模式与消息队列架构设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_RocketMQ%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 RocketMQ 详解
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_Kafka%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 Kafka 详解
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_RabbitMQ%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 RabbitMQ 详解
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/10_%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%87%8C%E7%9A%84%E4%B8%BB%E9%A2%98%EF%BC%88Topic%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  10 消息队列里的"主题（Topic）"到底是什么？
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  系统设计
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_8" id="__nav_2_8_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  系统设计
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+        <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 秒杀系统设计
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 秒杀系统设计
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-秒杀是什么它的核心特点是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. 秒杀是什么？它的核心特点是什么？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 秒杀是什么？它的核心特点是什么？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲秒杀的三个核心特点" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：秒杀的三个核心特点
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻商场限时抢购" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻：商场限时抢购
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-秒杀要解决的四大问题是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. 秒杀要解决的四大问题是什么？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 秒杀要解决的四大问题是什么？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲四大问题逐个拆" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：四大问题逐个拆
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻演唱会抢票" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻：演唱会抢票
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#四大问题对比表" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        四大问题对比表
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-秒杀系统的分层设计长什么样架构总览" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. 秒杀系统的分层设计长什么样？（架构总览）
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 秒杀系统的分层设计长什么样？（架构总览）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲五层架构逐层看" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：五层架构逐层看
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻机场安检" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻：机场安检
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-核心方案库存防超卖怎么实现" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. 核心方案：库存防超卖怎么实现？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 核心方案：库存防超卖怎么实现？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲为什么先查再减会超卖" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：为什么「先查再减」会超卖
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲方案一redis-单命令原子扣减" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：方案一——Redis 单命令原子扣减
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲方案二lua-脚本把检查--扣减捆绑原子执行" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：方案二——Lua 脚本把「检查 + 扣减」捆绑原子执行
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲完整下单流程背这个流程图" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：完整下单流程（背这个流程图）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻奶茶店限时半价" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻：奶茶店限时半价
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-层层漏斗原则10-万人抢-10-台手机" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. 「层层漏斗」原则：10 万人抢 10 台手机
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 「层层漏斗」原则：10 万人抢 10 台手机">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲为什么必须层层过滤" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：为什么必须层层过滤
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻游乐场限量体验项目" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻：游乐场限量体验项目
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第一关前端与网关拦截拦第一波流量" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第一关：前端与网关拦截（拦第一波流量）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第二关redis-预扣库存拦第二波流量" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第二关：Redis 预扣库存（拦第二波流量）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第三关mq-异步下单拦第三波流量" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第三关：MQ 异步下单（拦第三波流量）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#三关对比表背这个" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        三关对比表（背这个）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-面试怎么答的总结完整作答主线" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. 面试怎么答的总结：完整作答主线
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. 面试怎么答的总结：完整作答主线">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲四步作答模板" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：四步作答模板
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻快递分拣中心" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻：快递分拣中心
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答速记版" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答（速记版）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#本节小结" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        本节小结
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_RPC%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 RPC 框架设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_%E7%9F%AD%E9%93%BE%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 短链系统设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_%E7%82%B9%E8%B5%9E%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 点赞系统设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_%E5%88%86%E5%B8%83%E5%BC%8FID%E5%8F%91%E5%8F%B7%E5%99%A8%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 分布式 ID 发号器设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_%E8%AE%A2%E5%8D%95%E8%B6%85%E6%97%B6%E5%8F%96%E6%B6%88%E6%96%B9%E6%A1%88/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 订单超时取消方案
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_QPS%E6%9A%B4%E6%B6%A810%E5%80%8D%E5%BA%94%E5%AF%B9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 如果你的系统 QPS 突然提升 10 倍，你会怎么设计？
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  计算机网络
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_9" id="__nav_2_9_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  计算机网络
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 网络模型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_HTTP%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 HTTP 基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_HTTPS%E4%B8%8E%E5%8A%A0%E5%AF%86/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 HTTPS 与加密
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_DNS%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 DNS 域名解析
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_Cookie_Session%E4%B8%8EJWT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 Cookie、Session 与 JWT
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_RPC_WebSocket%E4%B8%8ENginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 RPC、WebSocket 与 Nginx
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 TCP 三次握手
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_TCP%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 TCP 四次挥手
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_TCP%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E4%B8%8EUDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 TCP 可靠传输与 UDP
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/10_%E7%BD%91%E7%BB%9C%E6%8E%92%E6%9F%A5%E5%9C%BA%E6%99%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  10 网络排查场景
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/11_%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  11 网络攻击
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/12_%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86%E7%82%B9%E6%89%A9%E5%B1%95/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  12 进阶知识点扩展（编程小白补课篇）
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-秒杀是什么它的核心特点是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. 秒杀是什么？它的核心特点是什么？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 秒杀是什么？它的核心特点是什么？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲秒杀的三个核心特点" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：秒杀的三个核心特点
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻商场限时抢购" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻：商场限时抢购
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-秒杀要解决的四大问题是什么" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. 秒杀要解决的四大问题是什么？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 秒杀要解决的四大问题是什么？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲四大问题逐个拆" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：四大问题逐个拆
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻演唱会抢票" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻：演唱会抢票
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#四大问题对比表" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        四大问题对比表
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-秒杀系统的分层设计长什么样架构总览" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. 秒杀系统的分层设计长什么样？（架构总览）
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 秒杀系统的分层设计长什么样？（架构总览）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲五层架构逐层看" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：五层架构逐层看
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻机场安检" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻：机场安检
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-核心方案库存防超卖怎么实现" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. 核心方案：库存防超卖怎么实现？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 核心方案：库存防超卖怎么实现？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲为什么先查再减会超卖" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：为什么「先查再减」会超卖
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲方案一redis-单命令原子扣减" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：方案一——Redis 单命令原子扣减
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲方案二lua-脚本把检查--扣减捆绑原子执行" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：方案二——Lua 脚本把「检查 + 扣减」捆绑原子执行
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲完整下单流程背这个流程图" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：完整下单流程（背这个流程图）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻奶茶店限时半价" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻：奶茶店限时半价
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-层层漏斗原则10-万人抢-10-台手机" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. 「层层漏斗」原则：10 万人抢 10 台手机
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 「层层漏斗」原则：10 万人抢 10 台手机">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲为什么必须层层过滤" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：为什么必须层层过滤
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻游乐场限量体验项目" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻：游乐场限量体验项目
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第一关前端与网关拦截拦第一波流量" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第一关：前端与网关拦截（拦第一波流量）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第二关redis-预扣库存拦第二波流量" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第二关：Redis 预扣库存（拦第二波流量）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第三关mq-异步下单拦第三波流量" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第三关：MQ 异步下单（拦第三波流量）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#三关对比表背这个" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        三关对比表（背这个）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-面试怎么答的总结完整作答主线" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. 面试怎么答的总结：完整作答主线
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. 面试怎么答的总结：完整作答主线">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲四步作答模板" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：四步作答模板
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻快递分拣中心" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻：快递分拣中心
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答速记版" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答（速记版）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#本节小结" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        本节小结
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../.." class="md-path__link">
+        
+  
+  <span class="md-ellipsis">
+    主页
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      <li class="md-path__item">
+        <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-path__link">
+          
+  
+  <span class="md-ellipsis">
+    面试知识库
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  
+  <span class="md-ellipsis">
+    系统设计
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+<h1 id="01-秒杀系统设计">01 秒杀系统设计<a class="headerlink" href="#01-秒杀系统设计" title="Permanent link">&para;</a></h1>
+<p>本章覆盖：秒杀场景的核心特点与四大问题（高并发、防超卖、用户体验、防刷）、五层架构设计（前端、网关、缓存、消息队列、数据库）、Redis 原子操作 + MQ 异步扣库存的完整下单流程、以及业界经典的「层层漏斗」三关设计（前端网关拦截 → Redis 预扣库存 → MQ 异步下单）。</p>
+<hr />
+<h2 id="1-秒杀是什么它的核心特点是什么">1. 秒杀是什么？它的核心特点是什么？<a class="headerlink" href="#1-秒杀是什么它的核心特点是什么" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答">一句话回答<a class="headerlink" href="#一句话回答" title="Permanent link">&para;</a></h3>
+<p>秒杀就是<strong>在极短时间内，大量用户同时抢购少量商品</strong>的场景，核心特点是<strong>高并发、低库存、短时间爆发式访问</strong>。</p>
+<h3 id="展开讲秒杀的三个核心特点">展开讲：秒杀的三个核心特点<a class="headerlink" href="#展开讲秒杀的三个核心特点" title="Permanent link">&para;</a></h3>
+<p><strong>特点一：高并发</strong></p>
+<p>平时一个电商网站每秒可能只有几百个请求，秒杀开始的瞬间，请求量可能暴涨到每秒几万、几十万。就像平时商场门口冷冷清清，一搞「全场一折」促销，门口瞬间堵了几万人。</p>
+<p><strong>特点二：低库存</strong></p>
+<p>秒杀商品通常只有几件、几十件。库存是<strong>极其稀缺的资源</strong>，谁抢到谁赢。这意味着系统绝大部分请求最终是「失败」的，但我们依然要让每一个请求都能被「快速、正确地处理」，而不是把服务器压垮。</p>
+<p><strong>特点三：短时间爆发式访问</strong></p>
+<p>秒杀的时间窗口极短，通常只有几秒到几分钟。流量不是均匀分布的，而是<strong>在开场那一瞬间形成尖峰</strong>。这个「尖峰」就是系统设计的最大挑战——我们不是要扛住「平均流量」，而是要扛住「峰值流量」。</p>
+<h3 id="比喻商场限时抢购">比喻：商场限时抢购<a class="headerlink" href="#比喻商场限时抢购" title="Permanent link">&para;</a></h3>
+<p>想象一家商场宣布：上午 10 点整，10 部最新款手机，每部只要 1 块钱，先到先得。10 点钟声一响，商场门口 10 万人同时往里冲——这就是高并发；货架上只有 10 部手机——这就是低库存；10 点整到 10 点零 5 分这 5 分钟——这就是短时间爆发。</p>
+<h3 id="面试怎么答">面试怎么答<a class="headerlink" href="#面试怎么答" title="Permanent link">&para;</a></h3>
+<p>先给结论：「秒杀的核心特点是高并发、低库存、短时间爆发式访问」，再用一句话点出本质：「绝大部分流量是无效流量，设计的核心是把无效流量挡在外面，把有效流量快速、正确地转化为订单。」这句话一出口，面试官就知道你抓住了秒杀的本质。</p>
+<hr />
+<h2 id="2-秒杀要解决的四大问题是什么">2. 秒杀要解决的四大问题是什么？<a class="headerlink" href="#2-秒杀要解决的四大问题是什么" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答_1">一句话回答<a class="headerlink" href="#一句话回答_1" title="Permanent link">&para;</a></h3>
+<p>四大问题是：<strong>高并发处理</strong>（扛住海量请求）、<strong>库存一致性</strong>（防超卖）、<strong>用户体验</strong>（抢到了要有反馈）、<strong>防刷机制</strong>（防止机器人和黄牛）。</p>
+<h3 id="展开讲四大问题逐个拆">展开讲：四大问题逐个拆<a class="headerlink" href="#展开讲四大问题逐个拆" title="Permanent link">&para;</a></h3>
+<p><strong>问题一：高并发处理</strong></p>
+<p>10 万人同时点按钮，服务器如果每来一个请求就开一个线程处理，瞬间就把线程池打爆、把数据库连接池打爆。解决思路是<strong>层层分流、层层拦截</strong>，把 10 万请求在到达数据库之前就削减到几百个。这就像游乐场门口，保安先拦住一部分、检票员再拦一部分、最后只有买了票的人才能进场。</p>
+<p><strong>问题二：库存一致性（防超卖）</strong></p>
+<p>库存只有 10 件，但 10 万人同时扣库存，如果处理不好，就会出现「卖出去了 100 件」——<strong>超卖</strong>。这是秒杀系统最不能犯的错：卖了 10 件商品，却让 100 个人付了钱，剩下 90 个人要么退款要么投诉。库存数据必须<strong>准确</strong>，扣减必须<strong>不重不漏</strong>。</p>
+<p><strong>问题三：用户体验</strong></p>
+<p>用户抢不到没关系，但系统不能「卡死」「白屏」「转圈半天没结果」。秒杀对体验的要求是：<strong>快速给出结果</strong>——抢到了就明确告诉用户「抢到了，正在下单」，没抢到就明确告诉「已售罄」。最怕的是用户刷了半天，最后超时失败，也不知道自己到底抢没抢到。</p>
+<p><strong>问题四：防刷机制</strong></p>
+<p>秒杀利益巨大，必然有人用脚本、机器人抢购：毫秒级点击、批量注册小号、用代理 IP 刷接口。如果不防刷，10 台手机可能全被同一批脚本抢走，普通用户根本抢不到，活动也就失去了意义。</p>
+<h3 id="比喻演唱会抢票">比喻：演唱会抢票<a class="headerlink" href="#比喻演唱会抢票" title="Permanent link">&para;</a></h3>
+<p>想象一场演唱会只有 500 个座位（低库存），开票瞬间 50 万人同时抢（高并发），开票后 3 分钟售罄（短时间爆发）。你作为主办方要解决：服务器别被挤爆（高并发）、座位别卖给 5000 个人（防超卖）、买票的人要立刻知道买没买到（体验）、黄牛脚本别把票全扫走（防刷）。</p>
+<h3 id="四大问题对比表">四大问题对比表<a class="headerlink" href="#四大问题对比表" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>本质</th>
+<th>典型表现</th>
+<th>核心解法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>高并发</td>
+<td>请求量超过系统处理能力</td>
+<td>服务器崩溃、接口超时</td>
+<td>分层拦截、限流、削峰</td>
+</tr>
+<tr>
+<td>防超卖</td>
+<td>并发扣库存导致数据错乱</td>
+<td>卖出数量超过库存</td>
+<td>Redis 原子操作 + 异步落库</td>
+</tr>
+<tr>
+<td>用户体验</td>
+<td>结果反馈不及时、不明确</td>
+<td>白屏、转圈、重复支付</td>
+<td>异步下单 + 前端轮询查结果</td>
+</tr>
+<tr>
+<td>防刷</td>
+<td>恶意流量抢占资源</td>
+<td>脚本抢购、黄牛囤货</td>
+<td>验证码、频率限制、黑名单</td>
+</tr>
+</tbody>
+</table>
+<h3 id="面试怎么答_1">面试怎么答<a class="headerlink" href="#面试怎么答_1" title="Permanent link">&para;</a></h3>
+<p>四个问题一口气报出来：「高并发、防超卖、用户体验、防刷」，然后说「这四个问题里，<strong>防超卖是底线</strong>（卖多了要赔钱），<strong>高并发是核心挑战</strong>（其他三个问题都在高并发背景下才变得棘手），所以我的设计围绕『把流量挡在外面、把库存扣得准确』展开」。这样回答既全面又有主次。</p>
+<hr />
+<h2 id="3-秒杀系统的分层设计长什么样架构总览">3. 秒杀系统的分层设计长什么样？（架构总览）<a class="headerlink" href="#3-秒杀系统的分层设计长什么样架构总览" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答_2">一句话回答<a class="headerlink" href="#一句话回答_2" title="Permanent link">&para;</a></h3>
+<p>秒杀系统分五层：<strong>前端层</strong>（挡第一波）、<strong>网关层</strong>（拦流量、验身份）、<strong>缓存层</strong>（Redis 扛住高并发读和扣库存）、<strong>消息队列</strong>（削峰填谷、异步下单）、<strong>数据库层</strong>（最终落库、保证数据正确）。</p>
+<h3 id="展开讲五层架构逐层看">展开讲：五层架构逐层看<a class="headerlink" href="#展开讲五层架构逐层看" title="Permanent link">&para;</a></h3>
+<p><strong>第一层：前端层</strong></p>
+<ul>
+<li><strong>动静分离</strong>：把商品详情页的静态资源（图片、CSS、JS）放到 CDN 上。用户打开页面时，图片从离自己最近的 CDN 节点加载，根本不经过我们的服务器。服务器只需要处理「动态请求」（比如查询库存、提交订单），压力小一大半。</li>
+<li><strong>请求拦截</strong>：秒杀按钮点击后立即<strong>置灰</strong>（防止反复点击）、点击前要求输入<strong>验证码</strong>（人机校验 + 错峰）、限制同一用户<strong>点击频率</strong>（比如 1 秒最多 1 次）。</li>
+</ul>
+<p><strong>第二层：网关层</strong></p>
+<ul>
+<li><strong>流量拦截</strong>：按 IP 限流（同一个 IP 每秒最多 N 个请求）、维护黑名单（检测到脚本行为直接拉黑）。</li>
+<li><strong>身份验证</strong>：校验用户是否登录、Token 是否有效、请求签名是否合法。没有合法身份的直接拒绝，根本到不了后面。</li>
+</ul>
+<p><strong>第三层：缓存层</strong></p>
+<ul>
+<li>商品库存提前<strong>预热</strong>到 Redis（活动开始前把库存从数据库加载到 Redis）。</li>
+<li>秒杀期间<strong>库存的检查和扣减全部在 Redis 完成</strong>——Redis 是单线程执行命令、速度极快，每秒可以扛几十万次操作，而数据库每秒可能只能扛几千次。</li>
+</ul>
+<p><strong>第四层：消息队列（MQ）</strong></p>
+<ul>
+<li><strong>削峰填谷</strong>：Redis 扣减成功只是「占了名额」，真正创建订单是异步的。把「创建订单」的消息扔进 MQ，订单服务按自己的速度慢慢消费。就像水库大坝：洪峰来了先蓄在水库里，再慢慢放水，下游河道永远不会被冲垮。</li>
+<li><strong>异步解耦</strong>：秒杀服务和订单服务解耦，订单服务挂了也不影响秒杀主流程。</li>
+</ul>
+<p><strong>第五层：数据库层</strong></p>
+<ul>
+<li><strong>乐观锁扣库存</strong>：更新库存时带上版本号条件，<code>UPDATE stock SET count = count - 1 WHERE id = ? AND count &gt; 0</code>，防止并发覆盖。</li>
+<li><strong>主从读写分离</strong>：写库只负责写，读库分担查询压力。</li>
+</ul>
+<h3 id="比喻机场安检">比喻：机场安检<a class="headerlink" href="#比喻机场安检" title="Permanent link">&para;</a></h3>
+<p>想象机场登机流程：大门口保安先看行程码（前端拦截）→ 安检通道分流（网关限流）→ 值机柜台快速办理（Redis 高并发处理）→ 行李分拣传送带慢慢运（MQ 削峰）→ 飞机最终载客起飞（数据库落库）。每一层都只放行一部分人，最终只有少量「有效旅客」走到登机口。</p>
+<h3 id="面试怎么答_2">面试怎么答<a class="headerlink" href="#面试怎么答_2" title="Permanent link">&para;</a></h3>
+<p>按「用户请求从浏览器到数据库的路径」串讲五层：「浏览器端先把静态资源打到 CDN，动态请求进网关，网关做限流和鉴权，然后到 Redis 层做库存预扣，扣成功发消息到 MQ，MQ 背后订单服务慢慢消费并写 MySQL」。一句话概括设计思想：「<strong>能用前置拦截解决的，绝不拖到后面；能异步做的，绝不同步做；能放在 Redis 的，绝不放在 MySQL。</strong>」</p>
+<hr />
+<h2 id="4-核心方案库存防超卖怎么实现">4. 核心方案：库存防超卖怎么实现？<a class="headerlink" href="#4-核心方案库存防超卖怎么实现" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答_3">一句话回答<a class="headerlink" href="#一句话回答_3" title="Permanent link">&para;</a></h3>
+<p><strong>Redis 原子操作预扣库存 + MQ 异步落库</strong>：秒杀请求先在 Redis 里用原子命令（<code>DECR</code> 或 Lua 脚本）扣减库存，扣减成功才发消息给 MQ，后台订单服务消费消息，用乐观锁在 MySQL 真正扣库存生成订单，最后做一致性校验兜底。</p>
+<h3 id="展开讲为什么先查再减会超卖">展开讲：为什么「先查再减」会超卖<a class="headerlink" href="#展开讲为什么先查再减会超卖" title="Permanent link">&para;</a></h3>
+<p>先看一个错误示范——很多新手会这么写：</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// 错误写法：先查库存，再减库存</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kt">int</span><span class="w"> </span><span class="n">stock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">redis</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">"stock"</span><span class="p">);</span><span class="w">      </span><span class="c1">// 第 1 步：查</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">stock</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">                     </span><span class="c1">// 第 2 步：判断</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">redis</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="s">"stock"</span><span class="p">,</span><span class="w"> </span><span class="n">stock</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w">   </span><span class="c1">// 第 3 步：减</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="c1">// 下单...</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>这 3 步之间不是原子的。假设库存只剩 1 件，用户 A 查到了 <code>stock = 1</code>，还没来得及减，用户 B 也查到了 <code>stock = 1</code>。两个人同时判断「有货」，同时执行减库存，库存变成了 <code>-1</code>——<strong>超卖</strong>了。</p>
+<p><strong>比喻</strong>：商店只剩最后一件衣服，两个顾客同时伸手去拿。谁先拿到取决于谁手快，但两个人都「看到」了衣服，都以为自己买到了。问题就出在「看到」和「拿到」之间有时间差——<strong>一查一减之间，别人插队了</strong>。</p>
+<h3 id="展开讲方案一redis-单命令原子扣减">展开讲：方案一——Redis 单命令原子扣减<a class="headerlink" href="#展开讲方案一redis-单命令原子扣减" title="Permanent link">&para;</a></h3>
+<p>Redis 是<strong>单线程</strong>执行命令的，一个命令从开始到结束不会被其他命令打断。所以用 <code>DECR</code> 这个原子命令扣减库存，天生不会超卖：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># 扣减前先检查库存</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>GET<span class="w"> </span>stock<span class="w">        </span><span class="c1"># 假设返回 10，有货</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>DECR<span class="w"> </span>stock<span class="w">       </span><span class="c1"># 原子扣减，返回 9，扣减成功</span>
+</span></code></pre></div>
+<p><code>DECR</code> 返回扣减后的值，如果返回<strong>负数</strong>，说明扣超了，需要把库存加回来并返回「已售罄」：</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>DECR<span class="w"> </span>stock<span class="w">       </span><span class="c1"># 返回 -1，说明超扣了</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>INCR<span class="w"> </span>stock<span class="w">       </span><span class="c1"># 加回来，恢复库存</span>
+</span></code></pre></div>
+<h3 id="展开讲方案二lua-脚本把检查--扣减捆绑原子执行">展开讲：方案二——Lua 脚本把「检查 + 扣减」捆绑原子执行<a class="headerlink" href="#展开讲方案二lua-脚本把检查--扣减捆绑原子执行" title="Permanent link">&para;</a></h3>
+<p>用 <code>DECR</code> 虽然单命令原子，但「先检查再扣减」是两条命令，中间还是有空隙。更严谨的做法是<strong>用 Lua 脚本把检查和扣减捆绑在一起</strong>，让 Redis 把整个脚本当一条命令执行，中间不可能插入任何其他操作：</p>
+<div class="language-lua highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">-- Lua 脚本：检查库存是否充足，充足则扣减，返回 1；不足返回 0</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kd">local</span><span class="w"> </span><span class="nv">stock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">redis</span><span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="s1">'GET'</span><span class="p">,</span><span class="w"> </span><span class="nv">KEYS</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kr">if</span><span class="w"> </span><span class="nb">tonumber</span><span class="p">(</span><span class="nv">stock</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="kr">then</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="kr">return</span><span class="w"> </span><span class="mi">0</span><span class="w">   </span><span class="c1">-- 库存不足，直接失败</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="kr">end</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="nv">redis</span><span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="s1">'DECR'</span><span class="p">,</span><span class="w"> </span><span class="nv">KEYS</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="kr">return</span><span class="w"> </span><span class="mi">1</span><span class="w">       </span><span class="c1">-- 扣减成功</span>
+</span></code></pre></div>
+<p>调用方（Java 伪代码）：</p>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// 把 Lua 脚本和库存 key 一起发给 Redis，原子执行</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">Long</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">redis</span><span class="p">.</span><span class="na">eval</span><span class="p">(</span><span class="n">SCRIPT</span><span class="p">,</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="s">"seckill:stock:1001"</span><span class="p">),</span><span class="w"> </span><span class="n">Collections</span><span class="p">.</span><span class="na">emptyList</span><span class="p">());</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1L</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="c1">// 扣减成功，发消息给 MQ，异步创建订单</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="n">mq</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="s">"order:create"</span><span class="p">,</span><span class="w"> </span><span class="n">orderMessage</span><span class="p">);</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="c1">// 库存已空，直接返回「已售罄」</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s">"已售罄"</span><span class="p">;</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>为什么 Lua 脚本靠谱？</strong> Redis 执行 Lua 脚本时，整个脚本是原子性的——就像把「检查钱包 → 掏钱 → 成交」写成一份合同，一次性签完，中间不可能有人插队。库存为 0 之后，脚本直接返回 0，所有后来的请求立刻得到「已售罄」，不会白跑一趟数据库。</p>
+<h3 id="展开讲完整下单流程背这个流程图">展开讲：完整下单流程（背这个流程图）<a class="headerlink" href="#展开讲完整下单流程背这个流程图" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>秒杀请求到达</strong>：用户点击按钮，请求进入网关；</li>
+<li><strong>基础校验</strong>：网关校验 Token、签名、频率，前端已经用验证码拦过一波；</li>
+<li><strong>Redis 检查库存</strong>：执行 Lua 脚本（<code>GET</code> 检查 + <code>DECR</code> 扣减，原子执行）；</li>
+<li><strong>扣减成功 → 发消息到 MQ</strong>：把「用户 ID + 商品 ID + 秒杀单号」封装成消息发出去，同时给前端返回「抢购成功，正在排队出票」；</li>
+<li><strong>后台服务消费消息</strong>：订单服务从 MQ 拉取消息，创建订单；</li>
+<li><strong>乐观锁减库存</strong>：<code>UPDATE goods SET stock = stock - 1 WHERE id = ? AND stock &gt; 0</code>，防止数据库层面并发错误；</li>
+<li><strong>唯一标识防重复消费</strong>：每个秒杀请求生成唯一订单号（用户 ID + 商品 ID），MQ 消息带这个唯一 ID，消费端先去查「这个 ID 的订单是否已存在」，存在就丢弃——保证<strong>同一请求只下一单</strong>；</li>
+<li><strong>最终一致性校验</strong>：定时任务定期对比「Redis 剩余库存 + 数据库已扣库存」与「活动总库存」是否一致，发现不一致就触发<strong>补偿逻辑</strong>（比如 Redis 有库存但订单没建，说明消息丢了，补发消息重建订单；订单建了但 Redis 没扣，说明异常，回滚订单）。</li>
+</ol>
+<h3 id="比喻奶茶店限时半价">比喻：奶茶店限时半价<a class="headerlink" href="#比喻奶茶店限时半价" title="Permanent link">&para;</a></h3>
+<p>奶茶店搞限时半价，只有 100 杯的料。门口服务员用<strong>电子计数器</strong>（Redis）发号——每放进来一个人就按一下减一，这个「按一下」是瞬间完成、不可能两个人同时按成功的（原子操作）。拿到号的人去柜台（MQ 消费者）排队做奶茶（创建订单），做奶茶的速度是有限的，但排队的人再多也不会把柜台挤塌。打烊后店员核对：发的号 + 柜台做的奶茶 = 100 杯，对不上就查原因（最终一致性校验）。</p>
+<h3 id="面试怎么答_3">面试怎么答<a class="headerlink" href="#面试怎么答_3" title="Permanent link">&para;</a></h3>
+<p>主线一句话：「<strong>Redis 原子预扣 + MQ 异步落库</strong>」。展开说流程：「请求先过网关校验，然后 Redis Lua 脚本原子扣库存，扣成功发 MQ，订单服务消费消息用乐观锁落库、用唯一 ID 防重复下单，最后定时任务做一致性对账」。面试官问「为什么用 Lua 不用 GET+DECR」→ 答「GET 和 DECR 两条命令之间有间隙会超卖，Lua 脚本把检查和扣减捆成一个原子操作」。问「消息丢了怎么办」→ 答「最终一致性校验 + 补偿逻辑兜底」。</p>
+<hr />
+<h2 id="5-层层漏斗原则10-万人抢-10-台手机">5. 「层层漏斗」原则：10 万人抢 10 台手机<a class="headerlink" href="#5-层层漏斗原则10-万人抢-10-台手机" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答_4">一句话回答<a class="headerlink" href="#一句话回答_4" title="Permanent link">&para;</a></h3>
+<p>秒杀设计的核心思想是<strong>层层漏斗</strong>：每一层都过滤掉一部分流量，让请求从 10 万量级逐层衰减，最后只有极少数「有效请求」到达数据库。10 万个人抢 10 台手机，系统要扛的不是 10 万次下单，而是如何优雅地拒绝 99990 个请求、并正确处理 10 个订单。</p>
+<h3 id="展开讲为什么必须层层过滤">展开讲：为什么必须层层过滤<a class="headerlink" href="#展开讲为什么必须层层过滤" title="Permanent link">&para;</a></h3>
+<p>数据库每秒只能处理几千次操作，而秒杀峰值有每秒几十万请求。如果不分层，10 万个请求同时打到数据库，数据库瞬间宕机——结果不是「10 个人买到」，而是「0 个人买到，系统瘫痪」。所以设计目标很明确：<strong>让每一层的处理能力都能接住上一层的流量，越到后面流量越少</strong>。</p>
+<h3 id="比喻游乐场限量体验项目">比喻：游乐场限量体验项目<a class="headerlink" href="#比喻游乐场限量体验项目" title="Permanent link">&para;</a></h3>
+<p>游乐场新开了一个项目，一天只接待 10 个游客（低库存），开园瞬间 10 万人冲过来。你设计了三个关卡：</p>
+<ul>
+<li><strong>第一关·门口</strong>：保安检查预约码，没有预约的直接劝返（前端/网关拦截）；</li>
+<li><strong>第二关·闸机</strong>：凭预约码刷一次卡，卡里的名额立即核销一次（Redis 预扣），名额用完闸机自动关闭，后面的人看到「名额已满」直接离开；</li>
+<li><strong>第三关·项目入口</strong>：核销成功的人排成小队，项目工作人员按固定速度放人进去体验（MQ 异步消费），体验完成发纪念品（生成订单）。</li>
+</ul>
+<p>三关下来：10 万人 → 被第一关筛掉大半 → 第二关只剩 10 个名额 → 第三关慢慢体验。项目组不慌、游客不挤、名额不出错。</p>
+<h3 id="第一关前端与网关拦截拦第一波流量">第一关：前端与网关拦截（拦第一波流量）<a class="headerlink" href="#第一关前端与网关拦截拦第一波流量" title="Permanent link">&para;</a></h3>
+<p><strong>做什么</strong>：</p>
+<ul>
+<li><strong>动静分离</strong>：静态资源上 CDN，图片、CSS、JS 不经过服务器；</li>
+<li><strong>按钮置灰 + 频率限制</strong>：用户点击后按钮立即变灰，同一用户 1 秒最多点 1 次；</li>
+<li><strong>验证码错峰</strong>：这是最妙的一招。正常情况下用户点击是「毫秒级」的——10 万人可能在同 1 毫秒内同时点下按钮。但让用户先输验证码，输入过程至少要 2~5 秒——<strong>验证码把「一毫秒的尖峰」物理打散成「几秒钟的平缓流量」</strong>。10 万个请求不再同时到达，而是分散在这几秒里陆陆续续到达，服务器的压力瞬间降了一个数量级。</li>
+<li><strong>网关限流</strong>：IP 限流、黑名单、Token 校验，非法请求在网关就返回。</li>
+</ul>
+<p><strong>比喻</strong>：演唱会入场不搞「开门一拥而入」，而是让观众先到检票口排队检票，每人验票花 3 秒，10 万人就被「拉长」成了一条持续几小时的长队，入口永远不会被挤爆。</p>
+<h3 id="第二关redis-预扣库存拦第二波流量">第二关：Redis 预扣库存（拦第二波流量）<a class="headerlink" href="#第二关redis-预扣库存拦第二波流量" title="Permanent link">&para;</a></h3>
+<p><strong>做什么</strong>：</p>
+<ul>
+<li>活动开始前把库存<strong>预热</strong>到 Redis；</li>
+<li>请求到达后用 <strong>Lua 脚本</strong>执行「检查库存 + 扣减库存」的原子操作；</li>
+<li><strong>库存为 0 之后，所有请求直接返回「库存已空」</strong>，不再往后走——第二关把 10 万请求直接砍到只剩 10 个「幸运儿」。</li>
+</ul>
+<p><strong>为什么「查一下再减 1」会超卖</strong>：前面讲过，<code>GET</code> 查库存和 <code>DECR</code> 减库存之间有时间差，两个请求可能同时看到「还剩 1 件」，都以为抢到了。Lua 脚本把「查」和「减」捆绑成一步原子操作，就像把「看商品 → 扫码 → 付款」合并成一次扫码，不存在中间插队的窗口。</p>
+<p><strong>比喻</strong>：餐厅只有 10 个座位，门口放一个电子叫号器，每个进店的人按一下「-1」，按完立即显示剩余座位。两个人同时伸手按，只有一个人的手指先碰到按钮（原子性），另一个人看到「剩余 0」只能离开。绝不可能出现「剩余 0 了还放进来 2 个人」。</p>
+<h3 id="第三关mq-异步下单拦第三波流量">第三关：MQ 异步下单（拦第三波流量）<a class="headerlink" href="#第三关mq-异步下单拦第三波流量" title="Permanent link">&para;</a></h3>
+<p><strong>做什么</strong>：</p>
+<ul>
+<li>Redis 扣减成功只代表「抢到名额」，<strong>并不直接创建订单</strong>；</li>
+<li>系统把「创建订单」的消息发到 MQ，<strong>立即</strong>给前端返回「抢购成功，正在出票」；</li>
+<li>前端<strong>轮询</strong>查订单状态（比如每 2 秒查一次）；</li>
+<li>订单服务<strong>按数据库能承受的速度</strong>从 MQ 消费消息，真正在 MySQL 里扣库存、生成订单、落库。</li>
+</ul>
+<p><strong>为什么必须异步</strong>：MySQL 每秒只能扛几千次写操作，而抢到名额的瞬间可能有几千人同时下单。如果同步创建订单，MySQL 又被压垮。放进 MQ 之后，订单服务每秒固定消费 1000 条，数据库稳稳当当，哪怕瞬间积压 1 万条，也只是「排队等一会儿」，不会崩。</p>
+<p><strong>比喻</strong>：抢到名额的人不是立刻冲进仓库搬货，而是先领一张「提货单」（MQ 消息），仓库工作人员按提货单慢慢备货（消费消息），备好货通知你来取（前端轮询查结果）。仓库不会因为 10 万人同时冲进来而瘫痪。</p>
+<h3 id="三关对比表背这个">三关对比表（背这个）<a class="headerlink" href="#三关对比表背这个" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>关卡</th>
+<th>位置</th>
+<th>拦什么</th>
+<th>手段</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第一关</td>
+<td>前端 + 网关</td>
+<td>无效/恶意流量</td>
+<td>动静分离、验证码错峰、限流、鉴权</td>
+<td>10 万 → 1 万</td>
+</tr>
+<tr>
+<td>第二关</td>
+<td>Redis</td>
+<td>抢不到名额的请求</td>
+<td>Lua 原子预扣库存</td>
+<td>1 万 → 10</td>
+</tr>
+<tr>
+<td>第三关</td>
+<td>MQ + 订单服务</td>
+<td>瞬时写库压力</td>
+<td>异步消费、削峰填谷</td>
+<td>10 个订单稳稳落库</td>
+</tr>
+</tbody>
+</table>
+<h3 id="面试怎么答_4">面试怎么答<a class="headerlink" href="#面试怎么答_4" title="Permanent link">&para;</a></h3>
+<p>先亮出总纲：「秒杀设计的核心思想是<strong>层层漏斗</strong>，10 万人抢 10 台手机，重点是让流量逐层衰减」。然后按三关讲：「第一关前端和网关做动静分离、验证码错峰、限流鉴权，把一毫秒的尖峰打散成几秒的平缓流量；第二关 Redis 用 Lua 脚本原子预扣库存，库存为 0 直接返回已售罄，把并发砍到只剩库存数量；第三关扣减成功只发 MQ 消息，订单服务异步消费、MySQL 落库，前端轮询查结果」。最后补一句：「三层任何一层单扛都扛不住，组合起来才能既快又准」。</p>
+<hr />
+<h2 id="6-面试怎么答的总结完整作答主线">6. 面试怎么答的总结：完整作答主线<a class="headerlink" href="#6-面试怎么答的总结完整作答主线" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答_5">一句话回答<a class="headerlink" href="#一句话回答_5" title="Permanent link">&para;</a></h3>
+<p>「<strong>动静分离和验证码拦第一波 → Redis Lua 脚本原子预扣减拦第二波 → MQ 排队削峰 → MySQL 落地</strong>」——这就是秒杀系统设计的完整答题主线。</p>
+<h3 id="展开讲四步作答模板">展开讲：四步作答模板<a class="headerlink" href="#展开讲四步作答模板" title="Permanent link">&para;</a></h3>
+<p><strong>第一步：动静分离和验证码拦第一波</strong></p>
+<p>「静态资源放 CDN，动态请求进网关；秒杀按钮置灰、限制点击频率；要求输入验证码，把一毫秒的点击尖峰物理打散成几秒钟的平缓流量；网关做 IP 限流和黑名单，Token 校验非法请求。」</p>
+<p><strong>第二步：Redis Lua 脚本原子预扣减拦第二波</strong></p>
+<p>「活动开始前把库存预热到 Redis；请求到来用 Lua 脚本原子执行『查库存 + 扣库存』，避免『查一下再减 1』的超卖问题；库存为 0 后所有请求直接返回已售罄，不再穿透到数据库。」</p>
+<p><strong>第三步：MQ 排队削峰</strong></p>
+<p>「Redis 扣减成功只发一条消息到 MQ，立即给前端返回抢购成功；前端轮询查订单状态；订单服务按数据库能承受的速度异步消费消息，把瞬时洪峰变成平缓的队列。」</p>
+<p><strong>第四步：MySQL 落地</strong></p>
+<p>「订单服务消费消息时用乐观锁 <code>UPDATE ... WHERE stock &gt; 0</code> 扣减数据库库存，用唯一订单号保证幂等、防止重复下单；最后定时任务对账，Redis 库存、数据库扣减、订单三者一致，不一致走补偿逻辑。」</p>
+<h3 id="比喻快递分拣中心">比喻：快递分拣中心<a class="headerlink" href="#比喻快递分拣中心" title="Permanent link">&para;</a></h3>
+<p>「层层漏斗」就像快递分拣中心：10 万件包裹同时涌进来（高并发），传送带先把外包装破损的直接剔出去（第一关），扫码机按单号快速分流、重复单号直接拦截（第二关），然后包裹上分拣线慢慢流转，分拣员按自己的节奏处理（第三关），最后每件包裹准确送到对应的货架（MySQL 落库）。分拣中心不会因为双十一包裹暴增而瘫痪，靠的就是一层层分流、一步步消化。</p>
+<h3 id="面试怎么答速记版">面试怎么答（速记版）<a class="headerlink" href="#面试怎么答速记版" title="Permanent link">&para;</a></h3>
+<ul>
+<li>总纲：「层层漏斗，让流量逐层衰减」；</li>
+<li>第一波：动静分离 + 验证码错峰 + 限流鉴权；</li>
+<li>第二波：Redis 预热 + Lua 原子预扣库存，为 0 即返回；</li>
+<li>第三波：MQ 异步下单 + 前端轮询 + 乐观锁落库 + 幂等防重；</li>
+<li>兜底：定时对账 + 补偿逻辑，保证最终一致性。</li>
+</ul>
+<hr />
+<h2 id="本节小结">本节小结<a class="headerlink" href="#本节小结" title="Permanent link">&para;</a></h2>
+<p>秒杀系统设计的本质是「用漏斗把流量逐层削掉、用原子操作保证库存准确、用异步把压力摊平」：前端和网关拦第一波（动静分离、验证码错峰、限流鉴权），Redis Lua 脚本原子预扣库存拦第二波（防超卖的关键），MQ 异步消费拦第三波（削峰填谷），最终 MySQL 乐观锁落库并靠对账兜底。面试时按「动静分离和验证码拦第一波 → Redis Lua 原子预扣减拦第二波 → MQ 排队削峰 → MySQL 落地」这条主线作答即可。</p>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 总览">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                总览
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../02_RPC%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1/" class="md-footer__link md-footer__link--next" aria-label="下一页: 02 RPC 框架设计">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                02 RPC 框架设计
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 AndisWarm的知识库
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/AndisWarm" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"../../..","features":["announce.dismiss","content.code.annotate","content.code.copy","content.code.select","content.tabs.link","content.tooltips","navigation.expand","navigation.footer","navigation.indexes","navigation.instant","navigation.instant.prefetch","navigation.instant.progress","navigation.path","navigation.sections","navigation.tabs","navigation.top","navigation.tracking","search.highlight","search.share","search.suggest","toc.follow"],"search":"../../../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"已复制","clipboard.copy":"复制","search.result.more.one":"在该页上还有 1 个符合条件的结果","search.result.more.other":"在该页上还有 # 个符合条件的结果","search.result.none":"没有找到符合条件的结果","search.result.one":"找到 1 个符合条件的结果","search.result.other":"# 个符合条件的结果","search.result.placeholder":"键入以开始搜索","search.result.term.missing":"缺少","select.version":"选择当前版本"},"version":null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e886cdf1.min.js"></script>
+      
+        <script src="../../../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>

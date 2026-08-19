@@ -1,0 +1,4840 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="面向编程小白的后端面试八股文详解">
+      
+      
+        <meta name="author" content="AndisWarm">
+      
+      
+        <link rel="canonical" href="http://localhost:8000/%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E5%BA%93/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E5%88%86%E5%B8%83%E5%BC%8FID%E5%8F%91%E5%8F%B7%E5%99%A8%E8%AE%BE%E8%AE%A1/">
+      
+      
+        <link rel="prev" href="../04_%E7%82%B9%E8%B5%9E%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">
+      
+      
+        <link rel="next" href="../06_%E8%AE%A2%E5%8D%95%E8%B6%85%E6%97%B6%E5%8F%96%E6%B6%88%E6%96%B9%E6%A1%88/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.0.56">
+    
+    
+      
+        <title>05 分布式 ID 发号器设计 - AndisWarm的知识库</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../../assets/stylesheets/classic/main.39e53929.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/classic/palette.7dc9a0ad.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-label="导航栏"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#05-分布式-id-发号器设计" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="AndisWarm的知识库" class="md-header__button md-logo" aria-label="AndisWarm的知识库" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="导航栏">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AndisWarm的知识库
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              05 分布式 ID 发号器设计
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun-moon" viewBox="0 0 24 24"><path d="M12 2v2M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715M16 12a4 4 0 0 0-4-4M19 5l-1.256 1.256M20 12h2"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="查找">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="查找">
+  <button type="button" class="md-search__button">
+    查找
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  主页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-tabs__link">
+          
+  
+  面试知识库
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="AndisWarm的知识库" class="md-nav__button md-logo" aria-label="AndisWarm的知识库" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AndisWarm的知识库
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  主页
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  面试知识库
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  面试知识库
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  MySQL
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  MySQL
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_SQL%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 SQL 基础与数据类型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_SQL%E5%AE%9E%E6%88%98%E9%A2%98/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 SQL 实战题
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 存储引擎
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E7%B4%A2%E5%BC%95%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 索引基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E4%BA%8B%E5%8A%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 事务
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E9%94%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 锁
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_%E6%97%A5%E5%BF%97/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 日志
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 性能调优
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Redis
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Redis
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 数据类型与使用场景
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E5%BA%95%E5%B1%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 底层数据结构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 线程模型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E4%BA%8B%E5%8A%A1%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 事务与持久化
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E8%BF%87%E6%9C%9F%E5%88%A0%E9%99%A4%E4%B8%8E%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 过期删除与内存淘汰
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 集群架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_%E7%BC%93%E5%AD%98%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 缓存应用场景
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E4%B8%8E%E5%A4%A7Key%E7%83%ADKey/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 分布式锁与大Key热Key
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Redis%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E3%80%81%E4%B8%89%E5%A4%A7%E9%97%AE%E9%A2%98%E4%B8%8E%E7%A7%92%E6%9D%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 缓存一致性、三大问题与秒杀
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  TLS握手协议详解
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  TLS握手协议详解
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/01_%E4%BB%80%E4%B9%88%E6%98%AFTLS_%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%AE%83/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 什么是 TLS，为什么需要它
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/02_TLS%E6%8F%A1%E6%89%8B%E5%85%A8%E6%B5%81%E7%A8%8B%E6%80%BB%E8%A7%88/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 TLS 握手全流程总览
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/03_%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%A1%E6%89%8B_ClientHello/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 第一次握手：ClientHello
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/04_%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8F%A1%E6%89%8B_ServerHello%E4%B8%8E%E5%AF%86%E7%A0%81%E5%A5%97%E4%BB%B6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 第二次握手：ServerHello 与密码套件
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/05_%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6%E4%B8%8ECA%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 数字证书与 CA：如何证明"我是我"
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/06_%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B_%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2%E4%B8%8E%E5%8A%A0%E5%AF%86%E5%88%87%E6%8D%A2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 第三次握手：密钥交换与加密切换
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/07_%E7%AC%AC%E5%9B%9B%E6%AC%A1%E6%8F%A1%E6%89%8B_%E6%8F%A1%E6%89%8B%E5%AE%8C%E6%88%90%E4%B8%8E%E5%8A%A0%E5%AF%86%E9%80%9A%E4%BF%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 第四次握手：握手完成与加密通信
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TLS%E6%8F%A1%E6%89%8B%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/08_%E6%89%A9%E5%B1%95%E7%9F%A5%E8%AF%86_%E5%B8%B8%E8%A7%81%E7%96%91%E9%97%AE%E4%B8%8ETLS1.3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 扩展知识：常见疑问与 TLS 1.3
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  分布式
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  分布式
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 分布式理论
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 分布式锁
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E5%88%86%E5%B8%83%E5%BC%8FID/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 分布式 ID
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%88%86%E5%B8%83%E5%BC%8F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 分布式事务
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  后端技术进阶之路
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_5" id="__nav_2_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  后端技术进阶之路
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/01_%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 计算机基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/02_%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E5%AD%98%E5%82%A8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 数据库与存储
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/03_%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 设计模式与代码优化
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/04_%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 消息队列
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/05_%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E4%B8%8E%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 系统设计与架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/06_%E9%AB%98%E5%B9%B6%E5%8F%91%E4%B8%8E%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 高并发与性能优化
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/07_%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 分布式系统
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/08_%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 微服务架构
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%90%8E%E7%AB%AF%E6%8A%80%E6%9C%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/09_%E4%BA%91%E5%8E%9F%E7%94%9F%E6%8A%80%E6%9C%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 云原生技术
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  操作系统
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6" id="__nav_2_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  操作系统
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E7%94%A8%E6%88%B7%E6%80%81%E4%B8%8E%E5%86%85%E6%A0%B8%E6%80%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 用户态与内核态
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 进程与线程
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 进程间通信（IPC）
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E8%BF%9B%E7%A8%8B%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 进程调度算法
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E9%94%81%E4%B8%8E%E6%AD%BB%E9%94%81/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 锁与死锁
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 内存管理基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E8%BF%9B%E9%98%B6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 内存管理进阶：fork、malloc 与内存回收
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_%E4%B8%AD%E6%96%AD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 中断
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_%E7%BD%91%E7%BB%9CIO%E6%A8%A1%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 网络 I/O 模型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  消息队列
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_7" id="__nav_2_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  消息队列
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%98%AF%E4%BB%80%E4%B9%88%E4%B8%8E%E4%B8%BA%E4%BB%80%E4%B9%88/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 消息队列是什么与为什么
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%80%89%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 消息队列选型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%E6%80%A7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 消息可靠性
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_%E5%B9%82%E7%AD%89%E4%B8%8E%E6%B6%88%E6%81%AF%E7%A7%AF%E5%8E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 幂等与消息积压
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF%E4%B8%8E%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 事务消息与数据一致性
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%8E%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 设计模式与消息队列架构设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_RocketMQ%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 RocketMQ 详解
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_Kafka%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 Kafka 详解
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_RabbitMQ%E8%AF%A6%E8%A7%A3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 RabbitMQ 详解
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/10_%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%87%8C%E7%9A%84%E4%B8%BB%E9%A2%98%EF%BC%88Topic%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  10 消息队列里的"主题（Topic）"到底是什么？
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  系统设计
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_8" id="__nav_2_8_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  系统设计
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 秒杀系统设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_RPC%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 RPC 框架设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_%E7%9F%AD%E9%93%BE%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 短链系统设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_%E7%82%B9%E8%B5%9E%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 点赞系统设计
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+        <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 分布式 ID 发号器设计
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 分布式 ID 发号器设计
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-设计目标为什么需要一台发号器" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. 设计目标：为什么需要一台"发号器"？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 设计目标：为什么需要一台&quot;发号器&quot;？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲单机时代很简单分布式时代就麻烦了" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：单机时代很简单，分布式时代就麻烦了
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲为什么大型商业项目几乎不用-uuid-做主键" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：为什么大型商业项目几乎不用 UUID 做主键
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#三种方案对比表背这个" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        三种方案对比表（背这个）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-方案一雪花算法snowflake追求极致性能与去中心化" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. 方案一：雪花算法（Snowflake）——追求极致性能与去中心化
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 方案一：雪花算法（Snowflake）——追求极致性能与去中心化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲64-位数字的切蛋糕分区" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：64 位数字的"切蛋糕"分区
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲优势纯本地计算快到极致" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：优势——纯本地计算，快到极致
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲隐患时钟回拨必考" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：隐患——时钟回拨（必考）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-方案二数据库号段模式美团-leaf-核心思想追求绝对高可用与紧凑排序" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. 方案二：数据库号段模式（美团 Leaf 核心思想）——追求绝对高可用与紧凑排序
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 方案二：数据库号段模式（美团 Leaf 核心思想）——追求绝对高可用与紧凑排序">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲为什么不能每次来一个-id-查一次数据库" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：为什么不能"每次来一个 ID 查一次数据库"
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲核心思想批发号段" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：核心思想——"批发"号段
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲双-buffer-机制提前囤货永不断号" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：双 Buffer 机制——提前囤货，永不断号
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲优势坚若磐石的高可用" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：优势——坚若磐石的高可用
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-如何选择雪花算法-or-数据库号段" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. 如何选择：雪花算法 or 数据库号段？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 如何选择：雪花算法 or 数据库号段？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲两种方案的取舍" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：两种方案的取舍
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#对比表背这个" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        对比表（背这个）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#实际工作怎么选" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        实际工作怎么选
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-面试怎么答完整话术主线" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. 面试怎么答（完整话术主线）
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 面试怎么答（完整话术主线）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#第一步先讲三个目标30-秒" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第一步：先讲三个目标（30 秒）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第二步顺带解释为什么不用-uuid20-秒" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第二步：顺带解释为什么不用 UUID（20 秒）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第三步两种方案分别展开各-1-分钟" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第三步：两种方案分别展开（各 1 分钟）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第四步给选型建议收尾30-秒" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第四步：给选型建议收尾（30 秒）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#本节小结" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        本节小结
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_%E8%AE%A2%E5%8D%95%E8%B6%85%E6%97%B6%E5%8F%96%E6%B6%88%E6%96%B9%E6%A1%88/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 订单超时取消方案
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_QPS%E6%9A%B4%E6%B6%A810%E5%80%8D%E5%BA%94%E5%AF%B9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 如果你的系统 QPS 突然提升 10 倍，你会怎么设计？
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  计算机网络
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_9" id="__nav_2_9_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  计算机网络
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/01_%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  01 网络模型
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/02_HTTP%E5%9F%BA%E7%A1%80/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  02 HTTP 基础
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/03_HTTPS%E4%B8%8E%E5%8A%A0%E5%AF%86/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  03 HTTPS 与加密
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/04_DNS%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  04 DNS 域名解析
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/05_Cookie_Session%E4%B8%8EJWT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  05 Cookie、Session 与 JWT
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/06_RPC_WebSocket%E4%B8%8ENginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  06 RPC、WebSocket 与 Nginx
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/07_TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  07 TCP 三次握手
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/08_TCP%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  08 TCP 四次挥手
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/09_TCP%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E4%B8%8EUDP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  09 TCP 可靠传输与 UDP
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/10_%E7%BD%91%E7%BB%9C%E6%8E%92%E6%9F%A5%E5%9C%BA%E6%99%AF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  10 网络排查场景
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/11_%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  11 网络攻击
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/12_%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86%E7%82%B9%E6%89%A9%E5%B1%95/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  12 进阶知识点扩展（编程小白补课篇）
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-设计目标为什么需要一台发号器" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. 设计目标：为什么需要一台"发号器"？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 设计目标：为什么需要一台&quot;发号器&quot;？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲单机时代很简单分布式时代就麻烦了" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：单机时代很简单，分布式时代就麻烦了
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲为什么大型商业项目几乎不用-uuid-做主键" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：为什么大型商业项目几乎不用 UUID 做主键
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#三种方案对比表背这个" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        三种方案对比表（背这个）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-方案一雪花算法snowflake追求极致性能与去中心化" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. 方案一：雪花算法（Snowflake）——追求极致性能与去中心化
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 方案一：雪花算法（Snowflake）——追求极致性能与去中心化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲64-位数字的切蛋糕分区" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：64 位数字的"切蛋糕"分区
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲优势纯本地计算快到极致" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：优势——纯本地计算，快到极致
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲隐患时钟回拨必考" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：隐患——时钟回拨（必考）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-方案二数据库号段模式美团-leaf-核心思想追求绝对高可用与紧凑排序" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. 方案二：数据库号段模式（美团 Leaf 核心思想）——追求绝对高可用与紧凑排序
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 方案二：数据库号段模式（美团 Leaf 核心思想）——追求绝对高可用与紧凑排序">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲为什么不能每次来一个-id-查一次数据库" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：为什么不能"每次来一个 ID 查一次数据库"
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲核心思想批发号段" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：核心思想——"批发"号段
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲双-buffer-机制提前囤货永不断号" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：双 Buffer 机制——提前囤货，永不断号
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲优势坚若磐石的高可用" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：优势——坚若磐石的高可用
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#比喻_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        比喻
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#面试怎么答_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        面试怎么答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-如何选择雪花算法-or-数据库号段" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. 如何选择：雪花算法 or 数据库号段？
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 如何选择：雪花算法 or 数据库号段？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#一句话回答_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        一句话回答
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#展开讲两种方案的取舍" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        展开讲：两种方案的取舍
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#对比表背这个" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        对比表（背这个）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#实际工作怎么选" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        实际工作怎么选
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-面试怎么答完整话术主线" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. 面试怎么答（完整话术主线）
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 面试怎么答（完整话术主线）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#第一步先讲三个目标30-秒" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第一步：先讲三个目标（30 秒）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第二步顺带解释为什么不用-uuid20-秒" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第二步：顺带解释为什么不用 UUID（20 秒）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第三步两种方案分别展开各-1-分钟" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第三步：两种方案分别展开（各 1 分钟）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#第四步给选型建议收尾30-秒" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        第四步：给选型建议收尾（30 秒）
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#本节小结" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        本节小结
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../.." class="md-path__link">
+        
+  
+  <span class="md-ellipsis">
+    主页
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      <li class="md-path__item">
+        <a href="../../MySQL%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E8%AE%B2%E8%A7%A3/" class="md-path__link">
+          
+  
+  <span class="md-ellipsis">
+    面试知识库
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  
+  <span class="md-ellipsis">
+    系统设计
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+<h1 id="05-分布式-id-发号器设计">05 分布式 ID 发号器设计<a class="headerlink" href="#05-分布式-id-发号器设计" title="Permanent link">&para;</a></h1>
+<p>本章覆盖：分布式环境下 ID 的设计目标（全局唯一、趋势递增、高性能）、为什么不能用 UUID 做主键、雪花算法（Snowflake）的 64 位结构原理与时钟回拨隐患、数据库号段模式（美团 Leaf 核心思想）的"批发 + 双 Buffer"机制，以及两种方案如何选型、面试怎么答。</p>
+<hr />
+<h2 id="1-设计目标为什么需要一台发号器">1. 设计目标：为什么需要一台"发号器"？<a class="headerlink" href="#1-设计目标为什么需要一台发号器" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答">一句话回答<a class="headerlink" href="#一句话回答" title="Permanent link">&para;</a></h3>
+<p>分布式系统里，ID 必须满足<strong>全局唯一、趋势递增（全数字 <code>long</code> 类型）、高性能</strong>三个目标，所以不能靠"每个数据库各自自增"，而要专门设计一个<strong>分布式 ID 发号器</strong>。</p>
+<h3 id="展开讲单机时代很简单分布式时代就麻烦了">展开讲：单机时代很简单，分布式时代就麻烦了<a class="headerlink" href="#展开讲单机时代很简单分布式时代就麻烦了" title="Permanent link">&para;</a></h3>
+<p>先想一个最简单的场景：只有一个数据库、一张订单表，主键怎么来？——直接让数据库自增就行，<code>AUTO_INCREMENT</code> 每插一条自动加 1，ID 是 1、2、3、4……又唯一又递增，什么都不用操心。</p>
+<p>但互联网公司一上来就是<strong>几十台机器、几十个数据库</strong>（分库分表，比如订单表拆成 100 张）。这时候问题来了：</p>
+<ul>
+<li>每个库都从 1 开始自增，<strong>100 张表会产生 100 个 ID=1</strong>，撞车了；</li>
+<li>让 100 张表自增步长错开？配置麻烦，扩容加表时又得重新算，几乎没法维护；</li>
+<li>更根本的问题是：<strong>谁能保证"全局唯一"？</strong> 单机时代靠一台数据库拍板，分布式时代没有"唯一拍板人"了。</li>
+</ul>
+<p>所以我们需要一个专门的组件——<strong>发号器</strong>，让所有机器都从它这里拿 ID。一台合格的发号器，必须同时满足三个目标：</p>
+<p><strong>目标一：全局唯一。</strong> 任何时刻、任何机器拿到的 ID 都不能重复。这是底线，ID 一重复，订单互相覆盖、数据错乱，系统直接瘫痪。</p>
+<p><strong>目标二：趋势递增，并且是全数字的 <code>long</code> 类型。</strong> 为什么必须"趋势递增"？这就要说到数据库主键的底层原理了：</p>
+<ul>
+<li>MySQL 的主键索引是一棵 <strong>B+ 树</strong>，叶子节点上数据<strong>按主键从小到大排好队</strong>；</li>
+<li>插入新数据时，如果新主键比现有的大，直接<strong>排在队尾</strong>，几乎不用挪动任何已有数据，非常快；</li>
+<li>如果新主键<strong>乱序</strong>（一会儿大一会儿小），就得插到队伍中间——节点放不下了，B+ 树只能<strong>把节点拆成两半</strong>（专业术语叫"<strong>页分裂</strong>"），再把数据搬来搬去；</li>
+<li>页分裂非常贵：要加锁、要移动数据、索引树还要调整结构。<strong>高并发下大量乱序插入，数据库性能会剧烈下降</strong>，严重的直接把库拖垮。</li>
+</ul>
+<p>打个比方：B+ 树就像教室里的座位，主键就是学号。学号按顺序排，新同学永远坐最后一排，一分钟能安顿 100 个人；学号乱发（先 8 号再 3 号），新同学得插进队伍中间，周围所有人挪位置，100 个人能折腾一下午。</p>
+<p>所以 ID 必须"趋势递增"——不要求严格 1、2、3 连号，只要<strong>大体上越来越大</strong>就行，让数据永远往队尾追加，避开页分裂。</p>
+<p><strong>目标三：高性能。</strong> 发号器是给全公司业务用的"公共设施"，每秒可能要发几十万、上百万个 ID。发号如果成为瓶颈，所有业务一起卡死。所以发号必须极快，最好<strong>不碰网络、不碰磁盘</strong>。</p>
+<h3 id="展开讲为什么大型商业项目几乎不用-uuid-做主键">展开讲：为什么大型商业项目几乎不用 UUID 做主键<a class="headerlink" href="#展开讲为什么大型商业项目几乎不用-uuid-做主键" title="Permanent link">&para;</a></h3>
+<p>很多人第一反应：唯一性还不简单？用 <strong>UUID</strong>（一串 32 位十六进制字符，长这样：<code>550e8400-e29b-41d4-a716-446655440000</code>），每台机器自己就能生成，全球都不会重复，还不用发号器。</p>
+<p>UUID 唯一的优点就是"生成简单"。但作为<strong>数据库主键</strong>它有三个致命伤：</p>
+<ol>
+<li><strong>不是全数字</strong>：UUID 是字母+数字的字符串，而业务上我们希望主键是全数字的 <code>long</code> 类型，方便存储、传输、拼接（比如订单号里嵌时间）；</li>
+<li><strong>完全无序</strong>：UUID 是随机生成的，插入数据库时毫无规律地乱插，<strong>必然导致 B+ 树频繁页分裂</strong>，性能剧烈下降；</li>
+<li><strong>太长</strong>：36 个字符，比 <code>long</code>（8 字节）大好几倍，主键太长会让每个索引都变大，内存和磁盘都浪费。</li>
+</ol>
+<p>所以大型商业项目里，UUID 一般只用来做"不落库的临时标识"（比如前端会话、日志追踪 ID），<strong>几乎不用它做分布式数据库主键</strong>。</p>
+<h3 id="三种方案对比表背这个">三种方案对比表（背这个）<a class="headerlink" href="#三种方案对比表背这个" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>UUID</th>
+<th>雪花算法（Snowflake）</th>
+<th>数据库号段模式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID 形式</td>
+<td>36 位字符串，含字母</td>
+<td>19 位数字（<code>long</code>）</td>
+<td>数字，连续紧凑</td>
+</tr>
+<tr>
+<td>全局唯一</td>
+<td>✅ 天然唯一</td>
+<td>✅ 靠位段划分</td>
+<td>✅ 靠数据库分配</td>
+</tr>
+<tr>
+<td>趋势递增</td>
+<td>❌ 完全无序</td>
+<td>✅ 按时间递增</td>
+<td>✅ 严格递增</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>本地生成，快</td>
+<td>本地内存计算，<strong>极快</strong></td>
+<td>一次取一批，本地分发，快</td>
+</tr>
+<tr>
+<td>依赖</td>
+<td>无</td>
+<td>无（但怕时钟回拨）</td>
+<td>依赖数据库（发号库）</td>
+</tr>
+<tr>
+<td>适合做主键</td>
+<td>❌ 页分裂+太长</td>
+<td>✅</td>
+<td>✅（金融级）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="比喻">比喻<a class="headerlink" href="#比喻" title="Permanent link">&para;</a></h3>
+<p>发号器就像<strong>政府发放身份证号</strong>：每个人拿到的号码必须全国唯一（全局唯一）、大致按出生时间排（趋势递增）、发号窗口不能排长队（高性能）。要是每个县都自己乱编号，全国就乱套了——这就是分布式系统里"每个库各自自增"的问题。</p>
+<hr />
+<h2 id="2-方案一雪花算法snowflake追求极致性能与去中心化">2. 方案一：雪花算法（Snowflake）——追求极致性能与去中心化<a class="headerlink" href="#2-方案一雪花算法snowflake追求极致性能与去中心化" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答_1">一句话回答<a class="headerlink" href="#一句话回答_1" title="Permanent link">&para;</a></h3>
+<p>雪花算法把一个 64 位的 <code>long</code> 数字<strong>切成四段"蛋糕"</strong>：1 位符号位 + 41 位毫秒时间戳 + 10 位机器 ID + 12 位毫秒内流水号。每台机器靠"时间戳 + 自己的机器号 + 本地自增计数"拼出 ID，<strong>纯本地内存计算、零网络 IO</strong>，发号速度极快。</p>
+<h3 id="展开讲64-位数字的切蛋糕分区">展开讲：64 位数字的"切蛋糕"分区<a class="headerlink" href="#展开讲64-位数字的切蛋糕分区" title="Permanent link">&para;</a></h3>
+<p><code>long</code> 类型在 Java 里占 8 个字节，也就是 <strong>64 个 bit（位）</strong>。雪花算法的思路就是把这 64 个位置按用途划分成四段：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a> 0 | 0000000000 0000000000 0000000000 0000000000 0 | 0000000000 | 000000000000
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a> ↑            ↑ 41 位时间戳（毫秒）            ↑      ↑ 10 位机器ID ↑ ↑ 12 位流水号 ↑
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a> 符号位（恒为0）    （从某个起始时间算起的毫秒数）      （最多1024台机器）  （每毫秒最多4096个）
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>段位</th>
+<th>位数</th>
+<th>作用</th>
+<th>通俗解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>符号位</td>
+<td>1 位</td>
+<td>恒为 0，保证是正数</td>
+<td>最高位空着不用，确保 ID 是正数</td>
+</tr>
+<tr>
+<td>时间戳</td>
+<td>41 位</td>
+<td>记录毫秒级时间</td>
+<td>从起始时间到现在过了多少毫秒，<strong>保证 ID 随时间变大</strong></td>
+</tr>
+<tr>
+<td>机器 ID</td>
+<td>10 位</td>
+<td>标识是哪台机器发的</td>
+<td>每台机器分配一个不同编号，<strong>多台机器互不干扰</strong></td>
+</tr>
+<tr>
+<td>流水号</td>
+<td>12 位</td>
+<td>同一毫秒内的序号</td>
+<td>同一毫秒发多个 ID 时，本地计数器 0、1、2……依次加</td>
+</tr>
+</tbody>
+</table>
+<p>逐段展开：</p>
+<p><strong>第一段：1 位符号位。</strong> 最高位永远填 0，这样整个 64 位数就是正数（如果填 1 就成负数了，负数当主键很麻烦）。所以它"空着不用"其实是<strong>刻意留白</strong>，保证正数。</p>
+<p><strong>第二段：41 位时间戳（毫秒）。</strong> 时间戳是"从某个起始时刻（比如 2010 年）到现在经过的毫秒数"。毫秒数越来越大，拼进 ID 后 ID 自然越来越大——<strong>趋势递增就是靠这一段保证的</strong>。41 位能表示多大？<code>2^41</code> 毫秒 ≈ 69 年，也就是说从起始时间算起，大约能用 69 年，完全够用。</p>
+<p><strong>第三段：10 位机器 ID（WorkerID）。</strong> 给每台机器分配一个唯一编号（0~1023，最多 1024 台）。为什么需要它？因为两台机器可能<strong>在同一毫秒</strong>发 ID——如果只看时间戳，两台的 ID 就一模一样了。有了机器号，即使同一毫秒，不同机器拼出的 ID 也不同，<strong>并发互不干扰</strong>。实际部署时常把这 10 位拆成"5 位数据中心 + 5 位机器"（最多 32 个机房 × 32 台机器）。</p>
+<p><strong>第四段：12 位流水号。</strong> 同一台机器、同一毫秒内可能来好几个请求，光有机器号还不够区分。解决办法：机器本地维护一个计数器，这一毫秒内每发一个 ID 就加 1，拼在最后 12 位里。12 位能表示 0~4095，<strong>同一毫秒最多发 4096 个</strong>；如果这一毫秒发满了 4096 个，就<strong>阻塞等待下一毫秒</strong>再发（计数器清零重新数）。</p>
+<p>三段合起来拼 ID 的伪代码：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>function nextId():
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    timestamp = 当前毫秒时间戳
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    if timestamp &lt; lastTimestamp:        # 时钟回拨，见下文隐患
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>        走回拨兜底逻辑
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    if timestamp == lastTimestamp:       # 同一毫秒
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        seq = (seq + 1) &amp; 4095           # 流水号原子加 1，超过 4095 归零
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>        if seq == 0:                     # 这一毫秒发满了 4096 个
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>            timestamp = 等下一毫秒       # 自旋等待
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    else:                                # 换了一毫秒
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>        seq = 0                          # 流水号清零重新数
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    lastTimestamp = timestamp
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    return (timestamp &lt;&lt; 22) | (机器ID &lt;&lt; 12) | seq   # 三段拼成一个 64 位数
+</span></code></pre></div>
+<p>最后一行就是"拼 ID"：时间戳左移 22 位（腾出后面 10+12 位的位置）、机器 ID 左移 12 位、流水号放最后，用按位或拼起来——一次纯内存运算，一个 ID 就出来了。</p>
+<h3 id="展开讲优势纯本地计算快到极致">展开讲：优势——纯本地计算，快到极致<a class="headerlink" href="#展开讲优势纯本地计算快到极致" title="Permanent link">&para;</a></h3>
+<p>雪花算法最大的魅力在于<strong>去中心化、零依赖</strong>：</p>
+<ul>
+<li><strong>没有网络 IO</strong>：每台机器自己算自己的，不请求任何中心服务（不像查数据库、调 Redis），发一个 ID 就是几次位运算 + 一次内存自增，<strong>单机每秒能发几百万个</strong>；</li>
+<li><strong>没有外部组件</strong>：不依赖数据库、不依赖 Redis，部署简单，挂了也不影响别人；</li>
+<li><strong>天然有序</strong>：ID 里就嵌着时间，按 ID 排序基本等于按时间排序。</li>
+</ul>
+<h3 id="展开讲隐患时钟回拨必考">展开讲：隐患——时钟回拨（必考）<a class="headerlink" href="#展开讲隐患时钟回拨必考" title="Permanent link">&para;</a></h3>
+<p>雪花算法有个著名的"命门"：<strong>它信任服务器时钟</strong>。服务器时间由系统维护，有时会通过 NTP（网络时间协议）自动校时——比如服务器时钟走快了 5 毫秒，校时就会<strong>把时间往回拨 5 毫秒</strong>。问题来了：</p>
+<ul>
+<li>回拨前机器刚在 <code>时间点 T</code> 发了 ID；</li>
+<li>回拨后当前时间变成了 <code>T - 5ms</code>，机器又收到新请求；</li>
+<li>按新时间戳拼出来的 ID，<strong>时间戳比刚才的小</strong>，和之前发的 ID 完全重复！</li>
+</ul>
+<p>时间戳相同、机器号相同、流水号可能也相同——<strong>重复 ID 就诞生了</strong>，全局唯一性被打破。</p>
+<p><strong>兜底方案（两种）</strong>：</p>
+<ol>
+<li><strong>记录上一次时间 + 自旋等待</strong>：每次生成前把"上一次用的时间戳"记下来。发现"当前时间 &lt; 上一次时间"（即时间被拨回去了），就让线程<strong>自旋（空转）等待几毫秒</strong>，等系统时间自然走到回拨前的位置再继续发号。优点：不中断服务；缺点：如果回拨很大（比如拨回 1 秒），等待期间请求会积压；</li>
+<li><strong>直接抛异常 / 走备用发号器</strong>：回拨幅度超过某个阈值（比如 5 毫秒）就<strong>拒绝发号、抛异常</strong>，或切换到一个<strong>备用发号器</strong>（比如备用雪花实例或号段发号器），宁可短暂不可用，也绝不发重复 ID。很多生产实现两种结合：小回拨等待、大回拨报错或切换。</li>
+</ol>
+<h3 id="比喻_1">比喻<a class="headerlink" href="#比喻_1" title="Permanent link">&para;</a></h3>
+<p>雪花算法像<strong>火车站候车大厅的自助取号机</strong>：每台取号机（机器 ID）有自己独立的编号，机器里的时钟（时间戳）决定今天第几号段，同一秒里按取号顺序（流水号）依次吐票。机器本地吐票飞快，不用去总台问。但万一<strong>大厅的钟被拨慢了</strong>（时钟回拨），机器以为自己还在 10 点，就把 10 点发过的号又发了一遍——所以每台机器都要"记住上次发到哪"，发现钟倒退了就<strong>等钟走回来再发</strong>。</p>
+<h3 id="面试怎么答">面试怎么答<a class="headerlink" href="#面试怎么答" title="Permanent link">&para;</a></h3>
+<p>一句话开场："雪花算法把 64 位 <code>long</code> 拆成 1 位符号位 + 41 位毫秒时间戳 + 10 位机器 ID + 12 位流水号，纯本地内存生成，性能极高。"然后主动补两个点加分：一是"41 位时间戳保证趋势递增，约可用 69 年；同一毫秒最多 4096 个，满了等下一毫秒"；二是"隐患是时钟回拨，方案是记录上次时间戳，小回拨自旋等待、大回拨抛异常或走备用发号器"。能画出 64 位位段结构图，这题就稳了。</p>
+<hr />
+<h2 id="3-方案二数据库号段模式美团-leaf-核心思想追求绝对高可用与紧凑排序">3. 方案二：数据库号段模式（美团 Leaf 核心思想）——追求绝对高可用与紧凑排序<a class="headerlink" href="#3-方案二数据库号段模式美团-leaf-核心思想追求绝对高可用与紧凑排序" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答_2">一句话回答<a class="headerlink" href="#一句话回答_2" title="Permanent link">&para;</a></h3>
+<p>号段模式的核心是"<strong>批发</strong>"：发号器一次向数据库领<strong>一批</strong>号（比如 1~1000），缓存在本地内存里，之后 1000 个请求全部在本地用 <code>AtomicLong</code> 原子加 1 分发，一个 ID 都不再走数据库；快用完时后台线程提前预加载下一批（双 Buffer 机制），保证永不断号。</p>
+<h3 id="展开讲为什么不能每次来一个-id-查一次数据库">展开讲：为什么不能"每次来一个 ID 查一次数据库"<a class="headerlink" href="#展开讲为什么不能每次来一个-id-查一次数据库" title="Permanent link">&para;</a></h3>
+<p>最朴素的做法是：来一个请求，就往数据库里插一条记录，用自增主键当 ID 返回。听起来简单，但<strong>并发一高数据库就挂</strong>：</p>
+<ul>
+<li>每个 ID 都对应一次数据库写操作（还要走事务、刷磁盘、同步主从），数据库每秒能承受的写次数是有上限的；</li>
+<li>发号器是全公司的公共设施，所有业务都来挤，<strong>数据库瞬间被打满</strong>，发号变慢，全公司业务跟着遭殃；</li>
+<li>数据库挂了，<strong>整个系统一个 ID 都发不出来</strong>——发号器成了单点故障。</li>
+</ul>
+<p>所以正经做法是：<strong>别让数据库参与每一次发号</strong>，一次批发，长期受益。</p>
+<h3 id="展开讲核心思想批发号段">展开讲：核心思想——"批发"号段<a class="headerlink" href="#展开讲核心思想批发号段" title="Permanent link">&para;</a></h3>
+<p>号段模式在数据库里放一张"发号表"，结构大致是这样：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>发号表（leaf_alloc）
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>| biz_tag（业务标识） | max_id（当前已发到的最大号） | step（每次批发的步长） |
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>|---------------------|---------------------------|----------------------|
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>| order（订单）        | 2000                      | 1000                 |
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>| user（用户）         | 5000                      | 1000                 |
+</span></code></pre></div>
+<p>发号流程三步：</p>
+<ol>
+<li><strong>领号段</strong>：某台业务机器快没号了，就向数据库执行一次更新：</li>
+</ol>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>UPDATE leaf_alloc SET max_id = max_id + step WHERE biz_tag = 'order'
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>-- 执行后 max_id 从 1000 变成 2000，这一步通过 where + 行锁保证只有一台机器领到 1001~2000
+</span></code></pre></div>
+<p>执行完，这台机器就<strong>独占</strong>了 <code>1001~2000</code> 这 1000 个号，数据库里 max_id 已推进到 2000，别的机器绝不会再领到重复段；</p>
+<ol>
+<li><strong>本地缓存</strong>：机器把"当前号段"（起始号 1001、当前值 1001、上限 2000）装进<strong>本地内存</strong>；</li>
+<li><strong>本地分发</strong>：接下来 1000 个请求，全部在本地用 <code>AtomicLong</code> 的 <code>getAndIncrement()</code> <strong>原子加 1</strong>：1001、1002、1003……发完 2000 再去数据库领下一批。</li>
+</ol>
+<p><code>AtomicLong</code> 是什么？就是 Java 里一个"多线程同时加 1 也不会乱"的计数器——1000 个线程同时抢号，它保证每个线程拿到的数都不同，这一步在纯内存里完成，<strong>完全不碰网络</strong>。</p>
+<p>伪代码：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>function nextId():
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    if 当前号段还有剩余:                    # 内存里还有号
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>        return atomicLong.getAndIncrement() # 原子加 1，直接返回，零网络
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    else:                                  # 号段用完了
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        newRange = 向数据库领下一批号段()   # UPDATE ... 把 max_id 推进一个 step
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        把 newRange 装进本地内存
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        return 继续从新号段取号
+</span></code></pre></div>
+<h3 id="展开讲双-buffer-机制提前囤货永不断号">展开讲：双 Buffer 机制——提前囤货，永不断号<a class="headerlink" href="#展开讲双-buffer-机制提前囤货永不断号" title="Permanent link">&para;</a></h3>
+<p>上面"用完再领"有个隐患：号段用尽的瞬间，恰好 1000 个请求同时涌来，大家全卡在"等数据库返回新号段"上，发号短暂阻塞。</p>
+<p>解决办法是<strong>双 Buffer（双缓冲）</strong>：内存里同时维护<strong>两个号段</strong>：</p>
+<ul>
+<li><strong>Buffer 1</strong>：正在对外发号的号段（比如 1001~2000）；</li>
+<li><strong>Buffer 2</strong>：备用的下一批号段（比如 2001~3000），提前囤好。</li>
+</ul>
+<p>后台线程盯着 Buffer 1 的消耗进度，<strong>当它用到比如 20% 时</strong>（发到 1200 左右），就<strong>异步启动一个后台线程</strong>去数据库预加载下一批（3001~4000）填进 Buffer 2。等到 Buffer 1 真的耗尽，Buffer 2 直接顶上继续发号，同时后台线程再预加载新的下一批。两边像"左右手交替"一样接力：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Buffer 1（正在发）：1001 ~ 2000     Buffer 2（囤着）：2001 ~ 3000
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>   ↓ 用到 20% 时后台异步领 3001~4000 填进来
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>Buffer 2（正在发）：2001 ~ 3000     Buffer 1（囤着）：3001 ~ 4000
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>   ↓ 循环往复……
+</span></code></pre></div>
+<p>因为"备货"永远提前完成，<strong>业务线程任何时候都不需要现场等数据库</strong>——这就是"双 Buffer"的意义：把"同步等数据库"变成"异步提前囤货"。</p>
+<h3 id="展开讲优势坚若磐石的高可用">展开讲：优势——坚若磐石的高可用<a class="headerlink" href="#展开讲优势坚若磐石的高可用" title="Permanent link">&para;</a></h3>
+<p>号段模式的杀手锏是<strong>抗数据库故障</strong>：</p>
+<ul>
+<li>每台业务机器内存里都囤着几百上千个号（双 Buffer 更多）；</li>
+<li>就算 <strong>MySQL 发号库宕机十几分钟</strong>，业务机器靠内存里囤积的备用号码<strong>照常发号</strong>，业务完全不中断；</li>
+<li>数据库恢复后，机器再去领新号段，无缝衔接。</li>
+</ul>
+<p>此外号段模式还有两个附带优点：</p>
+<ul>
+<li><strong>ID 紧凑连续</strong>：同一批次的 ID 是严格连续的数字，排序性好、存储友好，适合金融类对"号段可追溯、可对账"有要求的场景；</li>
+<li><strong>天然抗时钟回拨</strong>：它根本不用系统时间，全靠数据库分配，不存在雪花算法那个命门。</li>
+</ul>
+<p>缺点也要知道：一是<strong>依赖数据库</strong>，发号库要自己保证高可用（做主从、上云数据库）；二是<strong>号码有"浪费"</strong>——每台机器领走 1000 个号，可能只用了几百个就因重启/切换丢掉一批，号段是"越领越大"，但这不是大问题，long 的容量大得很。</p>
+<h3 id="比喻_2">比喻<a class="headerlink" href="#比喻_2" title="Permanent link">&para;</a></h3>
+<p>号段模式像<strong>便利店进货</strong>：店主（业务机器）不会客人买一包薯片就跑一趟批发市场（数据库），而是一次性批发一整车（一个号段）囤在店里，客人来了直接货架拿（本地原子加 1）。店里还常备<strong>两个仓库轮流进货</strong>（双 Buffer）：A 仓库还剩 20% 货时就提前把 B 仓库补满，客人永远买不到"缺货"。就算批发市场（MySQL）临时关门十几分钟，店里囤的货也够卖，生意照常。</p>
+<h3 id="面试怎么答_1">面试怎么答<a class="headerlink" href="#面试怎么答_1" title="Permanent link">&para;</a></h3>
+<p>一句话开场："号段模式的核心是批发，一次向数据库领一批号缓存到本地，用 <code>AtomicLong</code> 本地分发，避免每次发号都打数据库。"然后讲两点细节加分：一是"领号靠 <code>UPDATE leaf_alloc SET max_id = max_id + step</code> 保证并发下不同机器领到不同号段"；二是"双 Buffer：用到 20% 时后台线程异步预加载下一批，MySQL 宕机十几分钟业务照样发号"。最后点一句"美团 Leaf 的号段模式就是这个思路"。</p>
+<hr />
+<h2 id="4-如何选择雪花算法-or-数据库号段">4. 如何选择：雪花算法 or 数据库号段？<a class="headerlink" href="#4-如何选择雪花算法-or-数据库号段" title="Permanent link">&para;</a></h2>
+<h3 id="一句话回答_3">一句话回答<a class="headerlink" href="#一句话回答_3" title="Permanent link">&para;</a></h3>
+<p><strong>常规互联网业务</strong>（订单、用户、评论等）选<strong>雪花算法</strong>（加防时钟回拨策略）：成本低、无网络依赖、性能极致；<strong>金融级核心链路</strong>（账务、交易流水等）选<strong>数据库号段模式</strong>：绝对可靠、ID 紧密递增、不怕时钟回拨。实际工作中按公司现有基建二选一。</p>
+<h3 id="展开讲两种方案的取舍">展开讲：两种方案的取舍<a class="headerlink" href="#展开讲两种方案的取舍" title="Permanent link">&para;</a></h3>
+<p><strong>选雪花算法的理由：</strong></p>
+<ul>
+<li>零外部依赖，<strong>不引入数据库/Redis 压力</strong>，发号性能极致（本地位运算）；</li>
+<li>部署简单，每台机器配个 WorkerID 就能用，成本几乎为零；</li>
+<li>ID 里嵌着时间，天然带"时间维度"，做分库分表的路由、排序都很方便。</li>
+</ul>
+<p><strong>选号段模式的理由：</strong></p>
+<ul>
+<li><strong>不怕时钟回拨</strong>，也不依赖任何本机状态，可靠性上限更高；</li>
+<li>ID 严格紧凑连续，金融对账、审计友好；</li>
+<li>发号库做主从高可用后，整体可用性极其坚若磐石。</li>
+</ul>
+<p><strong>一个隐藏的坑要注意</strong>：雪花算法的 ID 趋势递增但<strong>不连续</strong>（同一毫秒里穿插着不同机器的号），而号段模式"大体连续"。如果业务要求"ID 必须能反映先后顺序且间隔尽量小"，号段更合适。</p>
+<h3 id="对比表背这个">对比表（背这个）<a class="headerlink" href="#对比表背这个" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>雪花算法</th>
+<th>数据库号段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>核心依赖</td>
+<td>无（仅本机时钟）</td>
+<td>MySQL 发号库</td>
+</tr>
+<tr>
+<td>发号性能</td>
+<td>极快（纯内存位运算）</td>
+<td>快（本地原子加，批量领取）</td>
+</tr>
+<tr>
+<td>是否怕时钟回拨</td>
+<td>❌ 怕（需要兜底策略）</td>
+<td>✅ 不怕</td>
+</tr>
+<tr>
+<td>ID 连续性</td>
+<td>趋势递增、不连续</td>
+<td>紧凑连续</td>
+</tr>
+<tr>
+<td>数据库宕机影响</td>
+<td>完全无影响</td>
+<td>靠内存囤号，可扛十几分钟</td>
+</tr>
+<tr>
+<td>运维成本</td>
+<td>低（只需分配机器号）</td>
+<td>中（发号库要保证高可用）</td>
+</tr>
+<tr>
+<td>典型场景</td>
+<td>互联网常规业务</td>
+<td>金融级核心链路</td>
+</tr>
+</tbody>
+</table>
+<h3 id="实际工作怎么选">实际工作怎么选<a class="headerlink" href="#实际工作怎么选" title="Permanent link">&para;</a></h3>
+<p>真实公司里往往不是"现场从零做"：有的公司基建里已经有现成的分布式发号中间件（比如美团 Leaf、百度 UidGenerator，都是雪花/号段思路的落地），<strong>直接按公司基建接入即可</strong>，不用重复造轮子。所以面试时最后一定要补一句："具体选哪个，我会先看公司现有的发号基建，有现成组件直接复用，没有的话常规业务上雪花、核心链路用号段。"——这句话展示你的工程思维，比硬背方案更值钱。</p>
+<hr />
+<h2 id="5-面试怎么答完整话术主线">5. 面试怎么答（完整话术主线）<a class="headerlink" href="#5-面试怎么答完整话术主线" title="Permanent link">&para;</a></h2>
+<h3 id="第一步先讲三个目标30-秒">第一步：先讲三个目标（30 秒）<a class="headerlink" href="#第一步先讲三个目标30-秒" title="Permanent link">&para;</a></h3>
+<p>"设计分布式 ID 发号器，我先明确三个目标：<strong>全局唯一</strong>是底线；<strong>趋势递增</strong>——因为 MySQL 主键是 B+ 树，乱序插入会频繁页分裂、性能剧烈下降，所以 ID 要全数字 <code>long</code> 且大体递增；<strong>高性能</strong>——发号器是全公司公共设施，每秒几百万的量，不能有网络 IO 瓶颈。"</p>
+<h3 id="第二步顺带解释为什么不用-uuid20-秒">第二步：顺带解释为什么不用 UUID（20 秒）<a class="headerlink" href="#第二步顺带解释为什么不用-uuid20-秒" title="Permanent link">&para;</a></h3>
+<p>"UUID 虽然本地生成、天然唯一，但它不是全数字、太长，而且<strong>完全无序</strong>，当数据库主键会引发严重的页分裂问题，所以大型项目几乎不用 UUID 做主键。"</p>
+<h3 id="第三步两种方案分别展开各-1-分钟">第三步：两种方案分别展开（各 1 分钟）<a class="headerlink" href="#第三步两种方案分别展开各-1-分钟" title="Permanent link">&para;</a></h3>
+<p><strong>方案一（雪花）：</strong>"追求极致性能与去中心化。64 位拆成 1 位符号位 + 41 位毫秒时间戳 + 10 位机器 ID + 12 位流水号，本地位运算拼出 ID，零网络 IO，一毫秒最多 4096 个。隐患是<strong>时钟回拨</strong>，我的兜底是：生成前记录上一次时间戳，小回拨让线程自旋等待，大回拨抛异常或切备用发号器。"</p>
+<p><strong>方案二（号段）：</strong>"追求绝对高可用。不能每次查库，而是<strong>批发</strong>：<code>UPDATE</code> 把 <code>max_id</code> 推进一个 <code>step</code>，领一批号缓存本地，用 <code>AtomicLong</code> 原子分发；配<strong>双 Buffer</strong>，用到 20% 时后台线程异步预加载下一批，所以 MySQL 发号库宕机十几分钟业务也能靠内存囤号照常运转。"</p>
+<h3 id="第四步给选型建议收尾30-秒">第四步：给选型建议收尾（30 秒）<a class="headerlink" href="#第四步给选型建议收尾30-秒" title="Permanent link">&para;</a></h3>
+<p>"常规互联网业务用雪花（加防时钟回拨策略），成本低、无网络依赖；金融级核心链路用号段，绝对可靠、ID 紧密递增。实际工作中按公司现有基建二选一，有现成发号中间件直接复用。"</p>
+<hr />
+<h2 id="本节小结">本节小结<a class="headerlink" href="#本节小结" title="Permanent link">&para;</a></h2>
+<p>分布式 ID 发号器要满足<strong>全局唯一、趋势递增（全数字 <code>long</code>）、高性能</strong>三个目标，UUID 因无序、过长不适合做主键；方案一<strong>雪花算法</strong>靠"1 位符号位 + 41 位时间戳 + 10 位机器 ID + 12 位流水号"的 64 位切分实现纯本地极速发号，需防<strong>时钟回拨</strong>；方案二<strong>数据库号段模式</strong>靠"批发号段 + <code>AtomicLong</code> 本地分发 + 双 Buffer 预加载"实现坚若磐石的高可用；常规业务选雪花，金融级核心链路选号段，实际按公司基建二选一。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../04_%E7%82%B9%E8%B5%9E%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 04 点赞系统设计">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                04 点赞系统设计
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../06_%E8%AE%A2%E5%8D%95%E8%B6%85%E6%97%B6%E5%8F%96%E6%B6%88%E6%96%B9%E6%A1%88/" class="md-footer__link md-footer__link--next" aria-label="下一页: 06 订单超时取消方案">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                06 订单超时取消方案
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 AndisWarm的知识库
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/AndisWarm" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"../../..","features":["announce.dismiss","content.code.annotate","content.code.copy","content.code.select","content.tabs.link","content.tooltips","navigation.expand","navigation.footer","navigation.indexes","navigation.instant","navigation.instant.prefetch","navigation.instant.progress","navigation.path","navigation.sections","navigation.tabs","navigation.top","navigation.tracking","search.highlight","search.share","search.suggest","toc.follow"],"search":"../../../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"已复制","clipboard.copy":"复制","search.result.more.one":"在该页上还有 1 个符合条件的结果","search.result.more.other":"在该页上还有 # 个符合条件的结果","search.result.none":"没有找到符合条件的结果","search.result.one":"找到 1 个符合条件的结果","search.result.other":"# 个符合条件的结果","search.result.placeholder":"键入以开始搜索","search.result.term.missing":"缺少","select.version":"选择当前版本"},"version":null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e886cdf1.min.js"></script>
+      
+        <script src="../../../javascripts/extra.js"></script>
+      
+    
+  </body>
+</html>
