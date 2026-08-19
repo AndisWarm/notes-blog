@@ -2,6 +2,14 @@
 
 基于 [Zensical](https://zensical.org/)（Material for MkDocs 官方继任者）构建的 Markdown 文档平台，展示 `F:\知识库\豆瓣读书\学习笔记` 的后端面试知识文档。
 
+## 效果展示
+
+![image-20260819223513433](img/image-20260819223513433.png)
+
+![image-20260819223629134](img/image-20260819223629134.png)
+
+![image-20260819223803362](img/image-20260819223803362.png)
+
 ## 使用
 
 ```powershell
