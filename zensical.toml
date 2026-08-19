@@ -1,0 +1,214 @@
+[project]
+site_name = "AndisWarm的知识库"
+site_description = "面向编程小白的后端面试八股文详解"
+site_url = "http://localhost:8000"
+docs_dir = "docs"
+site_dir = "site"
+site_author = "AndisWarm"
+copyright = "Copyright &copy; 2026 AndisWarm的知识库"
+
+extra_css = [
+  "stylesheets/extra.css",
+  "https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css",
+]
+
+extra_javascript = [
+  "javascripts/extra.js",
+]
+
+nav = [
+  { "主页" = "README.md" },
+  { "面试知识库" = [
+  { "MySQL 面试" = [
+    { "01 SQL 基础与数据类型" = "MySQL面试知识讲解/01_SQL基础与数据类型.md" },
+    { "02 SQL 实战题" = "MySQL面试知识讲解/02_SQL实战题.md" },
+    { "03 存储引擎" = "MySQL面试知识讲解/03_存储引擎.md" },
+    { "04 索引基础" = "MySQL面试知识讲解/04_索引基础.md" },
+    { "05 事务" = "MySQL面试知识讲解/05_事务.md" },
+    { "06 锁" = "MySQL面试知识讲解/06_锁.md" },
+    { "07 日志" = "MySQL面试知识讲解/07_日志.md" },
+    { "08 性能调优" = "MySQL面试知识讲解/08_性能调优.md" },
+    { "09 架构" = "MySQL面试知识讲解/09_架构.md" },
+    { "总览" = "MySQL面试知识讲解/README.md" },
+  ] },
+  { "Redis 面试" = [
+    { "01 数据类型与使用场景" = "Redis面试知识讲解/01_数据类型与使用场景.md" },
+    { "02 底层数据结构" = "Redis面试知识讲解/02_底层数据结构.md" },
+    { "03 线程模型" = "Redis面试知识讲解/03_线程模型.md" },
+    { "04 事务与持久化" = "Redis面试知识讲解/04_事务与持久化.md" },
+    { "05 过期删除与内存淘汰" = "Redis面试知识讲解/05_过期删除与内存淘汰.md" },
+    { "06 集群架构" = "Redis面试知识讲解/06_集群架构.md" },
+    { "07 缓存应用场景" = "Redis面试知识讲解/07_缓存应用场景.md" },
+    { "08 分布式锁与大Key热Key" = "Redis面试知识讲解/08_分布式锁与大Key热Key.md" },
+    { "09 缓存一致性、三大问题与秒杀" = "Redis面试知识讲解/09_缓存一致性、三大问题与秒杀.md" },
+    { "总览" = "Redis面试知识讲解/README.md" },
+  ] },
+  { "分布式" = [
+    { "01 分布式理论" = "分布式面试知识讲解/01_分布式理论.md" },
+    { "02 分布式锁" = "分布式面试知识讲解/02_分布式锁.md" },
+    { "03 分布式 ID" = "分布式面试知识讲解/03_分布式ID.md" },
+    { "04 分布式事务" = "分布式面试知识讲解/04_分布式事务.md" },
+    { "总览" = "分布式面试知识讲解/README.md" },
+  ] },
+  { "操作系统" = [
+    { "01 用户态与内核态" = "操作系统面试知识讲解/01_用户态与内核态.md" },
+    { "02 进程与线程" = "操作系统面试知识讲解/02_进程与线程.md" },
+    { "03 进程间通信（IPC）" = "操作系统面试知识讲解/03_进程间通信.md" },
+    { "04 进程调度算法" = "操作系统面试知识讲解/04_进程调度算法.md" },
+    { "05 锁与死锁" = "操作系统面试知识讲解/05_锁与死锁.md" },
+    { "06 内存管理基础" = "操作系统面试知识讲解/06_内存管理基础.md" },
+    { "07 内存管理进阶：fork、malloc 与内存回收" = "操作系统面试知识讲解/07_内存管理进阶.md" },
+    { "08 中断" = "操作系统面试知识讲解/08_中断.md" },
+    { "09 网络 I/O 模型" = "操作系统面试知识讲解/09_网络IO模型.md" },
+    { "总览" = "操作系统面试知识讲解/README.md" },
+  ] },
+  { "计算机网络" = [
+    { "01 网络模型" = "计算机网络面试知识讲解/01_网络模型.md" },
+    { "02 HTTP 基础" = "计算机网络面试知识讲解/02_HTTP基础.md" },
+    { "03 HTTPS 与加密" = "计算机网络面试知识讲解/03_HTTPS与加密.md" },
+    { "04 DNS 域名解析" = "计算机网络面试知识讲解/04_DNS域名解析.md" },
+    { "05 Cookie、Session 与 JWT" = "计算机网络面试知识讲解/05_Cookie_Session与JWT.md" },
+    { "06 RPC、WebSocket 与 Nginx" = "计算机网络面试知识讲解/06_RPC_WebSocket与Nginx.md" },
+    { "07 TCP 三次握手" = "计算机网络面试知识讲解/07_TCP三次握手.md" },
+    { "08 TCP 四次挥手" = "计算机网络面试知识讲解/08_TCP四次挥手.md" },
+    { "09 TCP 可靠传输与 UDP" = "计算机网络面试知识讲解/09_TCP可靠传输与UDP.md" },
+    { "10 网络排查场景" = "计算机网络面试知识讲解/10_网络排查场景.md" },
+    { "11 网络攻击" = "计算机网络面试知识讲解/11_网络攻击.md" },
+    { "12 进阶知识点扩展（编程小白补课篇）" = "计算机网络面试知识讲解/12_进阶知识点扩展.md" },
+    { "总览" = "计算机网络面试知识讲解/README.md" },
+  ] },
+  { "消息队列" = [
+    { "01 消息队列是什么与为什么" = "消息队列面试知识讲解/01_消息队列是什么与为什么.md" },
+    { "02 消息队列选型" = "消息队列面试知识讲解/02_消息队列选型.md" },
+    { "03 消息可靠性" = "消息队列面试知识讲解/03_消息可靠性.md" },
+    { "04 幂等与消息积压" = "消息队列面试知识讲解/04_幂等与消息积压.md" },
+    { "05 事务消息与数据一致性" = "消息队列面试知识讲解/05_事务消息与数据一致性.md" },
+    { "06 设计模式与消息队列架构设计" = "消息队列面试知识讲解/06_设计模式与架构设计.md" },
+    { "07 RocketMQ 详解" = "消息队列面试知识讲解/07_RocketMQ详解.md" },
+    { "08 Kafka 详解" = "消息队列面试知识讲解/08_Kafka详解.md" },
+    { "09 RabbitMQ 详解" = "消息队列面试知识讲解/09_RabbitMQ详解.md" },
+    { "总览" = "消息队列面试知识讲解/README.md" },
+  ] },
+  { "消息队列主题" = [
+    { "总览" = "消息队列主题是什么/README.md" },
+  ] },
+  { "系统设计" = [
+    { "01 秒杀系统设计" = "系统设计面试知识讲解/01_秒杀系统设计.md" },
+    { "02 RPC 框架设计" = "系统设计面试知识讲解/02_RPC框架设计.md" },
+    { "03 短链系统设计" = "系统设计面试知识讲解/03_短链系统设计.md" },
+    { "04 点赞系统设计" = "系统设计面试知识讲解/04_点赞系统设计.md" },
+    { "05 分布式 ID 发号器设计" = "系统设计面试知识讲解/05_分布式ID发号器设计.md" },
+    { "06 订单超时取消方案" = "系统设计面试知识讲解/06_订单超时取消方案.md" },
+    { "07 如果你的系统 QPS 突然提升 10 倍，你会怎么设计？" = "系统设计面试知识讲解/07_QPS暴涨10倍应对.md" },
+    { "总览" = "系统设计面试知识讲解/README.md" },
+  ] },
+  { "后端进阶" = [
+    { "01 计算机基础" = "后端技术进阶之路/01_计算机基础.md" },
+    { "02 数据库与存储" = "后端技术进阶之路/02_数据库与存储.md" },
+    { "03 设计模式与代码优化" = "后端技术进阶之路/03_设计模式与代码优化.md" },
+    { "04 消息队列" = "后端技术进阶之路/04_消息队列.md" },
+    { "05 系统设计与架构" = "后端技术进阶之路/05_系统设计与架构.md" },
+    { "06 高并发与性能优化" = "后端技术进阶之路/06_高并发与性能优化.md" },
+    { "07 分布式系统" = "后端技术进阶之路/07_分布式系统.md" },
+    { "08 微服务架构" = "后端技术进阶之路/08_微服务架构.md" },
+    { "09 云原生技术" = "后端技术进阶之路/09_云原生技术.md" },
+    { "总览" = "后端技术进阶之路/README.md" },
+  ] },
+  { "TLS 握手" = [
+    { "01 什么是 TLS，为什么需要它" = "TLS握手协议详解/01_什么是TLS_为什么需要它.md" },
+    { "02 TLS 握手全流程总览" = "TLS握手协议详解/02_TLS握手全流程总览.md" },
+    { "03 第一次握手：ClientHello" = "TLS握手协议详解/03_第一次握手_ClientHello.md" },
+    { "04 第二次握手：ServerHello 与密码套件" = "TLS握手协议详解/04_第二次握手_ServerHello与密码套件.md" },
+    { "05 数字证书与 CA：如何证明\"我是我\"" = "TLS握手协议详解/05_数字证书与CA详解.md" },
+    { "06 第三次握手：密钥交换与加密切换" = "TLS握手协议详解/06_第三次握手_密钥交换与加密切换.md" },
+    { "07 第四次握手：握手完成与加密通信" = "TLS握手协议详解/07_第四次握手_握手完成与加密通信.md" },
+    { "08 扩展知识：常见疑问与 TLS 1.3" = "TLS握手协议详解/08_扩展知识_常见疑问与TLS1.3.md" },
+    { "总览" = "TLS握手协议详解/README.md" },
+  ] },
+  ] },
+]
+
+[project.theme]
+variant = "classic"
+language = "zh"
+font.code = "JetBrains Mono"
+features = [
+  "announce.dismiss",
+  "content.code.annotate",
+  "content.code.copy",
+  "content.code.select",
+  "content.tabs.link",
+  "content.tooltips",
+  "navigation.expand",
+  "navigation.footer",
+  "navigation.indexes",
+  "navigation.instant",
+  "navigation.instant.prefetch",
+  "navigation.instant.progress",
+  "navigation.path",
+  "navigation.sections",
+  "navigation.tabs",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+  "search.share",
+  "search.suggest",
+  "toc.follow",
+]
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "Switch to light mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "custom"
+accent = "blue"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "custom"
+accent = "blue"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to system preference"
+
+[project.markdown_extensions]
+abbr = {}
+admonition = {}
+attr_list = {}
+def_list = {}
+footnotes = {}
+md_in_html = {}
+toc = { permalink = true, slugify = { object = "pymdownx.slugs.slugify", kwds = { case = "lower" } } }
+pymdownx.arithmatex.generic = true
+pymdownx.betterem = {}
+pymdownx.caret = {}
+pymdownx.details = {}
+pymdownx.emoji.emoji_generator = "zensical.extensions.emoji.to_svg"
+pymdownx.emoji.emoji_index = "zensical.extensions.emoji.twemoji"
+pymdownx.highlight.anchor_linenums = true
+pymdownx.highlight.line_spans = "__span"
+pymdownx.highlight.pygments_lang_class = true
+pymdownx.inlinehilite = {}
+pymdownx.keys = {}
+pymdownx.magiclink = {}
+pymdownx.mark = {}
+pymdownx.smartsymbols = {}
+pymdownx.superfences.custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]
+pymdownx.tabbed.alternate_style = true
+pymdownx.tabbed.combine_header_slug = true
+pymdownx.tasklist.custom_checkbox = true
+pymdownx.tilde = {}
+
+[project.extra]
+generator = false
+social = [
+  { icon = "simple/github", link = "https://github.com/AndisWarm" },
+]
