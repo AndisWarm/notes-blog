@@ -1,5 +1,6 @@
 # ===== 构建产物 =====
 site/
+.cache/
 
 # ===== 本地安装的 Zensical 包（非项目源码） =====
 zensical/
