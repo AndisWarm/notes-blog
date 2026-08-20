@@ -8,7 +8,7 @@ title: 主页
 <div class="mdx-hero">
   <img class="avatar avatar-gyro" src="assets/images/avatar.jpg" alt="头像">
   <div class="ml3">AndisWarm的知识库</div>
-  <p class="hero-subtitle">AndisWarm 的个人知识库 · 当前聚焦后端面试八股文，基于<a href="https://www.xiaolincoding.com/" target="_blank">小林 coding</a>面试系列整理。每个专题采用「一句话回答 → 展开讲 → 比喻 → 面试怎么答」的结构，用大白话把底层原理讲透。</p>
+  <p class="hero-subtitle">AndisWarm 的个人知识库 · 当前聚焦后端面试八股文，基于<a href="https://www.xiaolincoding.com/" target="_blank">小林 coding</a>面试系列整理。每个专题按「答案 → 展开讲 → 打个比方 → 面试怎么答」的结构展开，把底层原理讲清楚。</p>
 </div>
 
 !!! tip "使用提示 Tips"
@@ -19,7 +19,7 @@ title: 主页
     - **移动端**：请点击左上角图标选择主题和文章
     - 也可以使用顶部**搜索**关键词快速打开文章
 
-## 目录
+## 面试知识库
 
 <div class="grid cards" markdown>
 
@@ -97,12 +97,35 @@ title: 主页
 
 </div>
 
+## 项目实战
+
+<div class="grid cards" markdown>
+
+-   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="card-icon"><path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/><path d="M14 13.12c0 2.38 0 6.38-1 8.88"/><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M2 16h.01"/><path d="M21.8 16c.2-2 .131-5.354 0-6"/><path d="M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2"/><path d="M8.65 22c.21-.66.45-1.32.57-2"/><path d="M9 6.8a6 6 0 0 1 9 5.2v2"/></svg> **ImageProvenance**
+
+    ---
+
+    区块链 + C2PA 图像确权溯源：三哈希、链上登记、授权分账、四态验证
+
+    [开始学习 →](项目实战知识库/ImageProvenance/README.md)
+
+-   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="card-icon"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> **轻量 IP 态势感知系统**
+
+    ---
+
+    四维数据采集 + 加权评分，给任意 IP 算 0~100 风险分；异步任务、JWT 鉴权、实时监控
+
+    [开始学习 →](项目实战知识库/lightweight-ip-traffic-sa/README.md)
+
+</div>
+
 ## 阅读建议
 
 1. 先从 **MySQL / Redis** 入手，这两块是后端面试最高频考点；
 2. 再补 **操作系统** 与 **计算机网络** 的基础知识；
 3. 然后进入 **消息队列** 与 **分布式** 的中级内容；
-4. 最后用 **系统设计** 与 **后端技术进阶之路** 串联成完整的架构认知。
+4. 最后用 **系统设计** 与 **后端技术进阶之路** 串联成完整的架构认知；
+5. 面试讲项目时，到 **项目实战知识库** 按「开发文档 → 学习路径 → 面试讲解 → 使用手册 → 测试报告」完整过一遍。
 
 ## 参考来源
 
