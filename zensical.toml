@@ -124,6 +124,123 @@ nav = [
       { "总览" = "面试知识库/计算机网络面试知识讲解/README.md" }
     ] }
   ] },
+  { "项目实战知识库" = [
+    { "ImageProvenance" = [
+      { "开发文档" = [
+        { "一期（ImageProvenance_bak）设计与实现审查报告" = "项目实战知识库/ImageProvenance/docs/01-一期设计审查报告.md" },
+        { "二期改进设计方案（ImageProvenance V2）" = "项目实战知识库/ImageProvenance/docs/02-二期改进设计方案.md" },
+        { "二期实施计划" = "项目实战知识库/ImageProvenance/docs/03-实施计划.md" },
+        { "开发日志" = "项目实战知识库/ImageProvenance/docs/04-开发日志.md" },
+        { "EIP-712 元交易设计（展望，未实现）" = "项目实战知识库/ImageProvenance/docs/05-EIP712元交易设计（展望）.md" },
+        { "答辩演示脚本（5 分钟版）" = "项目实战知识库/ImageProvenance/docs/06-演示脚本.md" },
+        { "答辩问题集与应答口径" = "项目实战知识库/ImageProvenance/docs/07-答辩问题集.md" },
+        { "面试讲述指南:ImageProvenance V2" = "项目实战知识库/ImageProvenance/docs/08-面试讲述指南.md" },
+        { "论文素材索引" = "项目实战知识库/ImageProvenance/docs/09-论文素材索引.md" },
+        { "威胁模型与安全性分析" = "项目实战知识库/ImageProvenance/docs/10-威胁模型与安全性分析.md" },
+        { "面试项目简介：ImageProvenance V2" = "项目实战知识库/ImageProvenance/docs/11-面试项目简介.md" },
+        { "ImageProvenance V2 项目成果" = "项目实战知识库/ImageProvenance/docs/12-项目成果.md" },
+        { "还能做的方向" = "项目实战知识库/ImageProvenance/docs/还能做的方向.md" }
+      ] },
+      { "学习路径" = [
+        { "01 跑起来:首次全流程体验" = "项目实战知识库/ImageProvenance/learning/01-跑起来-首次全流程体验.md" },
+        { "02 预备:区块链与以太坊基础" = "项目实战知识库/ImageProvenance/learning/02-预备-区块链与以太坊基础.md" },
+        { "03 预备:哈希、签名与 C2PA 基础" = "项目实战知识库/ImageProvenance/learning/03-预备-哈希签名与C2PA基础.md" },
+        { "04 精读:智能合约层" = "项目实战知识库/ImageProvenance/learning/04-精读-智能合约层.md" },
+        { "05 精读:后端登记管道" = "项目实战知识库/ImageProvenance/learning/05-精读-后端登记管道.md" },
+        { "06 精读:事件同步与数据一致性" = "项目实战知识库/ImageProvenance/learning/06-精读-事件同步与数据一致性.md" },
+        { "07 精读:前端 dApp 交互" = "项目实战知识库/ImageProvenance/learning/07-精读-前端dApp交互.md" },
+        { "08 实操:C2PA 与自建信任链" = "项目实战知识库/ImageProvenance/learning/08-实操-C2PA与自建信任链.md" },
+        { "09 精通:测试体系与质量工程" = "项目实战知识库/ImageProvenance/learning/09-精通-测试体系与质量工程.md" },
+        { "10 实战:三个进阶练习与结业自测" = "项目实战知识库/ImageProvenance/learning/10-实战-进阶练习与自测.md" },
+        { "总览" = "项目实战知识库/ImageProvenance/learning/README.md" }
+      ] },
+      { "面试讲解" = [
+        { "01 项目是什么：用大白话讲清楚" = "项目实战知识库/ImageProvenance/learning-interview/01-项目是什么.md" },
+        { "02 核心概念扫盲：小白也能懂的技术词典" = "项目实战知识库/ImageProvenance/learning-interview/02-核心概念扫盲.md" },
+        { "03 系统架构全景：数据怎么流动" = "项目实战知识库/ImageProvenance/learning-interview/03-系统架构全景.md" },
+        { "04 智能合约详解：每个函数的设计理由" = "项目实战知识库/ImageProvenance/learning-interview/04-智能合约详解.md" },
+        { "05 后端管道详解：十步流程与优雅降级" = "项目实战知识库/ImageProvenance/learning-interview/05-后端管道详解.md" },
+        { "06 事件同步机制：链下索引怎么和链上保持一致" = "项目实战知识库/ImageProvenance/learning-interview/06-事件同步机制.md" },
+        { "07 前端 dApp 详解：钱包、交易与读写分离" = "项目实战知识库/ImageProvenance/learning-interview/07-前端dApp详解.md" },
+        { "08 C2PA 与自建信任链：从 untrusted 到 Trusted" = "项目实战知识库/ImageProvenance/learning-interview/08-C2PA与信任链.md" },
+        { "09 测试与质量：四层金字塔与攻击用例设计" = "项目实战知识库/ImageProvenance/learning-interview/09-测试与质量.md" },
+        { "10 面试实战问答：50 个高频问题与参考答案" = "项目实战知识库/ImageProvenance/learning-interview/10-面试实战问答.md" },
+        { "11 项目亮点与难点：STAR 法则讲故事" = "项目实战知识库/ImageProvenance/learning-interview/11-项目亮点与难点.md" },
+        { "12 项目深度疑问答疑" = "项目实战知识库/ImageProvenance/learning-interview/12-项目深度疑问答疑.md" },
+        { "总览" = "项目实战知识库/ImageProvenance/learning-interview/README.md" }
+      ] },
+      { "使用手册" = [
+        { "01 环境与安装" = "项目实战知识库/ImageProvenance/manual/01-环境与安装.md" },
+        { "02 启动与健康检查" = "项目实战知识库/ImageProvenance/manual/02-启动与健康检查.md" },
+        { "03 演示:多账户登记、授权与分账" = "项目实战知识库/ImageProvenance/manual/03-演示-多账户登记授权与分账.md" },
+        { "04 自动化测试与云端回归" = "项目实战知识库/ImageProvenance/manual/04-自动化测试与云端回归.md" },
+        { "05 API 参考" = "项目实战知识库/ImageProvenance/manual/05-API参考.md" },
+        { "06 状态对照与数据字典" = "项目实战知识库/ImageProvenance/manual/06-状态对照与数据字典.md" },
+        { "07 故障排查手册" = "项目实战知识库/ImageProvenance/manual/07-故障排查手册.md" },
+        { "总览" = "项目实战知识库/ImageProvenance/manual/README.md" }
+      ] },
+      { "测试报告" = [
+        { "测试结果" = [
+          { "专项测试报告:作品签名上链后的状态 / 签发授权 / 分账 / 授权记录" = "项目实战知识库/ImageProvenance/reports/test-results/2026-07-26-状态与授权分账专项测试报告.md" },
+          { "攻击用例测试报告（论文第 5 章素材）" = "项目实战知识库/ImageProvenance/reports/test-results/attack-cases.md" },
+          { "C2PA 信任链对照证据（M2）" = "项目实战知识库/ImageProvenance/reports/test-results/c2pa-trust-comparison.md" },
+          { "V2 性能测试表（自动生成）" = "项目实战知识库/ImageProvenance/reports/test-results/performance-table.md" }
+        ] }
+      ] },
+      { "补充文档" = [
+        { "小白补充包" = [
+          { "00 总览：docs 目录写了什么（地图）" = "项目实战知识库/ImageProvenance/补充文档/docs-小白补充包/00-总览-docs写了什么.md" },
+          { "01 大白话：一期审查报告 与 二期改进设计方案" = "项目实战知识库/ImageProvenance/补充文档/docs-小白补充包/01-大白话-一期审查与二期设计.md" },
+          { "02 大白话：实施计划 与 开发日志" = "项目实战知识库/ImageProvenance/补充文档/docs-小白补充包/02-大白话-实施计划与开发日志.md" },
+          { "03 大白话：EIP-712 元交易设计" = "项目实战知识库/ImageProvenance/补充文档/docs-小白补充包/03-大白话-EIP712元交易.md" },
+          { "04 大白话：演示脚本 与 答辩问题集" = "项目实战知识库/ImageProvenance/补充文档/docs-小白补充包/04-大白话-演示与答辩.md" },
+          { "05 大白话：面试讲述指南" = "项目实战知识库/ImageProvenance/补充文档/docs-小白补充包/05-大白话-面试讲述指南.md" },
+          { "06 大白话：论文素材索引" = "项目实战知识库/ImageProvenance/补充文档/docs-小白补充包/06-大白话-论文素材索引.md" },
+          { "07 大白话：威胁模型与安全性分析" = "项目实战知识库/ImageProvenance/补充文档/docs-小白补充包/07-大白话-威胁模型与安全分析.md" },
+          { "08 大白话：还能做的方向" = "项目实战知识库/ImageProvenance/补充文档/docs-小白补充包/08-大白话-还能做的方向.md" },
+          { "09 术语表：小白词典（docs 版）" = "项目实战知识库/ImageProvenance/补充文档/docs-小白补充包/09-术语表-小白词典.md" },
+          { "总览" = "项目实战知识库/ImageProvenance/补充文档/docs-小白补充包/README.md" }
+        ] },
+        { "学习小白补充包" = [
+          { "00 热身：命令行、HTTP 与 JSON" = "项目实战知识库/ImageProvenance/补充文档/learning-小白补充包/00-热身-命令行HTTP与JSON.md" },
+          { "01 保姆级：环境搭建与五窗口启动" = "项目实战知识库/ImageProvenance/补充文档/learning-小白补充包/01-保姆级-环境搭建与五窗口启动.md" },
+          { "02 大白话：区块链、钱包与合约" = "项目实战知识库/ImageProvenance/补充文档/learning-小白补充包/02-大白话-区块链钱包与合约.md" },
+          { "03 大白话：哈希、签名与 C2PA" = "项目实战知识库/ImageProvenance/补充文档/learning-小白补充包/03-大白话-哈希签名与C2PA.md" },
+          { "04 全景图：架构、数据流、三哈希与验证四态" = "项目实战知识库/ImageProvenance/补充文档/learning-小白补充包/04-全景图-架构数据流与验证四态.md" },
+          { "05 术语表：小白词典" = "项目实战知识库/ImageProvenance/补充文档/learning-小白补充包/05-术语表-小白词典.md" },
+          { "06 自救：常见报错 FAQ 与 PowerShell 坑" = "项目实战知识库/ImageProvenance/补充文档/learning-小白补充包/06-自救-常见报错FAQ.md" },
+          { "总览" = "项目实战知识库/ImageProvenance/补充文档/learning-小白补充包/README.md" }
+        ] },
+        { "零基础手册" = [
+          { "00 零基础概念扫盲" = "项目实战知识库/ImageProvenance/补充文档/manual-beginner/00-零基础概念扫盲.md" },
+          { "01 环境与安装(小白版)" = "项目实战知识库/ImageProvenance/补充文档/manual-beginner/01-环境与安装.md" },
+          { "02 启动与健康检查(小白版)" = "项目实战知识库/ImageProvenance/补充文档/manual-beginner/02-启动与健康检查.md" },
+          { "03 演示全流程(小白版,带解说)" = "项目实战知识库/ImageProvenance/补充文档/manual-beginner/03-演示全流程.md" },
+          { "04 自动化测试与云端回归(小白版)" = "项目实战知识库/ImageProvenance/补充文档/manual-beginner/04-自动化测试.md" },
+          { "05 API 参考(小白版,带基础)" = "项目实战知识库/ImageProvenance/补充文档/manual-beginner/05-API参考.md" },
+          { "06 状态对照与数据字典(小白版)" = "项目实战知识库/ImageProvenance/补充文档/manual-beginner/06-状态对照与数据字典.md" },
+          { "07 故障排查(小白版)" = "项目实战知识库/ImageProvenance/补充文档/manual-beginner/07-故障排查.md" },
+          { "08 术语表与 FAQ" = "项目实战知识库/ImageProvenance/补充文档/manual-beginner/08-术语表与FAQ.md" },
+          { "总览" = "项目实战知识库/ImageProvenance/补充文档/manual-beginner/README.md" }
+        ] }
+      ] },
+      { "总览" = "项目实战知识库/ImageProvenance/README.md" }
+    ] },
+    { "轻量 IP 态势感知系统" = [
+      { "00. 项目是什么 + 技术栈全景" = "项目实战知识库/lightweight-ip-traffic-sa/00-项目是什么.md" },
+      { "01. 后端架构：分层 + 启动链路" = "项目实战知识库/lightweight-ip-traffic-sa/01-后端架构.md" },
+      { "02. 登录鉴权与权限" = "项目实战知识库/lightweight-ip-traffic-sa/02-登录鉴权与权限.md" },
+      { "03. 核心任务链路：从创建到评分预警" = "项目实战知识库/lightweight-ip-traffic-sa/03-核心任务链路.md" },
+      { "04. 数据源采集：四维数据从哪里来" = "项目实战知识库/lightweight-ip-traffic-sa/04-数据源采集.md" },
+      { "05. 评分算法：从数据到风险等级（含手算示例）" = "项目实战知识库/lightweight-ip-traffic-sa/05-评分算法.md" },
+      { "06. 流量增强：gopacket + pcap 解析" = "项目实战知识库/lightweight-ip-traffic-sa/06-流量增强.md" },
+      { "07. 实时流量监控：独立监听会话" = "项目实战知识库/lightweight-ip-traffic-sa/07-实时流量监控.md" },
+      { "08. 前端架构：Vue3 + Pinia + Axios + Element Plus" = "项目实战知识库/lightweight-ip-traffic-sa/08-前端架构.md" },
+      { "09. 数据库设计：13 张表的关系和理由" = "项目实战知识库/lightweight-ip-traffic-sa/09-数据库设计.md" },
+      { "10. 面试高频问答速查" = "项目实战知识库/lightweight-ip-traffic-sa/10-面试高频问答.md" },
+      { "总览" = "项目实战知识库/lightweight-ip-traffic-sa/README.md" }
+    ] }
+  ] }
 ]
 
 [project.theme]
