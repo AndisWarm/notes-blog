@@ -30,3 +30,8 @@ Desktop.ini
 .playwright-cli/
 _inspect*.mjs
 left_sidebar.png
+_shot*.py
+_v.mjs
+_verify*.py
+_shot*.png
+output/
