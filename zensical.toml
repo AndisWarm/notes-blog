@@ -272,11 +272,6 @@ features = [
 ]
 
 [[project.theme.palette]]
-media = "(prefers-color-scheme)"
-toggle.icon = "lucide/sun-moon"
-toggle.name = "Switch to light mode"
-
-[[project.theme.palette]]
 media = "(prefers-color-scheme: light)"
 scheme = "default"
 primary = "custom"
@@ -290,7 +285,7 @@ scheme = "slate"
 primary = "custom"
 accent = "blue"
 toggle.icon = "lucide/moon"
-toggle.name = "Switch to system preference"
+toggle.name = "Switch to light mode"
 
 [project.markdown_extensions]
 abbr = {}
