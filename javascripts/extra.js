@@ -1,3 +1,27 @@
+// 代码块语言标签：从 language-* 类名提取语言名，生成「彩色圆点 + 语言名 + 行数」徽标
+document$.subscribe(function () {
+  document.querySelectorAll('.md-typeset .highlight').forEach(function (el) {
+    var match = el.className.match(/language-([a-zA-Z0-9_+-]+)/);
+    if (!match) return;
+    var name = match[1];
+    // 常用缩写显示名
+    var aliases = { js: 'JavaScript', javascript: 'JavaScript', py: 'Python', shell: 'Bash', sh: 'Bash', zsh: 'Bash', ts: 'TypeScript', typescript: 'TypeScript', yml: 'YAML' };
+    var label = aliases[name] || name.charAt(0).toUpperCase() + name.slice(1);
+
+    var badge = el.querySelector('.code-lang-badge');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'code-lang-badge';
+      el.appendChild(badge);
+    }
+    // 行数统计（按渲染后的代码文本计）
+    var code = el.querySelector('pre code') || el.querySelector('code');
+    var lines = code ? code.textContent.replace(/\n$/, '').split('\n').length : 0;
+    badge.textContent = label + ' \u00b7 ' + lines + ' lines';
+    el.dataset.lang = label;
+  });
+});
+
 // 主页大标题逐字淡入 + 头像陀螺旋转联动
 document$.subscribe(function () {
   var title = document.querySelector('.ml3');

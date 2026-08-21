@@ -80,7 +80,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="blue">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -136,19 +136,9 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun-moon" viewBox="0 0 24 24"><path d="M12 2v2M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715M16 12a4 4 0 0 0-4-4M19 5l-1.256 1.256M20 12h2"/></svg>
-      </label>
-    
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
-    
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
       </label>
     
@@ -156,9 +146,9 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
-      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>
       </label>
     
@@ -7356,14 +7346,43 @@
 - README 重写为可运行说明。
 - <strong>IPFS 模式全链路 E2E 15/15</strong>（此前 local 模式也 15/15）；Kubo 0.40.1 离线 daemon，端口 5101/8181 与一期脚本一致。</p>
 <p><strong>踩坑记录</strong>：Git Bash 会把 <code>ipfs config</code> 的 multiaddr 参数 <code>/ip4/...</code> 改写成 <code>C:/Program Files/Git/ip4/...</code>（与 M2 的 openssl -subj 同源问题），需 <code>MSYS_NO_PATHCONV=1</code>；PowerShell 脚本无此问题。</p>
-<p><strong>关键性能数据（IPFS 模式，10 轮均值）</strong>
-| 指标 | 数值 | 说明 |
-|---|---|---|
-| prepare 全程 | 799ms | 含 C2PA 签名 250ms、IPFS pin 5ms、RFC3161 约 450ms（可关） |
-| 上链交易 | 138ms | Hardhat 本地链 |
-| registerWork Gas | 367,607 | 比一期单哈希方案多约 10 万，换取链上反查+防抢注 |
-| 事件同步到索引 | ~1s | 监听器 2s 轮询间隔的期望值内 |
-| 验证查询 | 3ms | SQLite 索引命中 |</p>
+<p><strong>关键性能数据（IPFS 模式，10 轮均值）</strong></p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>数值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>prepare 全程</td>
+<td>799ms</td>
+<td>含 C2PA 签名 250ms、IPFS pin 5ms、RFC3161 约 450ms（可关）</td>
+</tr>
+<tr>
+<td>上链交易</td>
+<td>138ms</td>
+<td>Hardhat 本地链</td>
+</tr>
+<tr>
+<td>registerWork Gas</td>
+<td>367,607</td>
+<td>比一期单哈希方案多约 10 万，换取链上反查+防抢注</td>
+</tr>
+<tr>
+<td>事件同步到索引</td>
+<td>~1s</td>
+<td>监听器 2s 轮询间隔的期望值内</td>
+</tr>
+<tr>
+<td>验证查询</td>
+<td>3ms</td>
+<td>SQLite 索引命中</td>
+</tr>
+</tbody>
+</table>
 <p><strong>最终回归</strong>：合约 20/20（coverage 98.55%）、后端 go test 全绿、前端 build 通过、E2E 15/15。</p>
 <p><strong>遗留（移交论文写作阶段）</strong>（见文末补充修复）
 1. 论文第 &#8536; 章补充材料重写（工程素材已齐：gas-report、performance-table、attack-cases、c2pa-trust-comparison、四份设计文档）；
