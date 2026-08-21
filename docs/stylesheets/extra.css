@@ -188,24 +188,148 @@
 }
 
 /* ============================================
-   代码块样式
-   多行代码块：Typora「Lightmind」（深海军蓝）
-   单行代码：Typora「Bloom Mist」（雾蓝）
+   代码块样式：Mac 窗口风 + 每语言独立配色
+   白昼/黑夜双模式 · 右下角语言标签(data-lang)
    ============================================ */
 
-/* ---- 多行代码块容器：Lightmind ---- */
+/* ---- 基础变量：白昼（default） ---- */
+:root {
+  --code-bg: #f7f9fc;
+  --code-header-bg: #edf1f7;
+  --code-border: #d7dee8;
+  --code-fg: #3a4a5a;
+  --lang-accent: #518fc1;
+
+  /* 语法 token 默认配色（Pygments class 映射见下） */
+  --tok-k: #7c3aed;   /* 关键字 */
+  --tok-t: #b7791f;   /* 类型 / 内建 */
+  --tok-f: #2563eb;   /* 函数 / 变量 */
+  --tok-s: #16a34a;   /* 字符串 */
+  --tok-m: #c2410c;   /* 数字 */
+  --tok-c: #6b7280;   /* 注释 */
+  --tok-a: #db2777;   /* 属性 */
+  --tok-nt: #7c3aed;  /* 标签 */
+  --tok-o: #3a4a5a;   /* 运算符 / 标点 */
+}
+
+/* ---- 基础变量：黑夜（slate）—— 统一黑色系，无彩色遮罩 ---- */
+[data-md-color-scheme="slate"] {
+  --code-bg: #16181d;
+  --code-header-bg: #1e2129;
+  --code-border: #2e3138;
+  --code-fg: #c8cfd9;
+  --lang-accent: #6ecbff;
+
+  --tok-k: #d55fde;
+  --tok-t: #e5c07b;
+  --tok-f: #61afef;
+  --tok-s: #89ca78;
+  --tok-m: #d19a66;
+  --tok-c: #77b767;
+  --tok-a: #ef596f;
+  --tok-nt: #d55fde;
+  --tok-o: #c8cfd9;
+}
+
+/* 黑夜模式：代码块统一黑色底/边框（保持无彩色遮罩），
+   但保留每语言的 accent 彩色元素用于区分语言：
+   - 左侧 3px 竖条 = 语言签名色
+   - hover 时边框亮起语言色
+   底色/标题栏底色仍强制统一黑，防止任何语言级底色残留 */
+[data-md-color-scheme="slate"] .md-typeset .highlight {
+  --code-bg: #16181d;
+  --code-header-bg: #1e2129;
+  --code-border: #2e3138;
+  border: 1px solid var(--code-border);
+  border-left: 3px solid var(--lang-accent);
+  box-shadow: none;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .highlight:hover {
+  border-color: var(--lang-accent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--lang-accent) 30%, transparent),
+    0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+/* ---- 容器：Mac 窗口 ---- */
 .md-typeset .highlight {
-  background: #1e2330;
-  color: #c8cfd9;
-  border: 1px solid #3a4253;
-  border-radius: 8px;
-  padding: 16px 18px;
-  box-shadow: 0 2px 10px rgba(44, 58, 50, 0.08), 0 1px 3px rgba(44, 58, 50, 0.05);
+  position: relative;
+  background: var(--code-bg);
+  color: var(--code-fg);
+  border: 1px solid var(--code-border);
+  border-left: 3px solid var(--lang-accent);
+  border-radius: 10px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(44, 58, 80, 0.08), 0 1px 3px rgba(44, 58, 80, 0.05);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.md-typeset .highlight:hover {
+  border-color: var(--lang-accent);
+  box-shadow: 0 4px 16px rgba(44, 58, 80, 0.14);
+}
+
+/* Mac 标题栏：左侧三色圆点（radial-gradient 绘制，无额外元素） */
+.md-typeset .highlight::before {
+  content: "";
+  display: block;
+  height: 1.5rem;
+  background:
+    radial-gradient(circle at 16px 50%, #ff5f57 4.5px, transparent 5px),
+    radial-gradient(circle at 34px 50%, #febc2e 4.5px, transparent 5px),
+    radial-gradient(circle at 52px 50%, #28c840 4.5px, transparent 5px),
+    var(--code-header-bg);
+  border-bottom: 1px solid var(--code-border);
+}
+
+/* 黑夜模式：标题栏底线染上语言色（35% 混合，低调可辨） */
+[data-md-color-scheme="slate"] .md-typeset .highlight::before {
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--lang-accent) 35%, var(--code-border));
+}
+
+/* 右下角语言徽标：extra.js 生成 .code-lang-badge（圆点 + 语言名 + 行数），
+   圆点颜色 = 语言 accent 色；黑夜模式加同色描边胶囊底 */
+.md-typeset .highlight[data-lang]::after {
+  display: none; /* 兼容：不再使用伪元素标签 */
+}
+
+.code-lang-badge {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.35rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-family: var(--md-code-font);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--lang-accent);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.code-lang-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lang-accent);
+  box-shadow: 0 0 4px color-mix(in srgb, var(--lang-accent) 60%, transparent);
+}
+
+[data-md-color-scheme="slate"] .md-typeset .highlight .code-lang-badge {
+  opacity: 1;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--lang-accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--lang-accent) 40%, transparent);
 }
 
 .md-typeset .highlight pre {
   margin: 0;
-  padding: 0;
+  padding: 0.9em 1.1em 1.9em; /* 底部留白给语言标签 */
   background: transparent;
   border: none;
   box-shadow: none;
@@ -218,27 +342,32 @@
   border: none;
   padding: 0;
   border-radius: 0;
-  color: #c8cfd9;
+  color: var(--code-fg);
   font-weight: 400;
   font-size: 0.95rem;
 }
 
-/* ---- Lightmind 语法高亮（One Dark 调色板） ---- */
+/* ---- Pygments token → 变量映射（全局一次，语言块只改变量值） ---- */
 .md-typeset .highlight .k,
 .md-typeset .highlight .kd,
 .md-typeset .highlight .kn,
 .md-typeset .highlight .kr,
 .md-typeset .highlight .kp,
 .md-typeset .highlight .kc,
-.md-typeset .highlight .ow { color: #d55fde; }
-.md-typeset .highlight .kt,
+.md-typeset .highlight .ow,
+.md-typeset .highlight .kt { color: var(--tok-k); }
+.md-typeset .highlight .nb,
+.md-typeset .highlight .bp,
 .md-typeset .highlight .nc,
 .md-typeset .highlight .nn,
-.md-typeset .highlight .nd { color: #e5c07b; }
+.md-typeset .highlight .nd { color: var(--tok-t); }
 .md-typeset .highlight .nf,
 .md-typeset .highlight .fm,
-.md-typeset .highlight .nb,
-.md-typeset .highlight .bp { color: #61afef; }
+.md-typeset .highlight .nv,
+.md-typeset .highlight .vc,
+.md-typeset .highlight .vg,
+.md-typeset .highlight .vi,
+.md-typeset .highlight .n { color: var(--tok-f); }
 .md-typeset .highlight .s,
 .md-typeset .highlight .s1,
 .md-typeset .highlight .s2,
@@ -249,31 +378,170 @@
 .md-typeset .highlight .sh,
 .md-typeset .highlight .si,
 .md-typeset .highlight .sx,
-.md-typeset .highlight .sr { color: #89ca78; }
+.md-typeset .highlight .sr { color: var(--tok-s); }
 .md-typeset .highlight .m,
 .md-typeset .highlight .mi,
 .md-typeset .highlight .mf,
 .md-typeset .highlight .mh,
 .md-typeset .highlight .mo,
-.md-typeset .highlight .il { color: #d19a66; }
+.md-typeset .highlight .il { color: var(--tok-m); }
 .md-typeset .highlight .c,
 .md-typeset .highlight .c1,
 .md-typeset .highlight .cm,
 .md-typeset .highlight .cp,
 .md-typeset .highlight .cs,
-.md-typeset .highlight .ch { color: #77b767; font-style: italic; }
-.md-typeset .highlight .o { color: #c8cfd9; }
-.md-typeset .highlight .p { color: #9aa4b2; }
-.md-typeset .highlight .na { color: #2bbac5; }
-.md-typeset .highlight .nv,
-.md-typeset .highlight .vc,
-.md-typeset .highlight .vg,
-.md-typeset .highlight .vi { color: #ef596f; }
-.md-typeset .highlight .nt { color: #d55fde; }
-.md-typeset .highlight .n { color: #c8cfd9; }
+.md-typeset .highlight .ch { color: var(--tok-c); font-style: italic; }
+.md-typeset .highlight .o,
+.md-typeset .highlight .p { color: var(--tok-o); }
+.md-typeset .highlight .na { color: var(--tok-a); }
+.md-typeset .highlight .nt { color: var(--tok-nt); }
 
-/* ---- 单行（inline）代码：Bloom Mist ---- */
-.md-typeset code {
+/* ---- 每语言配色：只覆盖差异变量 ----
+   白昼 = 浅 tint 底色（限定 [data-md-color-scheme="default"，避免直接声明
+   在黑夜模式下压过继承的统一黑底）；黑夜 = 统一中性深色底（无彩色遮罩），
+   仅保留语言强调色；accent 用于标题栏竖条、语言标签、hover 边框。 */
+
+/* Python：金黄 */
+[data-md-color-scheme="default"] .language-python.highlight {
+  --code-bg: #fdf9ea; --code-header-bg: #f6eec8; --code-border: #e2d28c;
+  --lang-accent: #b8912a; --tok-k: #a17917;
+}
+[data-md-color-scheme="slate"] .language-python.highlight {
+  --lang-accent: #e8c84a; --tok-k: #e8c84a;
+}
+
+/* JavaScript / JS：亮黄 */
+[data-md-color-scheme="default"] .language-javascript.highlight,
+[data-md-color-scheme="default"] .language-js.highlight {
+  --code-bg: #fdfae8; --code-header-bg: #f7f2c4; --code-border: #e0d488;
+  --lang-accent: #a8890b; --tok-k: #8a6400;
+}
+[data-md-color-scheme="slate"] .language-javascript.highlight,
+[data-md-color-scheme="slate"] .language-js.highlight {
+  --lang-accent: #e8d44d; --tok-k: #e8d44d;
+}
+
+/* Java：橙棕 */
+[data-md-color-scheme="default"] .language-java.highlight {
+  --code-bg: #fdf6ee; --code-header-bg: #f6e8d4; --code-border: #e2c9a4;
+  --lang-accent: #b07219; --tok-k: #b07219;
+}
+[data-md-color-scheme="slate"] .language-java.highlight {
+  --lang-accent: #e5965a; --tok-k: #e5965a;
+}
+
+/* Go：蓝 */
+[data-md-color-scheme="default"] .language-go.highlight {
+  --code-bg: #f0f6fe; --code-header-bg: #ddebfb; --code-border: #b4d1f0;
+  --lang-accent: #2563eb; --tok-k: #2563eb;
+}
+[data-md-color-scheme="slate"] .language-go.highlight {
+  --lang-accent: #6aa3e8; --tok-k: #6aa3e8;
+}
+
+/* SQL：琥珀 */
+[data-md-color-scheme="default"] .language-sql.highlight {
+  --code-bg: #fdf8ee; --code-header-bg: #f6ecd2; --code-border: #e0cd9c;
+  --lang-accent: #c27000; --tok-k: #c27000;
+}
+[data-md-color-scheme="slate"] .language-sql.highlight {
+  --lang-accent: #f0b35e; --tok-k: #f0b35e;
+}
+
+/* Solidity：品牌紫 */
+[data-md-color-scheme="default"] .language-solidity.highlight {
+  --code-bg: #f8f5fd; --code-header-bg: #ede6f9; --code-border: #cbbbe8;
+  --lang-accent: #8a6fc9; --tok-k: #7c5cc9;
+}
+[data-md-color-scheme="slate"] .language-solidity.highlight {
+  --lang-accent: #b39df0; --tok-k: #b39df0;
+}
+
+/* Bash：绿 */
+[data-md-color-scheme="default"] .language-bash.highlight {
+  --code-bg: #f2fbf3; --code-header-bg: #dff2e2; --code-border: #aeddb6;
+  --lang-accent: #3d9a50; --tok-k: #2f8a44;
+}
+[data-md-color-scheme="slate"] .language-bash.highlight {
+  --lang-accent: #7fca8a; --tok-k: #7fca8a;
+}
+
+/* PowerShell：青蓝 */
+[data-md-color-scheme="default"] .language-powershell.highlight {
+  --code-bg: #eff9fb; --code-header-bg: #d9eef3; --code-border: #a5d4de;
+  --lang-accent: #0e7490; --tok-k: #0e7490;
+}
+[data-md-color-scheme="slate"] .language-powershell.highlight {
+  --lang-accent: #4cc9e0; --tok-k: #4cc9e0;
+}
+
+/* C：靛蓝 */
+[data-md-color-scheme="default"] .language-c.highlight {
+  --code-bg: #f4f5fd; --code-header-bg: #e3e6f8; --code-border: #bcc2e8;
+  --lang-accent: #5b6abf; --tok-k: #4a59c0;
+}
+[data-md-color-scheme="slate"] .language-c.highlight {
+  --lang-accent: #8f9bf0; --tok-k: #8f9bf0;
+}
+
+/* JSON：赭金 */
+[data-md-color-scheme="default"] .language-json.highlight {
+  --code-bg: #fbf7ec; --code-header-bg: #f3ebd0; --code-border: #ddcb98;
+  --lang-accent: #a07508; --tok-k: #8a6d1f;
+}
+[data-md-color-scheme="slate"] .language-json.highlight {
+  --lang-accent: #d9b45c; --tok-k: #d9b45c;
+}
+
+/* YAML：砖红 */
+[data-md-color-scheme="default"] .language-yaml.highlight {
+  --code-bg: #fdf3f4; --code-header-bg: #f7e1e3; --code-border: #e3b6bb;
+  --lang-accent: #b03a48; --tok-k: #b03a48;
+}
+[data-md-color-scheme="slate"] .language-yaml.highlight {
+  --lang-accent: #e87d88; --tok-k: #e87d88;
+}
+
+/* HTTP：青 */
+[data-md-color-scheme="default"] .language-http.highlight {
+  --code-bg: #effaf7; --code-header-bg: #d9f0ea; --code-border: #a4d8cb;
+  --lang-accent: #0e8a72; --tok-k: #0e8a72;
+}
+[data-md-color-scheme="slate"] .language-http.highlight {
+  --lang-accent: #4cc9ae; --tok-k: #4cc9ae;
+}
+
+/* Vue：翠绿 */
+[data-md-color-scheme="default"] .language-vue.highlight {
+  --code-bg: #f1fbf6; --code-header-bg: #dcf2e5; --code-border: #adddc2;
+  --lang-accent: #35a174; --tok-k: #35a174;
+}
+[data-md-color-scheme="slate"] .language-vue.highlight {
+  --lang-accent: #5ed69b; --tok-k: #5ed69b;
+}
+
+/* Lua：蓝紫 */
+[data-md-color-scheme="default"] .language-lua.highlight {
+  --code-bg: #f5f5fd; --code-header-bg: #e5e5f8; --code-border: #c0c0e6;
+  --lang-accent: #4a4ab0; --tok-k: #4a4ab0;
+}
+[data-md-color-scheme="slate"] .language-lua.highlight {
+  --lang-accent: #9a9af0; --tok-k: #9a9af0;
+}
+
+/* Text / 纯文本：中性灰 */
+[data-md-color-scheme="default"] .language-text.highlight {
+  --code-bg: #f8f8f9; --code-header-bg: #ececef; --code-border: #d2d2d8;
+  --lang-accent: #6b7280; --tok-k: #6b7280;
+}
+[data-md-color-scheme="slate"] .language-text.highlight {
+  --lang-accent: #9ca3af; --tok-k: #9ca3af;
+}
+
+/* ---- 单行（inline）代码：Bloom Mist ----
+   用 :not(pre) > 限定只命中行内代码，避免覆盖代码块内部 code
+   （否则黑夜模式下蓝色底会盖在代码块上形成遮罩） */
+.md-typeset :not(pre) > code {
   background-color: rgba(146, 168, 179, 0.14);
   color: #34698c;
   border: 1px solid rgba(146, 168, 179, 0.32);
@@ -283,23 +551,41 @@
   font-weight: 600;
 }
 
-/* ---- 代码块右上角按钮（单行模式 / 复制）：缩小，避免遮挡正文 ---- */
+[data-md-color-scheme="slate"] .md-typeset :not(pre) > code {
+  background-color: rgba(110, 203, 255, 0.1);
+  color: #8fd6ff;
+  border-color: rgba(110, 203, 255, 0.25);
+}
+
+/* ---- 复制按钮：压到 Mac 标题栏右侧 ---- */
+.md-typeset .highlight > pre {
+  position: static;
+}
+
 .md-typeset .md-code__nav {
-  top: 0.2rem;
-  right: 0.2rem;
-  padding: 0.2rem;
-  gap: 0.2rem;
+  position: absolute !important;
+  top: 0.18em !important;
+  right: 0.4em !important;
+  bottom: auto !important;
+  left: auto !important;
+  justify-content: flex-end;
+  padding: 0.1rem;
+  gap: 0.1rem;
 }
 
 .md-typeset .md-code__button {
-  width: 18px;
-  height: 18px;
-  font-size: 11px;
+  width: 1.1em;
+  height: 1.1em;
 }
 
 .md-typeset .md-code__button::after {
-  width: 12px;
-  height: 12px;
+  width: 0.8em;
+  height: 0.8em;
+}
+
+/* 取消「选择行」按钮，仅保留「复制」 */
+.md-typeset .md-code__button[data-md-type="select"] {
+  display: none;
 }
 
 /* ---- 滚动条 ---- */
@@ -496,4 +782,172 @@
   border-left: 2px solid var(--md-primary-fg-color);
   margin-left: 0.7rem;
   padding-left: 0.5rem;
+}
+
+/* ============================================
+   阅读观感提升：正文排版 / 标题层级 / 表格 /
+   引用块 / 图片（白昼 + 黑夜双模式）
+   ============================================ */
+
+/* ---- 正文：行高与段距，长文阅读更松弛 ---- */
+.md-typeset {
+  line-height: 1.8;
+}
+
+.md-typeset p {
+  margin: 0 0 1.1em;
+}
+
+/* ---- 标题层级：h2 渐变底线、h3 彩色竖条 ---- */
+.md-typeset h2 {
+  padding-bottom: 0.45em;
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(
+      to right,
+      var(--md-primary-fg-color),
+      transparent 75%
+    )
+    1;
+  margin-top: 2.2em;
+}
+
+[data-md-color-scheme="slate"] .md-typeset h2 {
+  border-image: linear-gradient(
+      to right,
+      var(--md-primary-fg-color),
+      transparent 75%
+    )
+    1;
+}
+
+.md-typeset h3 {
+  position: relative;
+  padding-left: 0.7em;
+  margin-top: 1.8em;
+}
+
+.md-typeset h3::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.18em;
+  bottom: 0.18em;
+  width: 4px;
+  border-radius: 2px;
+  background: var(--md-primary-fg-color);
+  opacity: 0.85;
+}
+
+/* 标题 permalink 锚点：hover 淡入 */
+.md-typeset .headerlink {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.md-typeset h2:hover .headerlink,
+.md-typeset h3:hover .headerlink,
+.md-typeset h4:hover .headerlink,
+.md-typeset .headerlink:focus {
+  opacity: 1;
+}
+
+/* ---- 分隔线 hr：居中短渐变线 ---- */
+.md-typeset hr {
+  position: relative;
+  border: none;
+  height: 2px;
+  margin: 2.5em auto;
+  width: 60%;
+  min-width: 200px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--md-primary-fg-color),
+    transparent
+  );
+  opacity: 0.55;
+  overflow: visible;
+}
+
+.md-typeset hr::after {
+  content: "";
+  display: none;
+}
+
+/* ---- 表格：圆角容器 + 表头底色 + 斑马纹 ---- */
+.md-typeset table:not([class]) {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 0.6rem;
+  overflow: hidden;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  font-size: 0.82em;
+}
+
+.md-typeset table:not([class]) th {
+  background: #f0f5fa;
+  font-weight: 700;
+  border-bottom: 2px solid var(--md-primary-fg-color);
+}
+
+.md-typeset table:not([class]) td {
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset table:not([class]) tbody tr:nth-child(even) {
+  background: rgba(81, 143, 193, 0.05);
+}
+
+.md-typeset table:not([class]) tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* 黑夜模式表格：与页面背景拉开层次 */
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) {
+  background: #1a1d24;
+  border-color: #2e3138;
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) th {
+  background: #1e2129;
+  border-bottom: 2px solid var(--md-primary-fg-color);
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) td {
+  border-bottom: 1px solid #2e3138;
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tbody tr:nth-child(even) {
+  background: rgba(110, 203, 255, 0.04);
+}
+
+/* ---- 引用块 blockquote：渐变竖条 + 浅底胶囊 ---- */
+.md-typeset blockquote {
+  position: relative;
+  border: none;
+  border-left: 4px solid var(--md-primary-fg-color);
+  border-radius: 0 0.6rem 0.6rem 0;
+  background: rgba(81, 143, 193, 0.07);
+  padding: 0.8em 1.2em;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset blockquote::before {
+  content: "";
+  display: none;
+}
+
+[data-md-color-scheme="slate"] .md-typeset blockquote {
+  background: rgba(110, 203, 255, 0.06);
+  border-left-color: var(--md-primary-fg-color);
+}
+
+/* ---- 内容区图片：圆角 + 轻阴影 ---- */
+.md-typeset img {
+  border-radius: 0.6rem;
+  box-shadow: 0 2px 12px rgba(44, 58, 80, 0.12);
+}
+
+[data-md-color-scheme="slate"] .md-typeset img {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
 }
